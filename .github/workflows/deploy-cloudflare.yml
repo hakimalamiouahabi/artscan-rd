@@ -108,6 +108,9 @@ jobs:
         run: |
           npx wrangler d1 execute "$D1_NAME" --remote --file=schema.sql
           npx wrangler d1 execute "$D1_NAME" --remote --file=seed.generated.sql
+          if [ -f corpus-a.generated.sql ]; then
+            npx wrangler d1 execute "$D1_NAME" --remote --file=corpus-a.generated.sql
+          fi
 
       - name: Deploy Worker
         if: steps.auth.outputs.ready == 'true'
