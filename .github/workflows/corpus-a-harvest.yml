@@ -1,0 +1,64 @@
+name: corpus-a-harvest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/harvest-corpus-a.mjs"
+      - "data/source-registry.generated.json"
+      - ".github/workflows/corpus-a-harvest.yml"
+  schedule:
+    - cron: "47 4 1,15 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: artscan-corpus-a-harvest
+  cancel-in-progress: true
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Syntax check
+        run: node --check scripts/harvest-corpus-a.mjs
+
+      - name: Harvest verified Corpus A
+        run: node scripts/harvest-corpus-a.mjs
+
+      - name: Validate Corpus A
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const a=JSON.parse(fs.readFileSync('data/corpus-a.generated.json','utf8'));
+          const s=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          if(a.some(x=>x.corpus!=='A'||x.official!==true||x.public_access!==true||x.free_access!==true||x.primary_secondary!=='primary'||x.access_status!=='free'||!['V2','V3'].includes(x.verification_level))) process.exit(1);
+          if(new Set(a.map(x=>x.canonical_hash)).size!==a.length) process.exit(1);
+          if(Number(s.verified_unique_documents)!==a.length) process.exit(1);
+          console.log(JSON.stringify(s,null,2));
+          NODE
+
+      - name: Commit documentary corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "artscan-corpus-bot"
+          git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
+          git add data/corpus-a.generated.json data/corpus-a-stats.json corpus-a.generated.sql
+          if git diff --cached --quiet; then
+            echo "No Corpus A changes"
+            exit 0
+          fi
+          git commit -m "data: refresh verified Corpus A"
+          git pull --rebase origin main
+          git push origin HEAD:main
