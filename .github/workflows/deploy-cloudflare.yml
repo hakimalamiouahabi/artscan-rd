@@ -118,7 +118,7 @@ jobs:
           let s=fs.readFileSync(p,'utf8');
           if(!process.env.ARTSCAN_D1_ID) throw new Error('Missing ARTSCan D1 id');
           s=s.replace('REPLACE_AFTER_D1_CREATE',process.env.ARTSCAN_D1_ID);
-          fs.writeFileSync('/tmp/wrangler.deploy.jsonc',s);
+          fs.writeFileSync('wrangler.deploy.jsonc',s);
           NODE
 
       - name: Apply D1 schema and certified seed
@@ -132,7 +132,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          npx wrangler deploy --config /tmp/wrangler.deploy.jsonc 2>&1 | tee /tmp/deploy.log
+          npx wrangler deploy --config wrangler.deploy.jsonc 2>&1 | tee /tmp/deploy.log
           URL="$(grep -Eo 'https://[^ ]+\.workers\.dev' /tmp/deploy.log | tail -1 || true)"
           echo "ARTSCAN_URL=$URL" >> "$GITHUB_ENV"
 
