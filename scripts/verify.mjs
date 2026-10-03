@@ -7,7 +7,7 @@ if(/\b(?:serpapi|tavily|firecrawl|tinyfish)\b|bing\s+search|google\s+custom\s+se
 if(!worker.includes('robotsAllowedForUrl'))fail('Path-level robots gate missing');
 if(!worker.includes('safePublicUrl'))fail('SSRF guard missing');
 if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier D1 subrequest guard missing');
-if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert documentary corpus floor missing');
+if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
 if(!schema.includes("verification_level IN ('V2','V3')"))fail('V2/V3 Corpus A gate missing');
 if(!schema.includes("corpus!='A'")&&!schema.includes("corpus != 'A'"))fail('Corpus A integrity constraint missing');
