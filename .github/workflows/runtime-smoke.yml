@@ -1,0 +1,77 @@
+name: runtime-smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/worker.js"
+      - "public/app.js"
+      - ".github/workflows/runtime-smoke.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: artscan-runtime-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      BASE_URL: https://artscan-rd-staging.mnin-nbda-beta.workers.dev
+    steps:
+      - name: Health invariants
+        run: |
+          set -euo pipefail
+          curl -fsS "$BASE_URL/api/health" > /tmp/health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          if(!j.ok) throw new Error('health not ok');
+          if(j.runtime?.llm!==false) throw new Error('LLM runtime enabled');
+          if(j.runtime?.externalSearchApi!==false) throw new Error('external search API enabled');
+          if(j.runtime?.httpDirect!==true) throw new Error('direct HTTP disabled');
+          if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
+          console.log(j);
+          NODE
+
+      - name: Start deterministic research
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST "$BASE_URL/api/research"             -H 'content-type: application/json'             --data '{"topic":"stockage hydrogene hydrures metalliques","context":"solutions existantes performances limites verrous scientifiques et technologiques","depth":"standard"}'             > /tmp/start.json
+          JOB_ID="$(node -e "const j=require('/tmp/start.json');if(!j.jobId)process.exit(1);process.stdout.write(j.jobId)")"
+          echo "JOB_ID=$JOB_ID" >> "$GITHUB_ENV"
+
+      - name: Wait for completion
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 120); do
+            curl -fsS "$BASE_URL/api/research/$JOB_ID" > /tmp/result.json
+            STATUS="$(node -e "const j=require('/tmp/result.json');process.stdout.write(String(j.job?.status||''))")"
+            echo "poll=$i status=$STATUS"
+            if [ "$STATUS" = "complete" ]; then
+              break
+            fi
+            sleep 5
+          done
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/result.json','utf8'));
+          if(j.job?.status!=='complete') throw new Error('research did not complete within smoke-test window');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
+          if(Number(j.job?.processed_sources||0)<1) throw new Error('no sources processed');
+          if(!Array.isArray(j.evidence)) throw new Error('evidence payload missing');
+          if(typeof j.documentary?.verifiedDocuments!=='number') throw new Error('documentary metrics missing');
+          console.log(JSON.stringify({
+            processed:j.job.processed_sources,
+            reachable:j.job.reachable_sources,
+            matched:j.job.matched_sources,
+            errors:j.job.error_count,
+            evidence:j.evidence.length,
+            documentary:j.documentary
+          },null,2));
+          NODE
