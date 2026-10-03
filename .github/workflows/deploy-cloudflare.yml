@@ -87,25 +87,16 @@ jobs:
           echo "ARTSCAN_D1_ID=$DB_ID" >> "$GITHUB_ENV"
 
       - name: Ensure crawl queue
-        if: steps.auth.outputs.ready == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          if ! npx wrangler queues list --json > /tmp/queues.json 2>/dev/null; then
-            npx wrangler queues list > /tmp/queues.txt || true
-          fi
-          node <<'NODE' > /tmp/queue-exists
-          const fs=require('fs');
-          let yes=false;
-          try {
-            const x=JSON.parse(fs.readFileSync('/tmp/queues.json','utf8'));
-            const a=Array.isArray(x)?x:(x.queues||x.result||[]);
-            yes=a.some(q=>(q.name||q.queue_name)===process.env.QUEUE_NAME);
-          } catch {}
-          process.stdout.write(yes?'yes':'no');
-          NODE
-          if [ "$(cat /tmp/queue-exists)" != "yes" ]; then
-            npx wrangler queues create "$QUEUE_NAME" || true
+          set +e
+          OUT="$(npx wrangler queues create "$QUEUE_NAME" 2>&1)"
+          CODE=$?
+          set -e
+          printf '%s\n' "$OUT"
+          if [ "$CODE" -ne 0 ] && ! printf '%s' "$OUT" | grep -qi "already taken"; then
+            exit "$CODE"
           fi
 
       - name: Generate deploy config
