@@ -1,0 +1,16 @@
+{
+  "name": "artscan-rd",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/verify.mjs",
+    "discover:sources": "node scripts/discover-sources.mjs",
+    "build:registry": "node scripts/build-registry.mjs",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.39.0"
+  }
+}
