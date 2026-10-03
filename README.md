@@ -28,3 +28,25 @@ Architecture indépendante de Floot : **GitHub + Cloudflare Workers + Static Ass
 `data/trust-roots.json` contient uniquement des racines institutionnelles de départ. `scripts/discover-sources.mjs` découvre des **candidats** via des annuaires officiels mais les laisse inactifs tant que leur statut officiel n'est pas validé. Il n'existe donc pas d'auto-certification aveugle.
 
 Le gate de production doit rester : `official=1 AND public_access=1 AND free_access=1`.
+
+
+## Référentiel documentaire v4
+
+Le référentiel métier approuvé est conservé dans `docs/master-prompt-bpifrance.txt`.
+
+ARTSCAN distingue désormais strictement :
+
+- `sources` : institutions/racines certifiées **officielles + publiques + gratuites** ;
+- `documents` : pages/documents réellement ouverts et vérifiés ;
+- `job_documents` : corpus documentaire réellement retenu pour une analyse donnée ;
+- Corpus A : sources institutionnelles primaires V2/V3 ;
+- Corpus B : littérature scientifique et technique ;
+- Corpus C : brevets, consolidés par famille ;
+- Corpus D : normalisation et réglementation ;
+- Corpus E : sources industrielles ou secondaires, justifiées.
+
+Le seuil de 1 000 concerne le **Corpus A documentaire effectivement vérifié et dédupliqué**, jamais le simple nombre de domaines ou d'URL générées.
+
+## Actualisation
+
+Le registre institutionnel et le Corpus A sont réévalués deux fois par mois, les 1er et 15. Les collectes restent HTTP/HTTPS directes, sans LLM ni API de moteur de recherche au runtime.
