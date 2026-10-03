@@ -1,0 +1,27 @@
+INSERT OR IGNORE INTO sources
+(organism,country,continent,root_url,source_type,official,public_access,free_access,certification_url,certification_date,language,category,active)
+VALUES
+('Bpifrance','France','Europe','https://www.bpifrance.fr/','public_agency',1,1,1,'https://www.bpifrance.fr/','2026-10-03','fr','funding',1),
+('CEA','France','Europe','https://www.cea.fr/','public_research',1,1,1,'https://www.cea.fr/','2026-10-03','fr','research',1),
+('CNRS','France','Europe','https://www.cnrs.fr/','public_research',1,1,1,'https://www.cnrs.fr/','2026-10-03','fr','research',1),
+('Inria','France','Europe','https://www.inria.fr/','public_research',1,1,1,'https://www.inria.fr/','2026-10-03','fr','research',1),
+('ADEME','France','Europe','https://www.ademe.fr/','public_agency',1,1,1,'https://www.ademe.fr/','2026-10-03','fr','research',1),
+('CORDIS','European Union','Europe','https://cordis.europa.eu/','eu_research',1,1,1,'https://cordis.europa.eu/','2026-10-03','en','research',1),
+('JRC','European Union','Europe','https://joint-research-centre.ec.europa.eu/','eu_research',1,1,1,'https://joint-research-centre.ec.europa.eu/','2026-10-03','en','research',1),
+('EUR-Lex','European Union','Europe','https://eur-lex.europa.eu/','eu_law',1,1,1,'https://eur-lex.europa.eu/','2026-10-03','multi','regulation',1),
+('European Patent Office','European Union','Europe','https://www.epo.org/','public_patent_office',1,1,1,'https://www.epo.org/','2026-10-03','en','patents',1),
+('WIPO','International','International','https://www.wipo.int/','international_organization',1,1,1,'https://www.wipo.int/','2026-10-03','multi','patents',1),
+('World Health Organization','International','International','https://www.who.int/','international_organization',1,1,1,'https://www.who.int/','2026-10-03','multi','science',1),
+('OECD','International','International','https://www.oecd.org/','international_organization',1,1,1,'https://www.oecd.org/','2026-10-03','multi','science',1),
+('DOE National Laboratories','United States','North America','https://www.energy.gov/national-laboratories','government_directory',1,1,1,'https://www.energy.gov/national-laboratories','2026-10-03','en','research',1),
+('NIST','United States','North America','https://www.nist.gov/','government_research',1,1,1,'https://www.nist.gov/','2026-10-03','en','science',1),
+('NASA','United States','North America','https://www.nasa.gov/','government_agency',1,1,1,'https://www.nasa.gov/','2026-10-03','en','research',1),
+('NIH','United States','North America','https://www.nih.gov/','government_research',1,1,1,'https://www.nih.gov/','2026-10-03','en','science',1),
+('NCBI','United States','North America','https://www.ncbi.nlm.nih.gov/','government_scientific_library',1,1,1,'https://www.ncbi.nlm.nih.gov/','2026-10-03','en','science',1),
+('Canada Research Institutes and Facilities','Canada','North America','https://www.canada.ca/en/services/science/institutes.html','government_directory',1,1,1,'https://www.canada.ca/en/services/science/institutes.html','2026-10-03','en','research',1),
+('National Research Council of Science & Technology','South Korea','Asia','https://www.nst.re.kr/eng/contents.do?key=153','government_research_council',1,1,1,'https://www.nst.re.kr/eng/contents.do?key=153','2026-10-03','en','research',1),
+('Chinese Academy of Sciences','China','Asia','https://english.cas.cn/research/institutes/','public_research_academy',1,1,1,'https://english.cas.cn/research/institutes/','2026-10-03','en','research',1),
+('African Union Specialized Agencies','African Union','Africa','https://au.int/en/specialised-agencies-institutions','intergovernmental_directory',1,1,1,'https://au.int/en/specialised-agencies-institutions','2026-10-03','en','research',1),
+('CSIRO','Australia','Oceania','https://www.csiro.au/','public_research',1,1,1,'https://www.csiro.au/','2026-10-03','en','research',1),
+('RIKEN','Japan','Asia','https://www.riken.jp/en/','public_research',1,1,1,'https://www.riken.jp/en/','2026-10-03','en','research',1),
+('AIST','Japan','Asia','https://www.aist.go.jp/index_en.html','public_research',1,1,1,'https://www.aist.go.jp/index_en.html','2026-10-03','en','research',1);
