@@ -7,7 +7,10 @@ if(/serpapi|tavily|exa|bing search|google custom search|firecrawl|tinyfish/i.tes
 if(!worker.includes('robotsAllowedForUrl'))fail('Path-level robots gate missing');
 if(!worker.includes('safePublicUrl'))fail('SSRF guard missing');
 if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier D1 subrequest guard missing');
-if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert registry floor missing');
+if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert documentary corpus floor missing');
+if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
+if(!schema.includes("verification_level IN ('V2','V3')"))fail('V2/V3 Corpus A gate missing');
+if(!schema.includes("corpus!='A'")&&!schema.includes("corpus != 'A'"))fail('Corpus A integrity constraint missing');
 if(!schema.includes('official = 1 AND public_access = 1 AND free_access = 1'))fail('3/3 source gate missing');
 if(seed.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active)))fail('Invalid active seed source');
 if(process.env.STRICT_PRODUCTION==='1'&&Number(stats.certifiedUniqueHosts||0)<1000)fail(`Production registry incomplete: ${stats.certifiedUniqueHosts||0}/1000 distinct certified sites`);
