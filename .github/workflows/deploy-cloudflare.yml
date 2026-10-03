@@ -49,7 +49,7 @@ jobs:
 
       - name: Quality gate
         if: steps.auth.outputs.ready == 'true'
-        run: node scripts/verify.mjs
+        run: STRICT_PRODUCTION=1 node scripts/verify.mjs
 
       - name: Install Wrangler
         if: steps.auth.outputs.ready == 'true'
