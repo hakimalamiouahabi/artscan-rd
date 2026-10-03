@@ -1,0 +1,43 @@
+name: registry-certification
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: artscan-registry-certification
+  cancel-in-progress: false
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Discover and certify authoritative-directory sources
+        run: node scripts/certify-authoritative-directories.mjs
+      - name: Validate generated registry
+        run: |
+          node -e "const a=require('./data/source-registry.generated.json'); if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) process.exit(1); console.log('certified',a.length)"
+      - name: Commit generated registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "artscan-registry-bot"
+          git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
+          git add data/source-registry.generated.json data/registry-stats.json seed.generated.sql
+          if git diff --cached --quiet; then
+            echo "No registry changes"
+            exit 0
+          fi
+          git commit -m "data: refresh authoritative global research registry"
+          git push origin HEAD:main
