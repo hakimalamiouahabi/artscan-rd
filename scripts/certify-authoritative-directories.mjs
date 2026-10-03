@@ -83,6 +83,7 @@ async function checkAnonymous(url){
 function labelFromUrl(url){try{return new URL(url).hostname.replace(/^www\./,'')}catch{return url}}
 
 const discovered=[];
+const candidates=[];
 for(const d of DIRECTORIES){
   const page=await fetchText(d.url);
   if(!page){console.error('DIRECTORY_UNREACHABLE',d.id,d.url);continue}
@@ -92,9 +93,17 @@ for(const d of DIRECTORIES){
     if(!d.accept?.call(d,a.u))continue;
     const canonical=a.url.replace(/^http:/,'https:').replace(/\/$/,'/');
     if(seen.has(canonical))continue;seen.add(canonical);
+    candidates.push({d,a,canonical});
+  }
+}
+
+const CONCURRENCY=12;
+for(let i=0;i<candidates.length;i+=CONCURRENCY){
+  const slice=candidates.slice(i,i+CONCURRENCY);
+  const checked=await Promise.all(slice.map(async ({d,a,canonical})=>{
     const access=await checkAnonymous(canonical);
-    if(!access.ok){console.error('CANDIDATE_REJECT',d.id,canonical,access.reason);continue}
-    discovered.push({
+    if(!access.ok){console.error('CANDIDATE_REJECT',d.id,canonical,access.reason);return null}
+    return {
       organism:a.text||labelFromUrl(canonical),
       country:d.country,continent:d.continent,
       root_url:canonical,
@@ -110,10 +119,11 @@ for(const d of DIRECTORIES){
       language:'en',
       category:d.category,
       active:true
-    });
-  }
+    };
+  }));
+  discovered.push(...checked.filter(Boolean));
+  console.log('PROGRESS',Math.min(i+CONCURRENCY,candidates.length),'/',candidates.length,'certified',discovered.length);
 }
-
 const byKey=new Map();
 for(const x of [...seed,...discovered]){
   const key=x.root_url.replace(/^http:/,'https:').replace(/\/$/,'/');
