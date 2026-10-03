@@ -42,11 +42,39 @@ const candidates=[];
   const url='https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx';
   const r=await fetchText(url);
   if(r){
-    const allowed=new Set(['cput.ac.za','cut.ac.za','dut.ac.za','mut.ac.za','mandela.ac.za','nwu.ac.za','ru.ac.za','smu.ac.za','spu.ac.za','sun.ac.za','tut.ac.za','uct.ac.za','ufh.ac.za','uj.ac.za','ukzn.ac.za','ul.ac.za','ump.ac.za','up.ac.za','unisa.ac.za','ufs.ac.za','uwc.ac.za','wits.ac.za','vut.ac.za','unizulu.ac.za','wsu.ac.za','univen.ac.za']);
+    const publicUniversities=new Map([
+      ['cput.ac.za','Cape Peninsula University of Technology'],
+      ['cut.ac.za','Central University of Technology'],
+      ['dut.ac.za','Durban University of Technology'],
+      ['mut.ac.za','Mangosuthu University of Technology'],
+      ['mandela.ac.za','Nelson Mandela University'],
+      ['nwu.ac.za','North-West University'],
+      ['ru.ac.za','Rhodes University'],
+      ['smu.ac.za','Sefako Makgatho Health Sciences University'],
+      ['spu.ac.za','Sol Plaatje University'],
+      ['sun.ac.za','Stellenbosch University'],
+      ['tut.ac.za','Tshwane University of Technology'],
+      ['uct.ac.za','University of Cape Town'],
+      ['ufh.ac.za','University of Fort Hare'],
+      ['uj.ac.za','University of Johannesburg'],
+      ['ukzn.ac.za','University of KwaZulu-Natal'],
+      ['ul.ac.za','University of Limpopo'],
+      ['ump.ac.za','University of Mpumalanga'],
+      ['up.ac.za','University of Pretoria'],
+      ['unisa.ac.za','University of South Africa'],
+      ['ufs.ac.za','University of the Free State'],
+      ['uwc.ac.za','University of the Western Cape'],
+      ['wits.ac.za','University of the Witwatersrand'],
+      ['vut.ac.za','Vaal University of Technology'],
+      ['unizulu.ac.za','University of Zululand'],
+      ['wsu.ac.za','Walter Sisulu University'],
+      ['univen.ac.za','University of Venda']
+    ]);
     for(const a of anchors(r.text,url)){
       const h=a.u.hostname.toLowerCase().replace(/^www\./,'');
-      if(!allowed.has(h))continue;
-      candidates.push({organism:a.text||h,country:'South Africa',continent:'Africa',root_url:a.url,source_type:'public_university',official:true,public_access:true,free_access:true,certification_url:url,certification_date:today,certification_method:'official_DHET_public_university_directory_plus_anonymous_http_access',language:'en',category:'public_higher_education_research'});
+      const name=publicUniversities.get(h);
+      if(!name)continue;
+      candidates.push({organism:name,country:'South Africa',continent:'Africa',root_url:a.url,source_type:'public_university',official:true,public_access:true,free_access:true,certification_url:url,certification_date:today,certification_method:'official_DHET_public_university_directory_plus_anonymous_http_access',language:'en',category:'public_higher_education_research'});
     }
   }
 }
