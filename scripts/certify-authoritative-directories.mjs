@@ -166,21 +166,16 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
   console.log('PROGRESS',Math.min(i+CONCURRENCY,candidates.length),'/',candidates.length,'certified',discovered.length);
 }
 const byKey=new Map();
-for(const x of [...seed,...discovered]){
-  const key=x.root_url.replace(/^http:/,'https:').replace(/\/$/,'/');
-  if(!byKey.has(key))byKey.set(key,{...x,root_url:key});
+for(const x of discovered){
+  const key=x.root_url.replace(/\/$/,'');
+  if(!byKey.has(key))byKey.set(key,x);
 }
-const all=[...byKey.values()].sort((a,b)=>a.continent.localeCompare(b.continent)||a.country.localeCompare(b.country)||a.organism.localeCompare(b.organism));
-fs.writeFileSync('data/source-registry.generated.json',JSON.stringify(all,null,2)+'\n');
+const certified=[...byKey.values()].sort((a,b)=>a.continent.localeCompare(b.continent)||a.country.localeCompare(b.country)||a.organism.localeCompare(b.organism));
+fs.writeFileSync('data/registry-authoritative.json',JSON.stringify(certified,null,2)+'\n');
 
-const stats={total:all.length,added:all.length-seed.length,seed:seed.length,byContinent:{},byDirectory:{}};
-for(const x of all)stats.byContinent[x.continent]=(stats.byContinent[x.continent]||0)+1;
-for(const d of DIRECTORIES)stats.byDirectory[d.id]=discovered.filter(x=>x.certification_url===d.url).length;
-fs.writeFileSync('data/registry-stats.json',JSON.stringify(stats,null,2)+'\n');
-
-const q=s=>"'"+String(s??'').replaceAll("'","''")+"'";
-const values=all.map(x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type)},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${Number(x.access_http_status||200)},${q(x.access_checked_at||new Date().toISOString())})`).join(',\n');
-fs.writeFileSync('seed.generated.sql',`INSERT OR REPLACE INTO sources (organism,country,continent,root_url,source_type,official,public_access,free_access,certification_url,certification_date,language,category,active,last_http_status,last_checked_at) VALUES\n${values};\n`);
-
+const stats={certified:certified.length,byContinent:{},byDirectory:{}};
+for(const x of certified)stats.byContinent[x.continent]=(stats.byContinent[x.continent]||0)+1;
+for(const d of DIRECTORIES)stats.byDirectory[d.id]=certified.filter(x=>x.certification_url===d.url).length;
+fs.writeFileSync('data/registry-authoritative-stats.json',JSON.stringify(stats,null,2)+'\n');
 console.log(JSON.stringify(stats,null,2));
-if(all.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active)))throw new Error('Generated registry contains invalid active source');
+if(certified.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active)))throw new Error('Authoritative registry contains invalid active source');
