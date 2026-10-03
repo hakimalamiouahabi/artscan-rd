@@ -3,7 +3,7 @@
   "name": "artscan-rd",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*"] },
   "d1_databases": [
     { "binding": "DB", "database_name": "artscan-rd", "database_id": "REPLACE_AFTER_D1_CREATE" }
   ],
