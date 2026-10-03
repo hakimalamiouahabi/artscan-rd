@@ -86,6 +86,29 @@ async function createResearch(request, env){
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
+
+  const localTerms=makeTerms(topic,context).slice(0,8);
+  if(localTerms.length){
+    const scoreExpr=localTerms.map(()=>`CASE WHEN instr(ds.search_text, ?) > 0 THEN 1 ELSE 0 END`).join(' + ');
+    const whereExpr=localTerms.map(()=>`instr(ds.search_text, ?) > 0`).join(' OR ');
+    const sql=`INSERT INTO job_documents(job_id,document_id,relevance_score,evidence_count,included_reason)
+      SELECT ?, d.id, MIN(5, (${scoreExpr})), 1, 'local_corpus_lexical_match'
+      FROM documents d JOIN document_search ds ON ds.document_id=d.id
+      WHERE d.corpus='A' AND d.active=1 AND d.official=1 AND d.public_access=1 AND d.free_access=1
+        AND d.access_status='free' AND d.primary_secondary='primary' AND d.verification_level IN ('V2','V3')
+        AND (${whereExpr})
+      ORDER BY (${scoreExpr}) DESC, d.id
+      LIMIT ?
+      ON CONFLICT(job_id,document_id) DO UPDATE SET
+        relevance_score=MAX(job_documents.relevance_score,excluded.relevance_score),
+        evidence_count=MAX(job_documents.evidence_count,excluded.evidence_count)`;
+    const scoreArgs=localTerms.flatMap(t=>[t]);
+    const whereArgs=localTerms.flatMap(t=>[t]);
+    const orderArgs=localTerms.flatMap(t=>[t]);
+    const localLimit=depth==='expert'?1000:depth==='approfondi'?350:120;
+    await env.DB.prepare(sql).bind(id,...scoreArgs,...whereArgs,...orderArgs,localLimit).run();
+  }
+
   const messages=[];
   for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){
     messages.push({body:{jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth}});
@@ -101,12 +124,25 @@ async function getResearch(id, env){
   const job=await env.DB.prepare(`SELECT * FROM research_jobs WHERE id=?`).bind(id).first();
   if(!job)return json({error:"Recherche introuvable"},404);
   const ev=await env.DB.prepare(`SELECT e.page_url,e.title,e.snippet,e.evidence_kind,e.lexical_score,s.organism,s.country,s.continent,s.certification_url FROM evidence e JOIN sources s ON s.id=e.source_id WHERE e.job_id=? ORDER BY e.lexical_score DESC,e.id LIMIT 250`).bind(id).all();
+  let localDocs={results:[]};
+  try{
+    localDocs=await env.DB.prepare(`SELECT d.canonical_url AS page_url,d.exact_title AS title,d.factual_summary AS snippet,jd.relevance_score AS lexical_score,d.institution AS organism,d.country,d.geographic_area AS continent,s.certification_url
+      FROM job_documents jd JOIN documents d ON d.id=jd.document_id JOIN sources s ON s.id=d.source_id
+      WHERE jd.job_id=? ORDER BY jd.relevance_score DESC,d.id LIMIT 250`).bind(id).all();
+  }catch{}
+  const merged=[],seen=new Set();
+  for(const x of [...(localDocs.results||[]),...(ev.results||[])]){
+    const key=String(x.page_url||'');
+    if(!key||seen.has(key))continue;
+    seen.add(key);
+    merged.push({...x,evidence_kind:x.evidence_kind||classify((x.title||'')+' '+(x.snippet||''))});
+  }
   let documentary={verifiedDocuments:0,v3:0,v2:0,target:MIN_EXPERT_DOCUMENTS,complete:false};
   try{
     const c=await env.DB.prepare(`SELECT COUNT(*) AS n, SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3, SUM(CASE WHEN d.verification_level='V2' THEN 1 ELSE 0 END) AS v2 FROM job_documents jd JOIN documents d ON d.id=jd.document_id WHERE jd.job_id=?`).bind(id).first();
     documentary={verifiedDocuments:Number(c?.n||0),v3:Number(c?.v3||0),v2:Number(c?.v2||0),target:MIN_EXPERT_DOCUMENTS,complete:Number(c?.n||0)>=MIN_EXPERT_DOCUMENTS};
   }catch{}
-  return json({job,evidence:ev.results,documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
+  return json({job,evidence:merged.slice(0,250),documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
 }
 
 async function processQueueMessage(body, env){
@@ -169,14 +205,14 @@ async function scanSource(source,terms,jobId,env,depth='standard'){
     const candidates=extractLocs(sm.text)
       .filter(u=>sameCrawlHost(u,root)&&robotsAllowedForUrl(robots.text,u,ROBOTS_UA))
       .map(u=>({u,s:lexicalScore(decodeURIComponent(u),terms)}))
-      .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,depth==='expert'?12:depth==='approfondi'?5:2);
+      .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,depth==='expert'?5:depth==='approfondi'?3:1);
     for(const c of candidates){const p=await fetchText(c.u,MAX_BODY,root);if(p)pages.push(p)}
   }
 
   let inserted=0;
   for(const page of pages){
     const title=extractTitle(page.text)||source.organism;
-    const snippets=extractSnippets(page.text,terms).slice(0,4);
+    const snippets=extractSnippets(page.text,terms).slice(0,2);
     let docId=null;
     if(snippets.length){
       docId=await upsertVerifiedDocument(env,source,page,title,snippets,terms);
@@ -281,6 +317,11 @@ async function upsertVerifiedDocument(env,source,page,title,snippets,terms){
     'Vérifiée par ouverture HTTP directe depuis une source institutionnelle 3/3.',await sha256(page.text),canonicalHash,1,1,1
   ).run();
   const row=await env.DB.prepare(`SELECT id FROM documents WHERE canonical_hash=?`).bind(canonicalHash).first();
+  if(row?.id){
+    const searchText=normalize((title||source.organism)+' '+factual+' '+terms.join(' '));
+    await env.DB.prepare(`INSERT INTO document_search(document_id,search_text,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(document_id) DO UPDATE SET search_text=excluded.search_text,updated_at=CURRENT_TIMESTAMP`).bind(row.id,searchText).run();
+  }
   return row?.id||null;
 }
 function canonicalizeDocumentUrl(u){
