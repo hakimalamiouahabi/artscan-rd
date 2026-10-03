@@ -1,7 +1,11 @@
-const UA = "ARTSCAN-RD/3.0 (+public-research-crawler; official-public-free-only)";
+const UA = "ARTSCAN-RD/3.1 (+public-research-crawler; official-public-free-only)";
+const ROBOTS_UA = "artscan-rd";
 const MAX_BODY = 800_000;
+const MAX_ROBOTS_BODY = 200_000;
 const FETCH_TIMEOUT_MS = 5000;
-const BATCH_SOURCE_IDS = 6;
+const MAX_REDIRECTS = 4;
+const BATCH_SOURCE_IDS = 2;
+const MIN_EXPERT_SOURCES = 1000;
 
 const STOPWORDS = new Set((`le la les un une des de du et ou en pour par sur dans avec sans au aux ce cette ces son sa ses leur leurs plus moins
  the a an and or of to in on for with without from by is are be this that these those project projet solution system systeme système technologie
@@ -33,17 +37,22 @@ export default {
 
 function json(data, status=200){return new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","referrer-policy":"same-origin","x-frame-options":"DENY","permissions-policy":"camera=(), microphone=(), geolocation=()"}})}
 
+async function registryNumbers(env){
+  const total = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources`).first();
+  const certified = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1`).first();
+  const invalid = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND NOT (official=1 AND public_access=1 AND free_access=1)`).first();
+  return {total:Number(total?.n||0),certified:Number(certified?.n||0),invalidActive:Number(invalid?.n||0)};
+}
+
 async function health(env){
-  const row = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1`).first();
-  return json({ok:true,service:"ARTSCAN R&D",version:"3.0.0",runtime:{llm:false,externalSearchApi:false,httpDirect:true},certifiedSources:Number(row?.n||0)});
+  const n=await registryNumbers(env);
+  return json({ok:true,service:"ARTSCAN R&D",version:"3.1.0",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n,minExpertSources:MIN_EXPERT_SOURCES,productionReady:n.certified>=MIN_EXPERT_SOURCES&&n.invalidActive===0});
 }
 
 async function registryStats(env){
-  const total = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources`).first();
-  const certified = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1`).first();
-  const bad = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND NOT (official=1 AND public_access=1 AND free_access=1)`).first();
+  const n=await registryNumbers(env);
   const continents = await env.DB.prepare(`SELECT continent, COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 GROUP BY continent ORDER BY n DESC`).all();
-  return json({total:Number(total?.n||0),certified:Number(certified?.n||0),invalidActive:Number(bad?.n||0),continents:continents.results});
+  return json({...n,minExpertSources:MIN_EXPERT_SOURCES,productionReady:n.certified>=MIN_EXPERT_SOURCES&&n.invalidActive===0,continents:continents.results});
 }
 
 async function createResearch(request, env){
@@ -52,7 +61,10 @@ async function createResearch(request, env){
   const context=String(body.context||"").trim();
   const depth=["standard","approfondi","expert"].includes(body.depth)?body.depth:"standard";
   if(topic.length<4||topic.length>1200)return json({error:"Sujet invalide"},400);
-  const limit=depth==="expert"?1200:depth==="approfondi"?480:160;
+  const n=await registryNumbers(env);
+  if(n.invalidActive>0)return json({error:"Registre invalide : une source active ne satisfait pas la règle 3/3."},503);
+  if(depth==="expert"&&n.certified<MIN_EXPERT_SOURCES)return json({error:"Mode Expert indisponible tant que le registre certifié contient moins de 1 000 sources.",certifiedSources:n.certified,minRequired:MIN_EXPERT_SOURCES},503);
+  const limit=depth==="expert"?Math.min(n.certified,2000):depth==="approfondi"?Math.min(n.certified,480):Math.min(n.certified,160);
   const rows=await env.DB.prepare(`SELECT id FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 ORDER BY CASE WHEN category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, id LIMIT ?`).bind(limit).all();
   const ids=rows.results.map(r=>r.id);
   const id=crypto.randomUUID().replaceAll("-","");
@@ -92,22 +104,31 @@ async function processQueueMessage(body, env){
 async function scanSource(source,terms,jobId,env){
   const root=normalizeHttpUrl(source.root_url); if(!root)return {reachable:false,matched:false};
   if(!safePublicUrl(root))return {reachable:false,matched:false};
-  const robotsUrl=new URL('/robots.txt',root).toString();
-  const robots=await fetchText(robotsUrl);
-  const allowed=robotsAllows(robots?.text||"");
-  await logEvent(env,{jobId,sourceId:source.id,requestedUrl:robotsUrl,resolvedUrl:robots?.url,httpStatus:robots?.status,robotsDecision:allowed?"allow":"deny",contentType:robots?.contentType,bytes:robots?.bytes,inclusionDecision:allowed?"continue":"excluded",exclusionReason:allowed?null:"robots_disallow_all"});
-  if(!allowed)return {reachable:false,matched:false};
-  const rootPage=await fetchText(root); if(!rootPage)return {reachable:false,matched:false};
-  let pages=[rootPage];
-  const sitemapUrls=extractSitemaps(robots?.text||"");
+
+  const robots=await loadRobots(root);
+  await logEvent(env,{jobId,sourceId:source.id,requestedUrl:robots.url,resolvedUrl:robots.resolvedUrl,httpStatus:robots.status,robotsDecision:robots.available?"evaluated":"deny",contentType:robots.contentType,bytes:robots.bytes,inclusionDecision:robots.available?"continue":"excluded",exclusionReason:robots.available?null:robots.reason});
+  if(!robots.available)return {reachable:false,matched:false};
+  if(!robotsAllowedForUrl(robots.text,root,ROBOTS_UA)){
+    await logEvent(env,{jobId,sourceId:source.id,requestedUrl:root,resolvedUrl:root,robotsDecision:"deny",inclusionDecision:"excluded",exclusionReason:"robots_path_disallow"});
+    return {reachable:false,matched:false};
+  }
+
+  const rootPage=await fetchText(root,MAX_BODY,root); if(!rootPage)return {reachable:false,matched:false};
+  const pages=[rootPage];
+  const sitemapUrls=extractSitemaps(robots.text).filter(u=>sameCrawlHost(u,root));
   if(!sitemapUrls.length)sitemapUrls.push(new URL('/sitemap.xml',root).toString());
   for(const smUrl of sitemapUrls.slice(0,2)){
-    if(!safePublicUrl(smUrl))continue;
-    const sm=await fetchText(smUrl,400_000);
+    if(!safePublicUrl(smUrl)||!sameCrawlHost(smUrl,root))continue;
+    if(!robotsAllowedForUrl(robots.text,smUrl,ROBOTS_UA))continue;
+    const sm=await fetchText(smUrl,400_000,root);
     if(!sm)continue;
-    const candidates=extractLocs(sm.text).map(u=>({u,s:lexicalScore(decodeURIComponent(u),terms)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,2);
-    for(const c of candidates){if(!safePublicUrl(c.u))continue;const p=await fetchText(c.u);if(p)pages.push(p)}
+    const candidates=extractLocs(sm.text)
+      .filter(u=>sameCrawlHost(u,root)&&robotsAllowedForUrl(robots.text,u,ROBOTS_UA))
+      .map(u=>({u,s:lexicalScore(decodeURIComponent(u),terms)}))
+      .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,2);
+    for(const c of candidates){const p=await fetchText(c.u,MAX_BODY,root);if(p)pages.push(p)}
   }
+
   let inserted=0;
   for(const page of pages){
     const title=extractTitle(page.text)||source.organism;
@@ -117,10 +138,65 @@ async function scanSource(source,terms,jobId,env){
       await env.DB.prepare(`INSERT OR IGNORE INTO evidence(job_id,source_id,page_url,title,snippet,evidence_kind,lexical_score,retrieved_at,content_hash) VALUES(?,?,?,?,?,?,?,?,?)`).bind(jobId,source.id,page.url,title,sn.text,classify(sn.text),sn.score,new Date().toISOString(),hash).run();
       inserted++;
     }
-    await logEvent(env,{jobId,sourceId:source.id,requestedUrl:page.requestedUrl||page.url,resolvedUrl:page.url,httpStatus:page.status,robotsDecision:"allow",contentType:page.contentType,bytes:page.bytes,parser:"html-text-v1",inclusionDecision:snippets.length?"included":"no_match",exclusionReason:snippets.length?null:"no_lexical_match"});
+    await logEvent(env,{jobId,sourceId:source.id,requestedUrl:page.requestedUrl||page.url,resolvedUrl:page.url,httpStatus:page.status,robotsDecision:"allow",contentType:page.contentType,bytes:page.bytes,parser:"html-text-v2",inclusionDecision:snippets.length?"included":"no_match",exclusionReason:snippets.length?null:"no_lexical_match"});
   }
   return {reachable:true,matched:inserted>0};
 }
+
+async function loadRobots(root){
+  const url=new URL('/robots.txt',root).toString();
+  const r=await fetchLimited(url,MAX_ROBOTS_BODY,root,true);
+  if(!r)return {url,available:false,text:"",status:null,reason:"robots_unreachable"};
+  if(r.status===404||r.status===410)return {url,resolvedUrl:r.url,available:true,text:"",status:r.status,contentType:r.contentType,bytes:r.bytes};
+  if(r.status>=200&&r.status<300)return {url,resolvedUrl:r.url,available:true,text:r.text,status:r.status,contentType:r.contentType,bytes:r.bytes};
+  return {url,resolvedUrl:r.url,available:false,text:"",status:r.status,contentType:r.contentType,bytes:r.bytes,reason:`robots_http_${r.status}`};
+}
+
+function robotsAllowedForUrl(txt,url,uaToken=ROBOTS_UA){
+  const groups=parseRobots(txt);
+  if(!groups.length)return true;
+  const token=String(uaToken).toLowerCase();
+  let maxSpecificity=0, selected=[];
+  for(const g of groups){
+    const specs=g.agents.map(a=>a==='*'?0:(token.startsWith(a)?a.length:-1));
+    const spec=Math.max(...specs,-1);
+    if(spec>maxSpecificity){maxSpecificity=spec;selected=[g]}
+    else if(spec===maxSpecificity&&spec>=0)selected.push(g);
+  }
+  if(maxSpecificity===0){selected=groups.filter(g=>g.agents.includes('*'))}
+  if(!selected.length)return true;
+  const path=new URL(url).pathname+new URL(url).search;
+  const matches=[];
+  for(const g of selected)for(const r of g.rules){if(robotPatternMatches(r.pattern,path))matches.push(r)}
+  if(!matches.length)return true;
+  matches.sort((a,b)=>ruleSpecificity(b.pattern)-ruleSpecificity(a.pattern)||(b.allow?1:0)-(a.allow?1:0));
+  return matches[0].allow;
+}
+
+function parseRobots(txt){
+  const groups=[];let group=null;let rulesStarted=false;
+  for(const raw of String(txt||'').split(/\r?\n/)){
+    const line=raw.replace(/#.*$/,'').trim();if(!line)continue;
+    const i=line.indexOf(':');if(i<0)continue;
+    const field=line.slice(0,i).trim().toLowerCase(),value=line.slice(i+1).trim();
+    if(field==='user-agent'){
+      if(!group||rulesStarted){group={agents:[],rules:[]};groups.push(group);rulesStarted=false}
+      if(value)group.agents.push(value.toLowerCase());
+    }else if((field==='allow'||field==='disallow')&&group){
+      rulesStarted=true;
+      if(value)group.rules.push({allow:field==='allow',pattern:value});
+    }
+  }
+  return groups.filter(g=>g.agents.length);
+}
+
+function robotPatternMatches(pattern,path){
+  let p=String(pattern||'');if(!p)return false;
+  const end=p.endsWith('$');if(end)p=p.slice(0,-1);
+  const escaped=p.replace(/[.+?^${}()|[\]\\]/g,'\\$&').replace(/\*/g,'.*');
+  try{return new RegExp('^'+escaped+(end?'$':'')).test(path)}catch{return false}
+}
+function ruleSpecificity(pattern){return String(pattern||'').replace(/[\*$]/g,'').length}
 
 function makeTerms(topic,context){const txt=normalize(topic+" "+context).split(/\s+/).filter(x=>x.length>2&&!STOPWORDS.has(x));const freq=new Map();for(const x of txt)freq.set(x,(freq.get(x)||0)+1);return [...freq.entries()].sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length).slice(0,16).map(x=>x[0])}
 function normalize(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9%+.-]+/g," ")}
@@ -131,9 +207,58 @@ function extractSnippets(html,terms){const blocks=[...String(html).matchAll(/<(?
 function stripHtml(s){return String(s).replace(/<script[\s\S]*?<\/script>/gi," ").replace(/<style[\s\S]*?<\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/&nbsp;|&#160;/gi," ").replace(/&amp;/gi,"&").replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/\s+/g," ").trim()}
 function extractLocs(xml){return [...String(xml).matchAll(/<loc>\s*([^<]+)\s*<\/loc>/gi)].map(m=>m[1].replace(/&amp;/g,"&")).filter(safePublicUrl)}
 function extractSitemaps(robots){return [...String(robots).matchAll(/^\s*Sitemap\s*:\s*(\S+)/gim)].map(m=>m[1]).filter(safePublicUrl)}
-function robotsAllows(txt){const s=String(txt).toLowerCase();const part=(s.split(/user-agent\s*:\s*\*/i)[1]||"").split(/user-agent\s*:/i)[0]||"";return !/^\s*disallow\s*:\s*\/\s*$/im.test(part)}
 function normalizeHttpUrl(u){try{const x=new URL(String(u));if(!/^https?:$/.test(x.protocol))return null;x.hash="";return x.toString()}catch{return null}}
-function safePublicUrl(u){try{const x=new URL(String(u));if(!/^https?:$/.test(x.protocol))return false;const h=x.hostname.toLowerCase();if(h==="localhost"||h.endsWith(".local")||h==="0.0.0.0"||h==="127.0.0.1"||h==="::1")return false;if(/^10\./.test(h)||/^192\.168\./.test(h)||/^169\.254\./.test(h))return false;const m=h.match(/^172\.(\d+)\./);if(m&&Number(m[1])>=16&&Number(m[1])<=31)return false;return true}catch{return false}}
-async function fetchText(url,max=MAX_BODY){if(!safePublicUrl(url))return null;const c=new AbortController();const timer=setTimeout(()=>c.abort(),FETCH_TIMEOUT_MS);try{const r=await fetch(url,{redirect:"follow",headers:{"user-agent":UA,"accept":"text/html,application/xhtml+xml,application/xml,text/xml,text/plain;q=0.8,*/*;q=0.2"},signal:c.signal});if(!r.ok)return null;const ct=r.headers.get("content-type")||"";if(!/(html|text|xml|json)/i.test(ct))return null;const text=(await r.text()).slice(0,max);return{text,url:r.url,status:r.status,contentType:ct,bytes:new TextEncoder().encode(text).byteLength,requestedUrl:url}}catch{return null}finally{clearTimeout(timer)}}
+function canonicalHost(h){return String(h||'').toLowerCase().replace(/^www\./,'').replace(/^\[|\]$/g,'')}
+function sameCrawlHost(a,b){try{return canonicalHost(new URL(a).hostname)===canonicalHost(new URL(b).hostname)}catch{return false}}
+function safePublicUrl(u){
+  try{
+    const x=new URL(String(u));if(!/^https?:$/.test(x.protocol)||x.username||x.password)return false;
+    if(x.port&&!['80','443'].includes(x.port))return false;
+    const h=canonicalHost(x.hostname);
+    if(!h||h==='localhost'||h.endsWith('.localhost')||h.endsWith('.local')||h.endsWith('.internal')||h.endsWith('.lan'))return false;
+    if(['metadata.google.internal','metadata.azure.internal','instance-data.ec2.internal','metadata.aws.internal'].includes(h))return false;
+    if(h.includes(':')){if(h==='::1'||h.startsWith('fc')||h.startsWith('fd')||h.startsWith('fe80:')||h.startsWith('::ffff:127.'))return false;return true}
+    const p=h.split('.');
+    if(p.length===4&&p.every(v=>/^\d+$/.test(v))){
+      const a=p.map(Number);if(a.some(v=>v<0||v>255))return false;
+      if(a[0]===0||a[0]===10||a[0]===127||a[0]>=224)return false;
+      if(a[0]===100&&a[1]>=64&&a[1]<=127)return false;
+      if(a[0]===169&&a[1]===254)return false;
+      if(a[0]===172&&a[1]>=16&&a[1]<=31)return false;
+      if(a[0]===192&&a[1]===168)return false;
+      if(a[0]===198&&(a[1]===18||a[1]===19))return false;
+    }
+    return true;
+  }catch{return false}
+}
+
+async function fetchText(url,max=MAX_BODY,root=url){const r=await fetchLimited(url,max,root,false);return r&&r.status>=200&&r.status<300?r:null}
+async function fetchLimited(url,max,root,allowNonOk){
+  if(!safePublicUrl(url)||!sameCrawlHost(url,root))return null;
+  let current=url;
+  for(let hop=0;hop<=MAX_REDIRECTS;hop++){
+    const c=new AbortController();const timer=setTimeout(()=>c.abort(),FETCH_TIMEOUT_MS);
+    try{
+      const r=await fetch(current,{redirect:"manual",headers:{"user-agent":UA,"accept":"text/html,application/xhtml+xml,application/xml,text/xml,text/plain;q=0.8,*/*;q=0.2"},signal:c.signal});
+      if(r.status>=300&&r.status<400&&r.headers.get('location')){
+        if(hop===MAX_REDIRECTS)return null;
+        const next=new URL(r.headers.get('location'),current).toString();
+        if(!safePublicUrl(next)||!sameCrawlHost(next,root))return null;
+        current=next;continue;
+      }
+      const ct=r.headers.get("content-type")||"";
+      if(r.status>=200&&r.status<300&&!/(html|text|xml|json)/i.test(ct))return null;
+      let text='';
+      if(r.body&&((r.status>=200&&r.status<300)||allowNonOk))text=await readLimitedText(r,max);
+      return{text,url:r.url||current,status:r.status,contentType:ct,bytes:new TextEncoder().encode(text).byteLength,requestedUrl:url};
+    }catch{return null}finally{clearTimeout(timer)}
+  }
+  return null;
+}
+async function readLimitedText(response,max){
+  if(!response.body)return '';
+  const reader=response.body.getReader(),dec=new TextDecoder();let out='',bytes=0;
+  try{while(true){const {done,value}=await reader.read();if(done)break;bytes+=value.byteLength;if(bytes>max){const keep=Math.max(0,value.byteLength-(bytes-max));out+=dec.decode(value.slice(0,keep),{stream:true});break}out+=dec.decode(value,{stream:true})}out+=dec.decode();return out}catch{return out}finally{try{await reader.cancel()}catch{}}
+}
 async function sha256(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 async function logEvent(env,e){try{await env.DB.prepare(`INSERT INTO crawl_events(job_id,source_id,requested_url,resolved_url,http_status,robots_decision,content_type,bytes,parser,inclusion_decision,exclusion_reason,occurred_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(e.jobId||null,e.sourceId||null,e.requestedUrl,e.resolvedUrl||null,e.httpStatus||null,e.robotsDecision||null,e.contentType||null,e.bytes||null,e.parser||null,e.inclusionDecision||null,e.exclusionReason||null,new Date().toISOString()).run()}catch{}}
