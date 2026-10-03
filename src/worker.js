@@ -85,6 +85,9 @@ async function createResearch(request, env){
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
+  for(const sourceId of ids){
+    await env.DB.prepare(`INSERT OR IGNORE INTO job_source_status(job_id,source_id,status) VALUES(?,?,'queued')`).bind(id,sourceId).run();
+  }
   for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){await env.CRAWL_QUEUE.send({jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth})}
   await env.DB.prepare(`UPDATE research_jobs SET status='running' WHERE id=?`).bind(id).run();
   return json({jobId:id,status:"running",totalSources:ids.length},202);
@@ -108,17 +111,34 @@ async function processQueueMessage(body, env){
   const qs=sourceIds.map(()=>"?").join(",");
   const rows=await env.DB.prepare(`SELECT * FROM sources WHERE id IN (${qs}) AND active=1 AND official=1 AND public_access=1 AND free_access=1`).bind(...sourceIds).all();
   const terms=makeTerms(topic,context);
-  let reachable=0, matched=0, errors=0;
+
   for(const source of rows.results){
+    const prior=await env.DB.prepare(`SELECT status FROM job_source_status WHERE job_id=? AND source_id=?`).bind(jobId,source.id).first();
+    if(prior?.status==='complete')continue;
+
+    await env.DB.prepare(`INSERT INTO job_source_status(job_id,source_id,status,updated_at) VALUES(?,?,'processing',CURRENT_TIMESTAMP)
+      ON CONFLICT(job_id,source_id) DO UPDATE SET status='processing',updated_at=CURRENT_TIMESTAMP`).bind(jobId,source.id).run();
+
+    let reachable=0,matched=0,error=0;
     try{
       const result=await scanSource(source,terms,jobId,env,depth);
-      if(result.reachable)reachable++;
-      if(result.matched)matched++;
-    }catch(e){errors++;console.error("SOURCE_SCAN_FAILED",source.root_url,String(e?.message||e))}
+      reachable=result.reachable?1:0;
+      matched=result.matched?1:0;
+    }catch(e){
+      error=1;
+      console.error("SOURCE_SCAN_FAILED",source.root_url,String(e?.message||e));
+    }
+
+    await env.DB.prepare(`UPDATE job_source_status SET status='complete',reachable=?,matched=?,error=?,updated_at=CURRENT_TIMESTAMP WHERE job_id=? AND source_id=?`)
+      .bind(reachable,matched,error,jobId,source.id).run();
   }
-  await env.DB.prepare(`UPDATE research_jobs SET processed_sources=processed_sources+?, reachable_sources=reachable_sources+?, matched_sources=matched_sources+?, error_count=error_count+? WHERE id=?`).bind(rows.results.length,reachable,matched,errors,jobId).run();
-  const job=await env.DB.prepare(`SELECT processed_sources,total_sources FROM research_jobs WHERE id=?`).bind(jobId).first();
-  if(job && Number(job.processed_sources)>=Number(job.total_sources))await env.DB.prepare(`UPDATE research_jobs SET status='complete',completed_at=? WHERE id=?`).bind(new Date().toISOString(),jobId).run();
+
+  const agg=await env.DB.prepare(`SELECT COUNT(*) AS processed, COALESCE(SUM(reachable),0) AS reachable, COALESCE(SUM(matched),0) AS matched, COALESCE(SUM(error),0) AS errors FROM job_source_status WHERE job_id=? AND status='complete'`).bind(jobId).first();
+  const processed=Number(agg?.processed||0);
+  const job=await env.DB.prepare(`SELECT total_sources FROM research_jobs WHERE id=?`).bind(jobId).first();
+  const complete=job&&processed>=Number(job.total_sources);
+  await env.DB.prepare(`UPDATE research_jobs SET processed_sources=?,reachable_sources=?,matched_sources=?,error_count=?,status=?,completed_at=? WHERE id=?`)
+    .bind(processed,Number(agg?.reachable||0),Number(agg?.matched||0),Number(agg?.errors||0),complete?'complete':'running',complete?new Date().toISOString():null,jobId).run();
 }
 
 async function scanSource(source,terms,jobId,env,depth='standard'){
