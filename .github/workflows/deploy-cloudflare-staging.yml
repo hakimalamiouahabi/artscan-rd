@@ -68,12 +68,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          EXISTS="no"
-          if npx wrangler queues list --json > /tmp/queues.json 2>/dev/null; then
-            EXISTS="$(node -e "const fs=require('fs');const j=JSON.parse(fs.readFileSync('/tmp/queues.json','utf8'));const a=Array.isArray(j)?j:(j.queues||j.result||[]);process.stdout.write(a.some(q=>(q.name||q.queue_name)===process.env.QUEUE_NAME)?'yes':'no')")"
-          fi
-          if [ "$EXISTS" != "yes" ]; then
-            npx wrangler queues create "$QUEUE_NAME"
+          set +e
+          OUT="$(npx wrangler queues create "$QUEUE_NAME" 2>&1)"
+          CODE=$?
+          set -e
+          printf '%s\n' "$OUT"
+          if [ "$CODE" -ne 0 ] && ! printf '%s' "$OUT" | grep -qi "already taken"; then
+            exit "$CODE"
           fi
 
       - name: Generate staging config
