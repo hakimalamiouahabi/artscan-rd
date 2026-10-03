@@ -122,6 +122,7 @@ jobs:
           if(j.runtime?.llm!==false) throw new Error('LLM runtime unexpectedly enabled');
           if(j.runtime?.externalSearchApi!==false) throw new Error('External search API unexpectedly enabled');
           if(j.runtime?.httpDirect!==true) throw new Error('Direct HTTP not enabled');
+          if(typeof j.corpusAVerified!=='number') throw new Error('Documentary corpus metric missing');
           console.log(j);
           NODE
 
@@ -132,6 +133,7 @@ jobs:
             echo "- URL: $ARTSCAN_STAGING_URL"
             echo "- D1: $D1_NAME"
             echo "- Queue: $QUEUE_NAME"
-            echo "- Registry seed: 24 certified roots"
-            echo "- Expert mode remains locked until 1000 certified sources"
+            echo "- Institutional registry: certified 3/3 sources loaded from generated seed"
+            echo "- Corpus A: verified V2/V3 documents loaded when corpus-a.generated.sql exists"
+            echo "- Production readiness: based on 1000 verified Corpus A documents, not site count"
           } >> "$GITHUB_STEP_SUMMARY"
