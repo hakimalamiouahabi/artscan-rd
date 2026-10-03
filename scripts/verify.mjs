@@ -6,9 +6,15 @@ if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('R
 if(/\b(?:serpapi|tavily|firecrawl|tinyfish)\b|bing\s+search|google\s+custom\s+search|\bexa(?:\.ai)?\b/i.test(worker))fail('External search API/runtime dependency detected');
 if(!worker.includes('robotsAllowedForUrl'))fail('Path-level robots gate missing');
 if(!worker.includes('safePublicUrl'))fail('SSRF guard missing');
-if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier D1 subrequest guard missing');
+if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier source isolation missing');
+if(!worker.includes('QUEUE_BATCH_MESSAGES = 100'))fail('Queue producer batching missing');
+if(!worker.includes('sendBatch'))fail('Large-scan queue batching missing');
+if(!worker.includes('local_corpus_lexical_match'))fail('Local corpus retrieval missing');
 if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
+if(!schema.includes('CREATE TABLE IF NOT EXISTS job_documents'))fail('Per-job corpus mapping missing');
+if(!schema.includes('CREATE TABLE IF NOT EXISTS job_source_status'))fail('Queue idempotency table missing');
+if(!schema.includes('CREATE TABLE IF NOT EXISTS document_search'))fail('Deterministic local document index missing');
 if(!schema.includes("verification_level IN ('V2','V3')"))fail('V2/V3 Corpus A gate missing');
 if(!schema.includes("corpus!='A'")&&!schema.includes("corpus != 'A'"))fail('Corpus A integrity constraint missing');
 if(!schema.includes('official = 1 AND public_access = 1 AND free_access = 1'))fail('3/3 source gate missing');
