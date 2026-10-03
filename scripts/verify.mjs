@@ -3,7 +3,7 @@ const read=p=>fs.readFileSync(p,'utf8');
 const worker=read('src/worker.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json')),stats=fs.existsSync('data/registry-stats.json')?JSON.parse(read('data/registry-stats.json')):{certifiedUniqueHosts:seed.length,certifiedSources:seed.length};
 const fail=m=>{throw new Error(m)};
 if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('Runtime LLM dependency detected');
-if(/serpapi|tavily|exa|bing search|google custom search|firecrawl|tinyfish/i.test(worker))fail('External search API/runtime dependency detected');
+if(/\b(?:serpapi|tavily|firecrawl|tinyfish)\b|bing\s+search|google\s+custom\s+search|\bexa(?:\.ai)?\b/i.test(worker))fail('External search API/runtime dependency detected');
 if(!worker.includes('robotsAllowedForUrl'))fail('Path-level robots gate missing');
 if(!worker.includes('safePublicUrl'))fail('SSRF guard missing');
 if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier D1 subrequest guard missing');
