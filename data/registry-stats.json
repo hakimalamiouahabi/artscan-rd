@@ -1,0 +1,20 @@
+{
+  "total": 112,
+  "added": 88,
+  "seed": 24,
+  "byContinent": {
+    "Africa": 1,
+    "Asia": 39,
+    "Europe": 30,
+    "International": 3,
+    "North America": 38,
+    "Oceania": 1
+  },
+  "byDirectory": {
+    "cas": 18,
+    "nst": 17,
+    "doe": 11,
+    "canada": 21,
+    "esfri": 21
+  }
+}
