@@ -1,20 +1,18 @@
 {
-  "total": 112,
-  "added": 88,
-  "seed": 24,
+  "certifiedSources": 1014,
+  "certifiedUniqueHosts": 806,
+  "institutionalRegistryReady": true,
   "byContinent": {
     "Africa": 1,
-    "Asia": 39,
-    "Europe": 30,
+    "Asia": 132,
+    "Europe": 146,
     "International": 3,
-    "North America": 38,
+    "North America": 731,
     "Oceania": 1
   },
-  "byDirectory": {
-    "cas": 18,
-    "nst": 17,
-    "doe": 11,
-    "canada": 21,
-    "esfri": 21
+  "byOrigin": {
+    "seed": 24,
+    "authoritative": 433,
+    "ipeds": 557
   }
 }

@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-10-03T23:05:47.550Z",
+  "generated_at": "2026-10-03T23:10:31.780Z",
   "corpus": "A",
   "target": 1000,
-  "verified_unique_documents": 665,
-  "complete": false,
+  "verified_unique_documents": 1290,
+  "complete": true,
   "verification_levels": {
-    "V2": 665,
+    "V2": 1290,
     "V3": 0
   },
-  "institutions_represented": 51,
-  "unique_hosts": 57,
+  "institutions_represented": 112,
+  "unique_hosts": 108,
   "by_continent": {
     "Africa": 15,
-    "Asia": 216,
-    "Europe": 81,
+    "Asia": 414,
+    "Europe": 390,
     "International": 19,
-    "North America": 322,
+    "North America": 440,
     "Oceania": 12
   },
-  "duplicates_removed": 214
+  "duplicates_removed": 233
 }
