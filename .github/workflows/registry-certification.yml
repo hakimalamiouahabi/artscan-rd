@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - "scripts/certify-authoritative-directories.mjs"
+      - "scripts/import_ipeds_public_research.py"
+      - "scripts/build-registry.mjs"
       - ".github/workflows/registry-certification.yml"
   schedule:
     - cron: "17 4 * * 1"
@@ -20,7 +22,7 @@ concurrency:
 jobs:
   certify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,21 +30,40 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Discover and certify authoritative-directory sources
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Certify authoritative-directory research sources
         run: node scripts/certify-authoritative-directories.mjs
-      - name: Validate generated registry
+
+      - name: Certify US public graduate institutions from NCES IPEDS
+        run: python scripts/import_ipeds_public_research.py
+
+      - name: Build merged registry and D1 seed
+        run: node scripts/build-registry.mjs
+
+      - name: Validate 3/3 and unique-host accounting
         run: |
-          node -e "const a=require('./data/source-registry.generated.json'); if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) process.exit(1); console.log('certified',a.length)"
-      - name: Commit generated registry
+          node - <<'NODE'
+          const fs=require('fs');
+          const a=JSON.parse(fs.readFileSync('data/source-registry.generated.json','utf8'));
+          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) process.exit(1);
+          if(!Number.isInteger(s.certifiedUniqueHosts)||s.certifiedUniqueHosts<1) process.exit(1);
+          console.log(JSON.stringify(s,null,2));
+          NODE
+
+      - name: Commit certified registry
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "artscan-registry-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add data/source-registry.generated.json data/registry-stats.json seed.generated.sql
+          git add             data/registry-authoritative.json             data/registry-authoritative-stats.json             data/registry-ipeds.json             data/registry-ipeds-stats.json             data/source-registry.generated.json             data/registry-stats.json             seed.generated.sql
           if git diff --cached --quiet; then
             echo "No registry changes"
             exit 0
           fi
-          git commit -m "data: refresh authoritative global research registry"
+          git commit -m "data: refresh certified global research registry"
           git push origin HEAD:main
