@@ -54,7 +54,7 @@ jobs:
           set -euo pipefail
           git config user.name "artscan-corpus-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add data/corpus-a.generated.json data/corpus-a-stats.json corpus-a.generated.sql
+          git add data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
           if git diff --cached --quiet; then
             echo "No Corpus A changes"
             exit 0
