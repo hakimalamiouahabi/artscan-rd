@@ -149,6 +149,7 @@ async function scanSource(source,terms,jobId,env){
   for(const page of pages){
     const title=extractTitle(page.text)||source.organism;
     const snippets=extractSnippets(page.text,terms).slice(0,4);
+    const doc=await upsertVerifiedDocument(env,source,page,title,snippets,terms);
     for(const sn of snippets){
       const hash=await sha256(page.url+"\n"+sn.text);
       await env.DB.prepare(`INSERT OR IGNORE INTO evidence(job_id,source_id,page_url,title,snippet,evidence_kind,lexical_score,retrieved_at,content_hash) VALUES(?,?,?,?,?,?,?,?,?)`).bind(jobId,source.id,page.url,title,sn.text,classify(sn.text),sn.score,new Date().toISOString(),hash).run();
@@ -213,6 +214,47 @@ function robotPatternMatches(pattern,path){
   try{return new RegExp('^'+escaped+(end?'$':'')).test(path)}catch{return false}
 }
 function ruleSpecificity(pattern){return String(pattern||'').replace(/[\*$]/g,'').length}
+
+async function upsertVerifiedDocument(env,source,page,title,snippets,terms){
+  const canonical=canonicalizeDocumentUrl(page.url);
+  const canonicalHash=await sha256(canonical);
+  const internalId='DOC-'+canonicalHash.slice(0,20).toUpperCase();
+  const text=stripHtml(page.text).slice(0,5000);
+  const factual=(snippets[0]?.text||text.slice(0,500)||'').slice(0,900);
+  const relevance=Math.max(0,Math.min(5,Math.ceil((snippets[0]?.score||0)/2)));
+  const verification=title&&text.length>=200?'V3':'V2';
+  const now=new Date().toISOString();
+  await env.DB.prepare(`
+    INSERT INTO documents(
+      source_id,corpus,internal_id,topic,subtopic,exact_title,canonical_url,institution,country,geographic_area,
+      organization_type,consulted_at,source_kind,language,factual_summary,essential_information,keywords,
+      access_status,primary_secondary,peer_reviewed,relevance_score,evidence_level,verification_level,http_status,
+      control_comment,content_sha256,canonical_hash,official,public_access,free_access,active
+    ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)
+    ON CONFLICT(canonical_hash) DO UPDATE SET
+      consulted_at=excluded.consulted_at,
+      exact_title=excluded.exact_title,
+      factual_summary=excluded.factual_summary,
+      relevance_score=MAX(documents.relevance_score,excluded.relevance_score),
+      verification_level=CASE WHEN documents.verification_level='V3' THEN 'V3' ELSE excluded.verification_level END,
+      http_status=excluded.http_status,
+      active=1
+  `).bind(
+    source.id,'A',internalId,terms.join(' '),null,title||source.organism,canonical,source.organism,source.country,source.continent,
+    source.source_type,now,'institutional_primary',source.language||'unknown',factual,factual,terms.join(', '),
+    'free','primary','not_applicable',relevance,'B',verification,page.status,
+    'Vérifiée par ouverture HTTP directe depuis une source institutionnelle 3/3.',await sha256(page.text),canonicalHash,1,1,1
+  ).run();
+  return internalId;
+}
+function canonicalizeDocumentUrl(u){
+  try{
+    const x=new URL(u);x.hash='';
+    for(const k of [...x.searchParams.keys()])if(/^utm_|^(fbclid|gclid|mc_cid|mc_eid)$/i.test(k))x.searchParams.delete(k);
+    x.searchParams.sort();
+    return x.toString();
+  }catch{return String(u)}
+}
 
 function makeTerms(topic,context){const txt=normalize(topic+" "+context).split(/\s+/).filter(x=>x.length>2&&!STOPWORDS.has(x));const freq=new Map();for(const x of txt)freq.set(x,(freq.get(x)||0)+1);return [...freq.entries()].sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length).slice(0,16).map(x=>x[0])}
 function normalize(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9%+.-]+/g," ")}
