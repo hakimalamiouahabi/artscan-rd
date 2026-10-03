@@ -9,7 +9,7 @@
   ],
   "queues": {
     "producers": [{ "binding": "CRAWL_QUEUE", "queue": "artscan-rd-crawl" }],
-    "consumers": [{ "queue": "artscan-rd-crawl", "max_batch_size": 8, "max_batch_timeout": 10, "max_retries": 3 }]
+    "consumers": [{ "queue": "artscan-rd-crawl", "max_batch_size": 1, "max_batch_timeout": 5, "max_retries": 3 }]
   },
   "observability": { "enabled": true },
   "limits": { "cpu_ms": 10 }
