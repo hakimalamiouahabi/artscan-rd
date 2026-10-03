@@ -41,34 +41,34 @@ async function registryNumbers(env){
   const total = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources`).first();
   const certified = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1`).first();
   const invalid = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND NOT (official=1 AND public_access=1 AND free_access=1)`).first();
-  let meta={};
+  let corpusAVerified=0, verificationLevels={};
   try{
-    const rows=await env.DB.prepare(`SELECT key,value FROM registry_meta WHERE key IN ('certified_sources','certified_unique_hosts','expert_minimum_unique_hosts','production_ready')`).all();
-    meta=Object.fromEntries((rows.results||[]).map(x=>[x.key,x.value]));
+    const a=await env.DB.prepare(`SELECT COUNT(*) AS n FROM corpus_a_verified`).first();
+    corpusAVerified=Number(a?.n||0);
+    const lv=await env.DB.prepare(`SELECT verification_level, COUNT(*) AS n FROM documents WHERE active=1 GROUP BY verification_level`).all();
+    verificationLevels=Object.fromEntries((lv.results||[]).map(r=>[r.verification_level,Number(r.n||0)]));
   }catch{}
-  const certifiedSources=Number(meta.certified_sources??certified?.n??0);
-  const certifiedUniqueHosts=Number(meta.certified_unique_hosts??certifiedSources);
-  const expertMinimumUniqueHosts=Number(meta.expert_minimum_unique_hosts??MIN_EXPERT_SOURCES);
   return {
     total:Number(total?.n||0),
-    certified:certifiedSources,
-    certifiedSources,
-    certifiedUniqueHosts,
-    expertMinimumUniqueHosts,
+    certified:Number(certified?.n||0),
+    certifiedInstitutions:Number(certified?.n||0),
+    corpusAVerified,
+    verificationLevels,
+    expertMinimumDocuments:MIN_EXPERT_SOURCES,
     invalidActive:Number(invalid?.n||0),
-    productionReady:String(meta.production_ready??(certifiedUniqueHosts>=expertMinimumUniqueHosts?'1':'0'))==='1'
+    productionReady:corpusAVerified>=MIN_EXPERT_SOURCES && Number(invalid?.n||0)===0
   };
 }
 
 async function health(env){
   const n=await registryNumbers(env);
-  return json({ok:true,service:"ARTSCAN R&D",version:"3.2.0",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n,productionReady:n.productionReady&&n.invalidActive===0});
+  return json({ok:true,service:"ARTSCAN R&D",version:"4.0.0",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n});
 }
 
 async function registryStats(env){
   const n=await registryNumbers(env);
   const continents = await env.DB.prepare(`SELECT continent, COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 GROUP BY continent ORDER BY n DESC`).all();
-  return json({...n,productionReady:n.productionReady&&n.invalidActive===0,continents:continents.results});
+  return json({...n,continents:continents.results});
 }
 
 async function createResearch(request, env){
@@ -78,8 +78,7 @@ async function createResearch(request, env){
   const depth=["standard","approfondi","expert"].includes(body.depth)?body.depth:"standard";
   if(topic.length<4||topic.length>1200)return json({error:"Sujet invalide"},400);
   const n=await registryNumbers(env);
-  if(n.invalidActive>0)return json({error:"Registre invalide : une source active ne satisfait pas la règle 3/3."},503);
-  if(depth==="expert"&&n.certifiedUniqueHosts<n.expertMinimumUniqueHosts)return json({error:"Mode Expert indisponible tant que le registre ne contient pas au moins 1 000 sites distincts certifiés 3/3.",certifiedSources:n.certifiedSources,certifiedUniqueHosts:n.certifiedUniqueHosts,minRequired:n.expertMinimumUniqueHosts},503);
+  if(n.invalidActive>0)return json({error:"Registre institutionnel invalide : une source active ne satisfait pas la règle 3/3."},503);
   const limit=depth==="expert"?Math.min(n.certified,2000):depth==="approfondi"?Math.min(n.certified,480):Math.min(n.certified,160);
   const rows=await env.DB.prepare(`SELECT id FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 ORDER BY CASE WHEN category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, id LIMIT ?`).bind(limit).all();
   const ids=rows.results.map(r=>r.id);
