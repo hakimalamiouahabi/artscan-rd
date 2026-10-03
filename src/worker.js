@@ -5,7 +5,7 @@ const MAX_ROBOTS_BODY = 200_000;
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 4;
 const BATCH_SOURCE_IDS = 1;
-const MIN_EXPERT_SOURCES = 1000;
+const MIN_EXPERT_DOCUMENTS = 1000;
 
 const STOPWORDS = new Set((`le la les un une des de du et ou en pour par sur dans avec sans au aux ce cette ces son sa ses leur leurs plus moins
  the a an and or of to in on for with without from by is are be this that these those project projet solution system systeme système technologie
@@ -54,9 +54,9 @@ async function registryNumbers(env){
     certifiedInstitutions:Number(certified?.n||0),
     corpusAVerified,
     verificationLevels,
-    expertMinimumDocuments:MIN_EXPERT_SOURCES,
+    expertMinimumDocuments:MIN_EXPERT_DOCUMENTS,
     invalidActive:Number(invalid?.n||0),
-    productionReady:corpusAVerified>=MIN_EXPERT_SOURCES && Number(invalid?.n||0)===0
+    productionReady:corpusAVerified>=MIN_EXPERT_DOCUMENTS && Number(invalid?.n||0)===0
   };
 }
 
@@ -94,10 +94,10 @@ async function getResearch(id, env){
   const job=await env.DB.prepare(`SELECT * FROM research_jobs WHERE id=?`).bind(id).first();
   if(!job)return json({error:"Recherche introuvable"},404);
   const ev=await env.DB.prepare(`SELECT e.page_url,e.title,e.snippet,e.evidence_kind,e.lexical_score,s.organism,s.country,s.continent,s.certification_url FROM evidence e JOIN sources s ON s.id=e.source_id WHERE e.job_id=? ORDER BY e.lexical_score DESC,e.id LIMIT 250`).bind(id).all();
-  let documentary={verifiedDocuments:0,v3:0,v2:0,target:MIN_EXPERT_SOURCES,complete:false};
+  let documentary={verifiedDocuments:0,v3:0,v2:0,target:MIN_EXPERT_DOCUMENTS,complete:false};
   try{
     const c=await env.DB.prepare(`SELECT COUNT(*) AS n, SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3, SUM(CASE WHEN d.verification_level='V2' THEN 1 ELSE 0 END) AS v2 FROM job_documents jd JOIN documents d ON d.id=jd.document_id WHERE jd.job_id=?`).bind(id).first();
-    documentary={verifiedDocuments:Number(c?.n||0),v3:Number(c?.v3||0),v2:Number(c?.v2||0),target:MIN_EXPERT_SOURCES,complete:Number(c?.n||0)>=MIN_EXPERT_SOURCES};
+    documentary={verifiedDocuments:Number(c?.n||0),v3:Number(c?.v3||0),v2:Number(c?.v2||0),target:MIN_EXPERT_DOCUMENTS,complete:Number(c?.n||0)>=MIN_EXPERT_DOCUMENTS};
   }catch{}
   return json({job,evidence:ev.results,documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
 }
