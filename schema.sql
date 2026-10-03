@@ -231,3 +231,12 @@ CREATE TABLE IF NOT EXISTS job_source_status (
 );
 CREATE INDEX IF NOT EXISTS idx_job_source_status_job
   ON job_source_status(job_id, status);
+
+
+CREATE TABLE IF NOT EXISTS document_search (
+  document_id INTEGER PRIMARY KEY REFERENCES documents(id) ON DELETE CASCADE,
+  search_text TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_document_search_updated
+  ON document_search(updated_at);
