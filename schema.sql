@@ -204,3 +204,16 @@ SELECT
   (SELECT COUNT(*) FROM documents WHERE verification_level='V2' AND active=1) AS v2,
   (SELECT COUNT(*) FROM documents WHERE verification_level='V1' AND active=1) AS v1,
   (SELECT COUNT(*) FROM documents WHERE verification_level='V0' AND active=1) AS v0;
+
+
+CREATE TABLE IF NOT EXISTS job_documents (
+  job_id TEXT NOT NULL REFERENCES research_jobs(id) ON DELETE CASCADE,
+  document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  relevance_score INTEGER NOT NULL CHECK (relevance_score BETWEEN 0 AND 5),
+  evidence_count INTEGER NOT NULL DEFAULT 0,
+  included_reason TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(job_id, document_id)
+);
+CREATE INDEX IF NOT EXISTS idx_job_documents_job_relevance
+  ON job_documents(job_id, relevance_score DESC);
