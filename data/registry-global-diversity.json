@@ -1,6 +1,6 @@
 [
   {
-    "organism": "https://www.cut.ac.za/",
+    "organism": "Central University of Technology",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.cut.ac.za/",
@@ -14,11 +14,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:10.951Z",
+    "access_checked_at": "2026-10-03T23:10:19.414Z",
     "active": true
   },
   {
-    "organism": "https://www.dut.ac.za/",
+    "organism": "Durban University of Technology",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.dut.ac.za/",
@@ -32,11 +32,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:10.887Z",
+    "access_checked_at": "2026-10-03T23:10:18.815Z",
     "active": true
   },
   {
-    "organism": "https://www.mut.ac.za/",
+    "organism": "Mangosuthu University of Technology",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.mut.ac.za/",
@@ -50,11 +50,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:12.966Z",
+    "access_checked_at": "2026-10-03T23:10:20.716Z",
     "active": true
   },
   {
-    "organism": "https://www.nwu.ac.za/",
+    "organism": "North-West University",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.nwu.ac.za/",
@@ -68,11 +68,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:11.552Z",
+    "access_checked_at": "2026-10-03T23:10:19.535Z",
     "active": true
   },
   {
-    "organism": "https://www.ru.ac.za/",
+    "organism": "Rhodes University",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.ru.ac.za/",
@@ -86,11 +86,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:11.679Z",
+    "access_checked_at": "2026-10-03T23:10:19.724Z",
     "active": true
   },
   {
-    "organism": "https://www.smu.ac.za/",
+    "organism": "Sefako Makgatho Health Sciences University",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.smu.ac.za/",
@@ -104,29 +104,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:13.220Z",
+    "access_checked_at": "2026-10-03T23:10:20.722Z",
     "active": true
   },
   {
-    "organism": "https://www.spu.ac.za/",
-    "country": "South Africa",
-    "continent": "Africa",
-    "root_url": "https://www.spu.ac.za/",
-    "source_type": "public_university",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_DHET_public_university_directory_plus_anonymous_http_access",
-    "language": "en",
-    "category": "public_higher_education_research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:16.531Z",
-    "active": true
-  },
-  {
-    "organism": "https://www.sun.ac.za/",
+    "organism": "Stellenbosch University",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.su.ac.za/en",
@@ -140,11 +122,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:25.046Z",
+    "access_checked_at": "2026-10-03T23:10:33.442Z",
     "active": true
   },
   {
-    "organism": "https://www.tut.ac.za/",
+    "organism": "Tshwane University of Technology",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.tut.ac.za/",
@@ -158,11 +140,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:22.558Z",
+    "access_checked_at": "2026-10-03T23:10:32.722Z",
     "active": true
   },
   {
-    "organism": "https://www.uct.ac.za/",
+    "organism": "University of Cape Town",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.uct.ac.za/",
@@ -176,11 +158,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:23.048Z",
+    "access_checked_at": "2026-10-03T23:10:33.037Z",
     "active": true
   },
   {
-    "organism": "https://www.ufh.ac.za/",
+    "organism": "University of Fort Hare",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.ufh.ac.za/",
@@ -194,29 +176,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:24.081Z",
+    "access_checked_at": "2026-10-03T23:10:34.867Z",
     "active": true
   },
   {
-    "organism": "https://www.ufs.ac.za/",
-    "country": "South Africa",
-    "continent": "Africa",
-    "root_url": "https://www.ufs.ac.za/",
-    "source_type": "public_university",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_DHET_public_university_directory_plus_anonymous_http_access",
-    "language": "en",
-    "category": "public_higher_education_research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:24.726Z",
-    "active": true
-  },
-  {
-    "organism": "https://www.ukzn.ac.za/",
+    "organism": "University of KwaZulu-Natal",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://ukzn.ac.za/",
@@ -230,11 +194,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:25.480Z",
+    "access_checked_at": "2026-10-03T23:10:34.704Z",
     "active": true
   },
   {
-    "organism": "https://www.ul.ac.za/",
+    "organism": "University of Limpopo",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.ul.ac.za/",
@@ -248,14 +212,14 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:23.661Z",
+    "access_checked_at": "2026-10-03T23:10:33.843Z",
     "active": true
   },
   {
-    "organism": "https://www.ump.ac.za/",
+    "organism": "University of Mpumalanga",
     "country": "South Africa",
     "continent": "Africa",
-    "root_url": "http://www.ump.ac.za/",
+    "root_url": "https://www.ump.ac.za/",
     "source_type": "public_university",
     "official": true,
     "public_access": true,
@@ -266,11 +230,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:30.437Z",
+    "access_checked_at": "2026-10-03T23:10:34.017Z",
     "active": true
   },
   {
-    "organism": "https://www.unisap.ac.za/",
+    "organism": "University of South Africa",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.unisa.ac.za/sites/corporate/default",
@@ -284,14 +248,14 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:26.135Z",
+    "access_checked_at": "2026-10-03T23:10:35.999Z",
     "active": true
   },
   {
-    "organism": "https://www.unizulu.ac.za/",
+    "organism": "University of the Free State",
     "country": "South Africa",
     "continent": "Africa",
-    "root_url": "http://www.unizulu.ac.za/",
+    "root_url": "https://www.ufs.ac.za/",
     "source_type": "public_university",
     "official": true,
     "public_access": true,
@@ -302,11 +266,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:32.056Z",
+    "access_checked_at": "2026-10-03T23:10:34.778Z",
     "active": true
   },
   {
-    "organism": "https://www.uwc.ac.za/",
+    "organism": "University of the Western Cape",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.uwc.ac.za/",
@@ -320,29 +284,11 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:25.004Z",
+    "access_checked_at": "2026-10-03T23:10:34.890Z",
     "active": true
   },
   {
-    "organism": "https://www.vut.ac.za/",
-    "country": "South Africa",
-    "continent": "Africa",
-    "root_url": "https://vut.ac.za/",
-    "source_type": "public_university",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_DHET_public_university_directory_plus_anonymous_http_access",
-    "language": "en",
-    "category": "public_higher_education_research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:33.952Z",
-    "active": true
-  },
-  {
-    "organism": "https://www.wits.ac.za/",
+    "organism": "University of the Witwatersrand",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.wits.ac.za/",
@@ -356,11 +302,47 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:32.605Z",
+    "access_checked_at": "2026-10-03T23:10:38.190Z",
     "active": true
   },
   {
-    "organism": "https://www.wsu.ac.za/",
+    "organism": "University of Zululand",
+    "country": "South Africa",
+    "continent": "Africa",
+    "root_url": "http://www.unizulu.ac.za/",
+    "source_type": "public_university",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_DHET_public_university_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "public_higher_education_research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:37.588Z",
+    "active": true
+  },
+  {
+    "organism": "Vaal University of Technology",
+    "country": "South Africa",
+    "continent": "Africa",
+    "root_url": "https://vut.ac.za/",
+    "source_type": "public_university",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.dhet.gov.za/SitePages/UniversitiesinSA.aspx",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_DHET_public_university_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "public_higher_education_research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:39.759Z",
+    "active": true
+  },
+  {
+    "organism": "Walter Sisulu University",
     "country": "South Africa",
     "continent": "Africa",
     "root_url": "https://www.wsu.ac.za/en/",
@@ -374,14 +356,14 @@
     "language": "en",
     "category": "public_higher_education_research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:33.798Z",
+    "access_checked_at": "2026-10-03T23:10:39.442Z",
     "active": true
   },
   {
     "organism": "CSIR-C",
     "country": "India",
     "continent": "Asia",
-    "root_url": "http://cmeri.res.in/",
+    "root_url": "https://cmeri.res.in/",
     "source_type": "government_research_institute",
     "official": true,
     "public_access": true,
@@ -392,7 +374,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:33.272Z",
+    "access_checked_at": "2026-10-03T23:09:34.564Z",
     "active": true
   },
   {
@@ -410,7 +392,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:21.351Z",
+    "access_checked_at": "2026-10-03T23:09:29.261Z",
     "active": true
   },
   {
@@ -428,7 +410,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:21.540Z",
+    "access_checked_at": "2026-10-03T23:09:29.066Z",
     "active": true
   },
   {
@@ -446,14 +428,14 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:32.686Z",
+    "access_checked_at": "2026-10-03T23:09:32.069Z",
     "active": true
   },
   {
     "organism": "CSIR-Ce",
     "country": "India",
     "continent": "Asia",
-    "root_url": "http://cimfr.res.in/",
+    "root_url": "https://cimap.res.in/cimhindi/pages/AdminHomePage.aspx",
     "source_type": "government_research_institute",
     "official": true,
     "public_access": true,
@@ -464,7 +446,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:30.154Z",
+    "access_checked_at": "2026-10-03T23:09:42.476Z",
+    "active": true
+  },
+  {
+    "organism": "CSIR-Ce",
+    "country": "India",
+    "continent": "Asia",
+    "root_url": "https://cimfr.res.in/",
+    "source_type": "government_research_institute",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.csir.res.in/en/csir-laboratoriesinstitutes-contacts-details",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CSIR_contact_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:09:32.125Z",
     "active": true
   },
   {
@@ -482,7 +482,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:33.026Z",
+    "access_checked_at": "2026-10-03T23:09:33.064Z",
     "active": true
   },
   {
@@ -500,7 +500,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:38.782Z",
+    "access_checked_at": "2026-10-03T23:09:48.110Z",
     "active": true
   },
   {
@@ -518,7 +518,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:35.084Z",
+    "access_checked_at": "2026-10-03T23:09:44.694Z",
     "active": true
   },
   {
@@ -536,7 +536,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:35.975Z",
+    "access_checked_at": "2026-10-03T23:09:45.198Z",
     "active": true
   },
   {
@@ -554,7 +554,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:41.776Z",
+    "access_checked_at": "2026-10-03T23:09:49.310Z",
     "active": true
   },
   {
@@ -572,7 +572,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:36.394Z",
+    "access_checked_at": "2026-10-03T23:09:44.929Z",
     "active": true
   },
   {
@@ -590,7 +590,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:42.983Z",
+    "access_checked_at": "2026-10-03T23:09:50.775Z",
     "active": true
   },
   {
@@ -608,7 +608,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:37.785Z",
+    "access_checked_at": "2026-10-03T23:09:46.151Z",
     "active": true
   },
   {
@@ -626,7 +626,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:47.020Z",
+    "access_checked_at": "2026-10-03T23:09:50.092Z",
     "active": true
   },
   {
@@ -644,7 +644,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:47.901Z",
+    "access_checked_at": "2026-10-03T23:09:50.634Z",
     "active": true
   },
   {
@@ -662,7 +662,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:50.465Z",
+    "access_checked_at": "2026-10-03T23:10:00.635Z",
     "active": true
   },
   {
@@ -680,14 +680,14 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:55.705Z",
+    "access_checked_at": "2026-10-03T23:10:04.128Z",
     "active": true
   },
   {
     "organism": "CSIR-La",
     "country": "India",
     "continent": "Asia",
-    "root_url": "http://ampri.res.in/hi/",
+    "root_url": "https://ampri.res.in/hi/",
     "source_type": "government_research_institute",
     "official": true,
     "public_access": true,
@@ -698,7 +698,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:32.051Z",
+    "access_checked_at": "2026-10-03T23:09:33.654Z",
     "active": true
   },
   {
@@ -716,7 +716,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:51.109Z",
+    "access_checked_at": "2026-10-03T23:10:03.111Z",
     "active": true
   },
   {
@@ -734,7 +734,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:57.378Z",
+    "access_checked_at": "2026-10-03T23:10:05.068Z",
     "active": true
   },
   {
@@ -752,7 +752,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:52.891Z",
+    "access_checked_at": "2026-10-03T23:10:03.150Z",
     "active": true
   },
   {
@@ -770,7 +770,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:56.766Z",
+    "access_checked_at": "2026-10-03T23:10:06.086Z",
     "active": true
   },
   {
@@ -788,7 +788,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:11.698Z",
+    "access_checked_at": "2026-10-03T23:10:19.647Z",
     "active": true
   },
   {
@@ -806,7 +806,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:06:52.574Z",
+    "access_checked_at": "2026-10-03T23:10:03.185Z",
     "active": true
   },
   {
@@ -824,7 +824,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:09.544Z",
+    "access_checked_at": "2026-10-03T23:10:17.647Z",
     "active": true
   },
   {
@@ -842,7 +842,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:09.912Z",
+    "access_checked_at": "2026-10-03T23:10:18.347Z",
     "active": true
   },
   {
@@ -860,7 +860,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.766Z",
+    "access_checked_at": "2026-10-03T23:10:55.041Z",
     "active": true
   },
   {
@@ -878,7 +878,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.998Z",
+    "access_checked_at": "2026-10-03T23:10:54.562Z",
     "active": true
   },
   {
@@ -896,7 +896,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.810Z",
+    "access_checked_at": "2026-10-03T23:10:55.047Z",
     "active": true
   },
   {
@@ -914,7 +914,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:00.928Z",
+    "access_checked_at": "2026-10-03T23:10:54.052Z",
     "active": true
   },
   {
@@ -932,7 +932,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.079Z",
+    "access_checked_at": "2026-10-03T23:10:54.048Z",
     "active": true
   },
   {
@@ -950,7 +950,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.784Z",
+    "access_checked_at": "2026-10-03T23:10:55.041Z",
     "active": true
   },
   {
@@ -968,7 +968,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.049Z",
+    "access_checked_at": "2026-10-03T23:10:55.043Z",
     "active": true
   },
   {
@@ -986,7 +986,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.067Z",
+    "access_checked_at": "2026-10-03T23:10:54.050Z",
     "active": true
   },
   {
@@ -1004,7 +1004,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.012Z",
+    "access_checked_at": "2026-10-03T23:10:54.049Z",
     "active": true
   },
   {
@@ -1022,7 +1022,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:06.560Z",
+    "access_checked_at": "2026-10-03T23:10:55.611Z",
     "active": true
   },
   {
@@ -1040,7 +1040,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.891Z",
+    "access_checked_at": "2026-10-03T23:10:55.040Z",
     "active": true
   },
   {
@@ -1058,7 +1058,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.780Z",
+    "access_checked_at": "2026-10-03T23:10:54.695Z",
     "active": true
   },
   {
@@ -1076,7 +1076,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.761Z",
+    "access_checked_at": "2026-10-03T23:10:54.693Z",
     "active": true
   },
   {
@@ -1094,7 +1094,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.132Z",
+    "access_checked_at": "2026-10-03T23:10:54.686Z",
     "active": true
   },
   {
@@ -1112,7 +1112,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.995Z",
+    "access_checked_at": "2026-10-03T23:10:54.181Z",
     "active": true
   },
   {
@@ -1130,7 +1130,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.989Z",
+    "access_checked_at": "2026-10-03T23:10:54.174Z",
     "active": true
   },
   {
@@ -1148,7 +1148,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.999Z",
+    "access_checked_at": "2026-10-03T23:10:54.422Z",
     "active": true
   },
   {
@@ -1166,7 +1166,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.919Z",
+    "access_checked_at": "2026-10-03T23:10:54.557Z",
     "active": true
   },
   {
@@ -1184,7 +1184,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.563Z",
+    "access_checked_at": "2026-10-03T23:10:55.386Z",
     "active": true
   },
   {
@@ -1202,7 +1202,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.959Z",
+    "access_checked_at": "2026-10-03T23:10:55.390Z",
     "active": true
   },
   {
@@ -1220,7 +1220,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.790Z",
+    "access_checked_at": "2026-10-03T23:10:54.564Z",
     "active": true
   },
   {
@@ -1238,7 +1238,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.030Z",
+    "access_checked_at": "2026-10-03T23:10:54.051Z",
     "active": true
   },
   {
@@ -1256,7 +1256,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.716Z",
+    "access_checked_at": "2026-10-03T23:10:54.687Z",
     "active": true
   },
   {
@@ -1274,7 +1274,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.842Z",
+    "access_checked_at": "2026-10-03T23:10:55.385Z",
     "active": true
   },
   {
@@ -1292,7 +1292,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:45.514Z",
+    "access_checked_at": "2026-10-03T23:10:53.706Z",
     "active": true
   },
   {
@@ -1310,7 +1310,43 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.136Z",
+    "access_checked_at": "2026-10-03T23:10:54.686Z",
+    "active": true
+  },
+  {
+    "organism": "Institute of Atmospheric pollution Research (ITIAm)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/046/institute-of-atmospheric-pollution-research-itiam",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.861Z",
+    "active": true
+  },
+  {
+    "organism": "Institute of atmospheric sciences and climate (ISAC)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/075/institute-of-atmospheric-sciences-and-climate-isac",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.706Z",
     "active": true
   },
   {
@@ -1328,7 +1364,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:00.963Z",
+    "access_checked_at": "2026-10-03T23:10:53.911Z",
     "active": true
   },
   {
@@ -1346,7 +1382,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.767Z",
+    "access_checked_at": "2026-10-03T23:10:54.696Z",
     "active": true
   },
   {
@@ -1364,7 +1400,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.988Z",
+    "access_checked_at": "2026-10-03T23:10:54.561Z",
     "active": true
   },
   {
@@ -1382,7 +1418,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.125Z",
+    "access_checked_at": "2026-10-03T23:10:54.052Z",
     "active": true
   },
   {
@@ -1400,7 +1436,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.082Z",
+    "access_checked_at": "2026-10-03T23:10:54.181Z",
     "active": true
   },
   {
@@ -1418,7 +1454,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.930Z",
+    "access_checked_at": "2026-10-03T23:10:54.565Z",
     "active": true
   },
   {
@@ -1436,7 +1472,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.238Z",
+    "access_checked_at": "2026-10-03T23:10:54.050Z",
     "active": true
   },
   {
@@ -1454,7 +1490,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.407Z",
+    "access_checked_at": "2026-10-03T23:10:54.558Z",
     "active": true
   },
   {
@@ -1472,7 +1508,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:06.221Z",
+    "access_checked_at": "2026-10-03T23:10:55.606Z",
     "active": true
   },
   {
@@ -1490,7 +1526,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.857Z",
+    "access_checked_at": "2026-10-03T23:10:55.042Z",
     "active": true
   },
   {
@@ -1508,7 +1544,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.252Z",
+    "access_checked_at": "2026-10-03T23:10:54.052Z",
     "active": true
   },
   {
@@ -1526,7 +1562,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.273Z",
+    "access_checked_at": "2026-10-03T23:10:54.051Z",
     "active": true
   },
   {
@@ -1544,7 +1580,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.117Z",
+    "access_checked_at": "2026-10-03T23:10:54.696Z",
     "active": true
   },
   {
@@ -1562,7 +1598,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:00.865Z",
+    "access_checked_at": "2026-10-03T23:10:53.582Z",
     "active": true
   },
   {
@@ -1580,7 +1616,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.909Z",
+    "access_checked_at": "2026-10-03T23:10:54.563Z",
     "active": true
   },
   {
@@ -1598,7 +1634,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.916Z",
+    "access_checked_at": "2026-10-03T23:10:55.039Z",
     "active": true
   },
   {
@@ -1616,7 +1652,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.776Z",
+    "access_checked_at": "2026-10-03T23:10:55.043Z",
     "active": true
   },
   {
@@ -1634,7 +1670,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.788Z",
+    "access_checked_at": "2026-10-03T23:10:55.249Z",
     "active": true
   },
   {
@@ -1652,7 +1688,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.878Z",
+    "access_checked_at": "2026-10-03T23:10:54.694Z",
     "active": true
   },
   {
@@ -1670,7 +1706,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.811Z",
+    "access_checked_at": "2026-10-03T23:10:54.560Z",
     "active": true
   },
   {
@@ -1688,7 +1724,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.658Z",
+    "access_checked_at": "2026-10-03T23:10:54.689Z",
     "active": true
   },
   {
@@ -1706,7 +1742,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.785Z",
+    "access_checked_at": "2026-10-03T23:10:55.620Z",
+    "active": true
+  },
+  {
+    "organism": "Institute of methodologies for environmental analysis (IMIOT)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/055/institute-of-methodologies-for-environmental-analysis-imiot",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:52.754Z",
     "active": true
   },
   {
@@ -1724,7 +1778,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.842Z",
+    "access_checked_at": "2026-10-03T23:10:54.559Z",
     "active": true
   },
   {
@@ -1742,7 +1796,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.854Z",
+    "access_checked_at": "2026-10-03T23:10:54.564Z",
     "active": true
   },
   {
@@ -1760,7 +1814,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.761Z",
+    "access_checked_at": "2026-10-03T23:10:54.688Z",
     "active": true
   },
   {
@@ -1778,7 +1832,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.806Z",
+    "access_checked_at": "2026-10-03T23:10:54.178Z",
     "active": true
   },
   {
@@ -1796,7 +1850,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.085Z",
+    "access_checked_at": "2026-10-03T23:10:54.182Z",
     "active": true
   },
   {
@@ -1814,7 +1868,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.974Z",
+    "access_checked_at": "2026-10-03T23:10:54.177Z",
     "active": true
   },
   {
@@ -1832,7 +1886,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.103Z",
+    "access_checked_at": "2026-10-03T23:10:54.696Z",
     "active": true
   },
   {
@@ -1850,7 +1904,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:45.344Z",
+    "access_checked_at": "2026-10-03T23:10:53.576Z",
     "active": true
   },
   {
@@ -1868,7 +1922,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.003Z",
+    "access_checked_at": "2026-10-03T23:10:54.051Z",
     "active": true
   },
   {
@@ -1886,7 +1940,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.300Z",
+    "access_checked_at": "2026-10-03T23:10:54.047Z",
     "active": true
   },
   {
@@ -1904,7 +1958,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.038Z",
+    "access_checked_at": "2026-10-03T23:10:53.670Z",
     "active": true
   },
   {
@@ -1922,7 +1976,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.039Z",
+    "access_checked_at": "2026-10-03T23:10:54.181Z",
     "active": true
   },
   {
@@ -1940,7 +1994,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.921Z",
+    "access_checked_at": "2026-10-03T23:10:54.564Z",
     "active": true
   },
   {
@@ -1958,7 +2012,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.080Z",
+    "access_checked_at": "2026-10-03T23:10:54.173Z",
     "active": true
   },
   {
@@ -1976,7 +2030,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.081Z",
+    "access_checked_at": "2026-10-03T23:10:54.180Z",
     "active": true
   },
   {
@@ -1994,7 +2048,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.975Z",
+    "access_checked_at": "2026-10-03T23:10:54.564Z",
     "active": true
   },
   {
@@ -2012,7 +2066,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.125Z",
+    "access_checked_at": "2026-10-03T23:10:54.428Z",
+    "active": true
+  },
+  {
+    "organism": "Istituto di Geoscienze (GEO)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/134/istituto-di-geoscienze-geo",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:52.717Z",
     "active": true
   },
   {
@@ -2030,7 +2102,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.797Z",
+    "access_checked_at": "2026-10-03T23:10:55.259Z",
     "active": true
   },
   {
@@ -2048,7 +2120,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.754Z",
+    "access_checked_at": "2026-10-03T23:10:55.384Z",
     "active": true
   },
   {
@@ -2066,7 +2138,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:01.922Z",
+    "access_checked_at": "2026-10-03T23:10:54.047Z",
     "active": true
   },
   {
@@ -2084,7 +2156,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:04.747Z",
+    "access_checked_at": "2026-10-03T23:10:55.047Z",
+    "active": true
+  },
+  {
+    "organism": "Istituto di Scienze Polari (ISP)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/127/istituto-di-scienze-polari-isp",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.711Z",
     "active": true
   },
   {
@@ -2102,7 +2192,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:03.749Z",
+    "access_checked_at": "2026-10-03T23:10:54.911Z",
     "active": true
   },
   {
@@ -2120,7 +2210,43 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.754Z",
+    "access_checked_at": "2026-10-03T23:10:55.389Z",
+    "active": true
+  },
+  {
+    "organism": "Istituto per le Risorse Biologiche e le Biotecnologie Marine (IRBIM)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/122/istituto-per-le-risorse-biologiche-e-le-biotecnologie-marine-irbim",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.913Z",
+    "active": true
+  },
+  {
+    "organism": "Marine science institute (ISMAR)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/080/marine-science-institute-ismar",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.707Z",
     "active": true
   },
   {
@@ -2138,7 +2264,7 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:02.822Z",
+    "access_checked_at": "2026-10-03T23:10:54.178Z",
     "active": true
   },
   {
@@ -2156,7 +2282,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.857Z",
+    "access_checked_at": "2026-10-03T23:10:55.040Z",
+    "active": true
+  },
+  {
+    "organism": "Research Institute on Terrestrial Ecosystems (IRET)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/125/research-institute-on-terrestrial-ecosystems-iret",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.421Z",
     "active": true
   },
   {
@@ -2174,7 +2318,25 @@
     "language": "en",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:08:05.824Z",
+    "access_checked_at": "2026-10-03T23:10:55.388Z",
+    "active": true
+  },
+  {
+    "organism": "Water research institute (IRSA)",
+    "country": "Italy",
+    "continent": "Europe",
+    "root_url": "https://www.cnr.it/en/institute/069/water-research-institute-irsa",
+    "source_type": "public_research_institute_record",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.cnr.it/en/department/501/institutes",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_CNR_department_institute_directory_plus_anonymous_http_access",
+    "language": "en",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:53.416Z",
     "active": true
   },
   {
@@ -2192,7 +2354,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.730Z",
+    "access_checked_at": "2026-10-03T23:10:37.392Z",
     "active": true
   },
   {
@@ -2210,7 +2372,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.742Z",
+    "access_checked_at": "2026-10-03T23:10:37.384Z",
     "active": true
   },
   {
@@ -2228,7 +2390,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.161Z",
+    "access_checked_at": "2026-10-03T23:10:52.280Z",
     "active": true
   },
   {
@@ -2246,7 +2408,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.740Z",
+    "access_checked_at": "2026-10-03T23:10:37.390Z",
     "active": true
   },
   {
@@ -2264,7 +2426,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.733Z",
+    "access_checked_at": "2026-10-03T23:10:37.386Z",
     "active": true
   },
   {
@@ -2282,7 +2444,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.739Z",
+    "access_checked_at": "2026-10-03T23:10:37.393Z",
     "active": true
   },
   {
@@ -2300,7 +2462,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.159Z",
+    "access_checked_at": "2026-10-03T23:10:52.813Z",
     "active": true
   },
   {
@@ -2318,7 +2480,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.737Z",
+    "access_checked_at": "2026-10-03T23:10:37.382Z",
     "active": true
   },
   {
@@ -2336,7 +2498,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.173Z",
+    "access_checked_at": "2026-10-03T23:10:52.811Z",
     "active": true
   },
   {
@@ -2354,7 +2516,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:31.736Z",
+    "access_checked_at": "2026-10-03T23:10:37.389Z",
     "active": true
   },
   {
@@ -2372,7 +2534,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.010Z",
+    "access_checked_at": "2026-10-03T23:10:45.448Z",
     "active": true
   },
   {
@@ -2390,7 +2552,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.179Z",
+    "access_checked_at": "2026-10-03T23:10:51.884Z",
     "active": true
   },
   {
@@ -2408,7 +2570,25 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.550Z",
+    "access_checked_at": "2026-10-03T23:10:52.277Z",
+    "active": true
+  },
+  {
+    "organism": "GOV.BR",
+    "country": "Brazil",
+    "continent": "South America",
+    "root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/capa-vinculadas",
+    "source_type": "government_science_network_unit",
+    "official": true,
+    "public_access": true,
+    "free_access": true,
+    "certification_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti",
+    "certification_date": "2026-10-03",
+    "certification_method": "official_MCTI_network_directory_plus_anonymous_http_access",
+    "language": "pt",
+    "category": "research",
+    "access_http_status": 200,
+    "access_checked_at": "2026-10-03T23:10:52.283Z",
     "active": true
   },
   {
@@ -2426,7 +2606,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.783Z",
+    "access_checked_at": "2026-10-03T23:10:45.444Z",
     "active": true
   },
   {
@@ -2444,7 +2624,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.162Z",
+    "access_checked_at": "2026-10-03T23:10:52.010Z",
     "active": true
   },
   {
@@ -2462,25 +2642,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.175Z",
-    "active": true
-  },
-  {
-    "organism": "INMA - Instituto Nacional de Mata Atlântica",
-    "country": "Brazil",
-    "continent": "South America",
-    "root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/instituto-nacional-de-mata-atlantica",
-    "source_type": "government_science_network_unit",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_MCTI_network_directory_plus_anonymous_http_access",
-    "language": "pt",
-    "category": "research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:40.181Z",
+    "access_checked_at": "2026-10-03T23:10:51.887Z",
     "active": true
   },
   {
@@ -2498,7 +2660,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.785Z",
+    "access_checked_at": "2026-10-03T23:10:45.441Z",
     "active": true
   },
   {
@@ -2516,7 +2678,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.786Z",
+    "access_checked_at": "2026-10-03T23:10:45.447Z",
     "active": true
   },
   {
@@ -2534,7 +2696,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.178Z",
+    "access_checked_at": "2026-10-03T23:10:52.285Z",
     "active": true
   },
   {
@@ -2552,7 +2714,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.787Z",
+    "access_checked_at": "2026-10-03T23:10:45.445Z",
     "active": true
   },
   {
@@ -2570,7 +2732,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.779Z",
+    "access_checked_at": "2026-10-03T23:10:45.442Z",
     "active": true
   },
   {
@@ -2588,7 +2750,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:39.781Z",
+    "access_checked_at": "2026-10-03T23:10:51.735Z",
     "active": true
   },
   {
@@ -2606,61 +2768,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:40.180Z",
-    "active": true
-  },
-  {
-    "organism": "MAST - Museu de Astronomia e Ciências Afins",
-    "country": "Brazil",
-    "continent": "South America",
-    "root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/museu-de-astronomia-e-ciencias-afins",
-    "source_type": "government_science_network_unit",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_MCTI_network_directory_plus_anonymous_http_access",
-    "language": "pt",
-    "category": "research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:40.176Z",
-    "active": true
-  },
-  {
-    "organism": "Museu Paraense Emílio Goeldi",
-    "country": "Brazil",
-    "continent": "South America",
-    "root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/museu-paraense-emilio-goeldi",
-    "source_type": "government_science_network_unit",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_MCTI_network_directory_plus_anonymous_http_access",
-    "language": "pt",
-    "category": "research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:40.177Z",
-    "active": true
-  },
-  {
-    "organism": "ON - Observatório Nacional",
-    "country": "Brazil",
-    "continent": "South America",
-    "root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/observatorio-nacional",
-    "source_type": "government_science_network_unit",
-    "official": true,
-    "public_access": true,
-    "free_access": true,
-    "certification_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti",
-    "certification_date": "2026-10-03",
-    "certification_method": "official_MCTI_network_directory_plus_anonymous_http_access",
-    "language": "pt",
-    "category": "research",
-    "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:40.183Z",
+    "access_checked_at": "2026-10-03T23:10:45.834Z",
     "active": true
   },
   {
@@ -2678,7 +2786,7 @@
     "language": "pt",
     "category": "research",
     "access_http_status": 200,
-    "access_checked_at": "2026-10-03T23:07:44.176Z",
+    "access_checked_at": "2026-10-03T23:10:51.886Z",
     "active": true
   }
 ]
