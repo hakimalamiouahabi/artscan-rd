@@ -1,0 +1,2197 @@
+# Prompt maître pour constituer un état de l’art Bpifrance avec plus de mille sources vérifiées
+
+## Résumé exécutif
+
+Le prompt ci-dessous reprend et renforce la trame fournie. Il impose une séparation stricte entre **sources institutionnelles primaires**, **littérature scientifique**, **brevets**, **normes**, **données de marché publiques** et **sources secondaires**, afin d’éviter qu’une accumulation d’URL soit présentée artificiellement comme un état de l’art.
+
+Il prévoit un **Corpus A d’au moins 1 000 sources publiques institutionnelles distinctes et effectivement vérifiées**, puis des corpus complémentaires scientifiques, brevet, normatif et, lorsque nécessaire, industriel. Il impose également une matrice « affirmation → preuve → source », la déduplication des familles de brevets, le contrôle des dates, le statut d’accès, les identifiants, les versions et la conservation d’éléments d’audit.
+
+La méthode proposée est compatible avec une collecte semi-automatisée : l’API de data.gouv.fr dispose d’une documentation officielle ; HAL expose des interfaces documentées ; Crossref fournit une API REST publique ; EPO OPS expose les données de l’OEB par service REST ; DATA INPI donne accès aux bases de propriété industrielle françaises. citeturn1search2turn2search0turn5search0turn4search29turn5search11
+
+La recherche scientifique peut en outre mobiliser PubMed, qui recense plus de 40 millions de citations biomédicales, ainsi que les données d’OpenAlex. Pour Scopus, le prompt distingue explicitement l’accès commercial : Elsevier indique que l’usage API par les organisations privées ou commerciales requiert une licence et un abonnement, alors que certaines utilisations non commerciales peuvent être proposées sans redevance sous conditions. citeturn6search22turn6search9turn7view2
+
+## Calibrage documentaire retenu
+
+Le point essentiel est de **ne jamais assimiler le suffixe d’un nom de domaine à une preuve suffisante d’officialité**. Un domaine `.org`, `.fr`, `.edu` ou même un PDF hébergé sur un site crédible constitue seulement un indice. La vérification doit croiser l’identité de l’émetteur, l’URL institutionnelle, le titre, l’auteur ou organisme responsable, la date, l’identifiant documentaire, le statut du document et, lorsqu’il existe, son DOI, ELI/CELEX, numéro de brevet ou autre identifiant permanent.
+
+Le prompt tient aussi compte de la nature particulière des normes. Par exemple, **ISO 56000:2025** est bien la deuxième édition publiée en janvier 2025, mais le texte complet relève du modèle d’accès de l’ISO ; il faut donc distinguer métadonnées publiques, aperçu public et texte intégral éventuellement payant. AFNOR donne parallèlement accès à des informations publiques sur les activités de normalisation et les projets normatifs français. citeturn10search9turn10search6turn10search24
+
+Pour les marchés publics, TED permet la recherche dans les avis européens, propose des recherches avancées et expertes et met à disposition des ressources pour la réutilisation des données. Pour le financement européen, la BEI publie ses projets, ses projets financés, ses priorités et des données ouvertes ; CORDIS fournit de son côté les données relatives aux projets européens de recherche et d’innovation. citeturn11view0turn11view1turn8search3
+
+## Prompt ultra détaillé à copier-coller
+
+```text
+PROMPT MAÎTRE — RECHERCHE APPROFONDIE, ÉTAT DE L’ART, ANTÉRIORITÉS ET DÉMONSTRATION D’INNOVATION POUR UN DOSSIER BPIFRANCE / FRANCE 2030
+
+LANGUE OBLIGATOIRE DE SORTIE : FRANÇAIS
+
+DATE DE RÉFÉRENCE DE LA RECHERCHE :
+[INDIQUER LA DATE DU JOUR]
+
+======================================================================
+MISSION GÉNÉRALE
+======================================================================
+
+Tu agis comme une équipe pluridisciplinaire senior chargée de produire un état de l’art scientifique, technologique, brevet, concurrentiel, réglementaire, normatif, industriel et économique destiné à documenter un projet candidat à une aide à l’innovation, un financement de R&D ou un dispositif Bpifrance / France 2030.
+
+Il ne s’agit PAS :
+
+- d’une simple recherche Google ;
+- d’une étude marketing générique ;
+- d’une compilation de liens ;
+- d’une liste artificielle de 1 000 URL ;
+- d’une synthèse reposant sur des contenus promotionnels ;
+- d’un argumentaire favorable au projet établi avant examen des preuves.
+
+La mission consiste à produire une analyse :
+
+- contradictoire ;
+- exhaustive dans les limites du périmètre défini ;
+- datée ;
+- reproductible ;
+- traçable ;
+- vérifiable ;
+- fondée prioritairement sur des sources primaires ;
+- exploitable dans un dossier d’instruction ;
+- capable d’identifier aussi bien les éléments favorables que les antériorités ou résultats qui fragilisent la qualification d’innovation du projet.
+
+Aucune conclusion sur le caractère innovant du projet ne doit être arrêtée avant analyse effective des antériorités.
+
+======================================================================
+ÉQUIPE VIRTUELLE À MOBILISER
+======================================================================
+
+Selon le domaine concerné, mobilise les compétences suivantes :
+
+- expert R&D et innovation ;
+- ingénieur ou chercheur du domaine ;
+- spécialiste de la veille scientifique ;
+- spécialiste de la veille technologique ;
+- analyste brevets ;
+- spécialiste propriété intellectuelle ;
+- spécialiste transfert de technologie ;
+- spécialiste innovation Deeptech ;
+- spécialiste intelligence artificielle et données ;
+- spécialiste cybersécurité ;
+- spécialiste industrie 4.0 ;
+- spécialiste robotique / automatisation lorsque pertinent ;
+- spécialiste énergie et décarbonation ;
+- spécialiste environnement, ACV et économie circulaire ;
+- spécialiste santé / dispositifs médicaux / médicament lorsque pertinent ;
+- spécialiste réglementation ;
+- spécialiste normalisation ;
+- analyste marché ;
+- analyste concurrence ;
+- économiste de l’innovation ;
+- analyste financement ;
+- spécialiste commande publique ;
+- spécialiste industrialisation ;
+- spécialiste chaînes d’approvisionnement ;
+- spécialiste usages et facteurs humains ;
+- rédacteur scientifique senior.
+
+======================================================================
+INFORMATIONS D’ENTRÉE
+======================================================================
+
+Analyse intégralement les informations suivantes.
+
+Nom du projet :
+[À RENSEIGNER]
+
+Entreprise / consortium :
+[À RENSEIGNER]
+
+SIREN si utile :
+[À RENSEIGNER]
+
+Secteur :
+[À RENSEIGNER]
+
+Sous-secteur :
+[À RENSEIGNER]
+
+Description complète du projet :
+[COLLER LA DESCRIPTION]
+
+Produit / procédé / logiciel / service envisagé :
+[À RENSEIGNER]
+
+Problème actuellement rencontré :
+[À RENSEIGNER]
+
+Besoin auquel répond le projet :
+[À RENSEIGNER]
+
+Technologies actuellement utilisées :
+[À RENSEIGNER]
+
+Technologies envisagées :
+[À RENSEIGNER]
+
+Principales fonctions :
+[À RENSEIGNER]
+
+Performances recherchées :
+[À RENSEIGNER]
+
+Marchés / applications :
+[À RENSEIGNER]
+
+Utilisateurs finaux :
+[À RENSEIGNER]
+
+Zone géographique :
+[FRANCE / UE / INTERNATIONAL]
+
+Niveau de maturité actuel :
+[TRL OU DESCRIPTION]
+
+Niveau de maturité visé :
+[TRL OU DESCRIPTION]
+
+Principaux concurrents connus :
+[À RENSEIGNER]
+
+Solutions de substitution :
+[À RENSEIGNER]
+
+Brevets détenus :
+[À RENSEIGNER]
+
+Demandes de brevet en cours :
+[À RENSEIGNER]
+
+Partenaires R&D :
+[À RENSEIGNER]
+
+Laboratoires :
+[À RENSEIGNER]
+
+Dispositif Bpifrance / France 2030 concerné :
+[À RENSEIGNER]
+
+Cahier des charges officiel :
+[URL OU DOCUMENT]
+
+Date limite ou millésime du dispositif :
+[À RENSEIGNER]
+
+Documents du projet disponibles :
+[À RENSEIGNER]
+
+======================================================================
+PREMIÈRE OBLIGATION : IDENTIFIER LE RÉFÉRENTIEL RÉEL DU DISPOSITIF
+======================================================================
+
+Avant toute analyse de fond :
+
+1. identifier le dispositif exact ;
+2. retrouver sa documentation officielle actuellement applicable ;
+3. vérifier sa date, son millésime et son statut ;
+4. vérifier si une version plus récente existe ;
+5. distinguer les textes en vigueur des documents historiques ;
+6. extraire littéralement les critères pertinents ;
+7. ne jamais importer automatiquement un critère provenant d’un autre dispositif.
+
+Construire la matrice suivante :
+
+| Critère officiel | Formulation exacte | Source | Date/version | Preuve attendue | Section de l’état de l’art correspondante |
+
+Examiner notamment, uniquement lorsque cela apparaît dans les documents applicables :
+
+- innovation ;
+- état de l’art ;
+- R&D ;
+- recherche industrielle ;
+- développement expérimental ;
+- incertitude scientifique ;
+- incertitude technologique ;
+- verrou scientifique ;
+- verrou technologique ;
+- verrou technique ;
+- innovation de procédé ;
+- innovation de produit ;
+- innovation de service ;
+- innovation organisationnelle lorsque applicable ;
+- maturité technologique ;
+- industrialisation ;
+- souveraineté ;
+- propriété intellectuelle ;
+- stratégie de protection ;
+- différenciation ;
+- avantage concurrentiel ;
+- impacts environnementaux ;
+- décarbonation ;
+- ressources ;
+- circularité ;
+- numérique ;
+- cybersécurité ;
+- intelligence artificielle ;
+- retombées économiques ;
+- retombées industrielles ;
+- emplois ;
+- implantation en France ou en Europe ;
+- structuration de filière ;
+- capacité du porteur ;
+- consortium ;
+- financement ;
+- calendrier ;
+- risques ;
+- indicateurs de réussite.
+
+RÈGLE :
+les critères du document officiel du dispositif étudié priment sur toute grille générique.
+
+======================================================================
+QUESTIONS AUXQUELLES L’ÉTAT DE L’ART DOIT RÉPONDRE
+======================================================================
+
+L’étude doit permettre de répondre explicitement à chacune des questions suivantes :
+
+1. Que sait-on déjà faire à la date de la recherche ?
+2. Quelles technologies permettent de répondre au besoin ?
+3. Quelles approches scientifiques existent ?
+4. Quels produits ou procédés comparables existent ?
+5. Quelles performances ont déjà été obtenues ?
+6. Dans quelles conditions ces performances ont-elles été mesurées ?
+7. Quels résultats ont été obtenus en laboratoire ?
+8. Quels résultats ont été obtenus en environnement représentatif ?
+9. Quels résultats ont été obtenus industriellement ?
+10. Quelles limitations sont reconnues ?
+11. Quels problèmes restent ouverts ?
+12. Ces problèmes sont-ils scientifiques, technologiques, techniques, industriels, réglementaires, économiques ou d’usage ?
+13. Quelles approches ont déjà échoué ou plafonné ?
+14. Existe-t-il un consensus scientifique ?
+15. Existe-t-il au contraire des résultats contradictoires ?
+16. Quelles solutions concurrentes ou substituables sont commercialisées ?
+17. Quels projets publics de recherche traitent déjà le problème ?
+18. Quels projets européens le traitent ?
+19. Quels projets français le traitent ?
+20. Quels brevets couvrent les principes envisagés ?
+21. Quelles familles de brevets sont particulièrement proches ?
+22. Quels acteurs possèdent les portefeuilles les plus pertinents ?
+23. Quelles normes sont applicables ?
+24. Quelles normes sont en développement ?
+25. Quelles réglementations conditionnent l’accès au marché ?
+26. Quelles exigences de certification existent ?
+27. Quels marchés publics montrent un besoin ou une adoption ?
+28. Quels financements publics antérieurs ont soutenu des approches comparables ?
+29. Quels indicateurs de performance sont utilisés par l’état de l’art ?
+30. Quels niveaux de maturité les alternatives ont-elles atteints ?
+31. Quelle différence objectivable sépare le projet du meilleur état de l’art ?
+32. Cette différence est-elle déjà décrite dans un brevet, article ou projet financé ?
+33. La différence relève-t-elle d’une adaptation d’ingénierie courante ?
+34. Nécessite-t-elle au contraire la levée d’incertitudes non résolues ?
+35. Quels essais permettraient de le démontrer ?
+36. Quels résultats quantitatifs constitueraient une preuve de succès ?
+37. Quels résultats montreraient au contraire l’échec de l’hypothèse R&D ?
+38. Quels risques d’antériorité ou de liberté d’exploitation doivent être signalés ?
+39. Quelles dépendances technologiques externes existent ?
+40. Quel est le niveau de confiance des conclusions ?
+
+======================================================================
+THÉMATIQUES PRIORITAIRES PAR DÉFAUT
+======================================================================
+
+Si le demandeur n’a pas fourni de thématiques suffisamment précises, couvrir au minimum les douze familles suivantes :
+
+A. Innovation technologique
+B. Transition énergétique et décarbonation
+C. Santé et technologies médicales
+D. Numérique, données et intelligence artificielle
+E. Industrie 4.0, automatisation, robotisation et fabrication avancée
+F. Deeptech et technologies de rupture
+G. Économie circulaire, ressources et écoconception
+H. Financement de l’innovation et investissements
+I. Propriété intellectuelle et brevets
+J. Réglementation et conformité
+K. Normalisation, certification et référentiels techniques
+L. Marchés publics et demande institutionnelle
+
+Ajouter toutes les thématiques spécifiques rendues nécessaires par le projet.
+
+Exemples :
+
+- cybersécurité ;
+- quantique ;
+- semi-conducteurs ;
+- photonique ;
+- spatial ;
+- biotechnologies ;
+- medtech ;
+- matériaux avancés ;
+- chimie ;
+- hydrogène ;
+- batteries ;
+- nucléaire ;
+- captage carbone ;
+- robotique ;
+- jumeaux numériques ;
+- fabrication additive ;
+- edge computing ;
+- réseaux ;
+- mobilité ;
+- agritech ;
+- construction ;
+- eau ;
+- déchets ;
+- alimentation ;
+- souveraineté industrielle ;
+- matières premières critiques.
+
+======================================================================
+OBJECTIF DOCUMENTAIRE
+======================================================================
+
+Constituer plusieurs corpus distincts.
+
+CORPUS A — SOURCES INSTITUTIONNELLES PRIMAIRES
+
+Exigence impérative :
+
+AU MOINS 1 000 SOURCES PUBLIQUES, UNIQUES, EFFECTIVEMENT RETROUVÉES ET VÉRIFIÉES.
+
+Le seuil de 1 000 est un minimum et non un plafond.
+
+Une URL non ouverte et non vérifiée ne compte pas.
+
+Un résultat de moteur de recherche ne compte pas.
+
+Une copie d’un document institutionnel publiée sur un site tiers ne compte pas si la source originale est disponible.
+
+CORPUS B — LITTÉRATURE SCIENTIFIQUE ET TECHNIQUE
+
+Ajouter les publications scientifiques nécessaires, sans les utiliser artificiellement pour atteindre le quota du Corpus A.
+
+CORPUS C — BREVETS
+
+Constituer un corpus brevet distinct, analysé au niveau de la famille de brevets.
+
+CORPUS D — NORMALISATION ET RÉGLEMENTATION
+
+Regrouper les normes, projets de normes, réglementations, lignes directrices, décisions, recommandations et documents de conformité.
+
+CORPUS E — SOURCES INDUSTRIELLES OU SECONDAIRES
+
+Ne les utiliser que lorsqu’une information pertinente n’existe pas sous forme primaire.
+
+Pour chaque source secondaire :
+- identifier explicitement qu’elle est secondaire ;
+- expliquer pourquoi elle est nécessaire ;
+- rechercher la source primaire sous-jacente ;
+- ne jamais la présenter comme équivalente à une source institutionnelle.
+
+======================================================================
+SOURCES FRANÇAISES À EXPLORER
+======================================================================
+
+Selon la pertinence du domaine, explorer notamment :
+
+- Bpifrance ;
+- administrations économiques et industrielles ;
+- ministères concernés ;
+- Secrétariat général pour l’investissement ;
+- France 2030 ;
+- ADEME ;
+- ANR ;
+- DGE ;
+- INPI ;
+- INSEE ;
+- data.gouv.fr ;
+- organismes publics de recherche ;
+- CNRS ;
+- CEA ;
+- INRIA ;
+- INSERM ;
+- INRAE ;
+- ANSES ;
+- BRGM ;
+- Cerema ;
+- Ifremer ;
+- ONERA ;
+- CNES ;
+- Santé publique France ;
+- HAS ;
+- ANSM ;
+- autorités sectorielles ;
+- universités publiques ;
+- écoles publiques ;
+- laboratoires publics ;
+- HAL ;
+- Recherche Data Gouv ;
+- theses.fr / ABES ;
+- Légifrance ;
+- organismes français de normalisation ;
+- données officielles relatives à la commande publique ;
+- observatoires publics sectoriels ;
+- autorités de régulation compétentes.
+
+Ne pas considérer cette liste comme exhaustive.
+
+======================================================================
+SOURCES EUROPÉENNES À EXPLORER
+======================================================================
+
+Selon la pertinence :
+
+- Commission européenne ;
+- DG Research and Innovation ;
+- Joint Research Centre ;
+- CORDIS ;
+- Horizon Europe ;
+- European Innovation Council ;
+- European Research Council ;
+- European Patent Office ;
+- EUR-Lex ;
+- Office des publications de l’Union européenne ;
+- Eurostat ;
+- European Investment Bank ;
+- European Investment Fund ;
+- European Environment Agency ;
+- ENISA ;
+- European Medicines Agency ;
+- ECHA ;
+- EFSA ;
+- EUIPO ;
+- European Data ;
+- TED ;
+- agences et organismes sectoriels européens ;
+- documents de normalisation européenne accessibles publiquement.
+
+======================================================================
+SOURCES INTERNATIONALES
+======================================================================
+
+Selon le projet :
+
+- WIPO ;
+- OECD ;
+- IEA ;
+- WHO ;
+- ITU ;
+- UNEP ;
+- FAO ;
+- World Bank ;
+- UNIDO ;
+- UNESCO ;
+- organismes des Nations Unies ;
+- administrations scientifiques étrangères ;
+- NIST ;
+- NIH / NLM ;
+- FDA ;
+- USPTO ;
+- agences nationales de recherche ;
+- organismes publics de statistiques ;
+- autorités de réglementation étrangères ;
+- organismes internationaux de normalisation.
+
+======================================================================
+LITTÉRATURE SCIENTIFIQUE
+======================================================================
+
+Utiliser notamment :
+
+- HAL ;
+- PubMed ;
+- PubMed Central ;
+- Europe PMC ;
+- arXiv ;
+- Crossref ;
+- OpenAlex ;
+- bases des universités ;
+- dépôts de thèses ;
+- archives institutionnelles ;
+- Scopus si accès autorisé ;
+- Web of Science si accès autorisé ;
+- revues scientifiques ;
+- actes de conférence.
+
+Pour chaque publication indiquer :
+
+- auteurs ;
+- titre ;
+- année ;
+- revue ou conférence ;
+- DOI ;
+- PMID / PMCID / HAL ID / arXiv ID ou autre identifiant ;
+- affiliation ;
+- type ;
+- statut peer-reviewed ou preprint ;
+- accès ouvert / fermé ;
+- méthodologie ;
+- taille d’échantillon lorsque pertinente ;
+- résultats clés ;
+- limitations ;
+- niveau de preuve.
+
+IMPORTANT :
+
+Scopus et certaines autres bases commerciales peuvent nécessiter un abonnement ou une licence.
+
+Lorsque l’accès est payant ou limité :
+1. l’indiquer ;
+2. ne jamais prétendre avoir consulté un texte intégral inaccessible ;
+3. rechercher une version gratuite légale via HAL, PubMed Central, Europe PMC, dépôt institutionnel, DOI, OpenAlex ou archive de l’auteur ;
+4. préciser si seule la notice bibliographique a été vérifiée.
+
+======================================================================
+BREVETS ET PROPRIÉTÉ INTELLECTUELLE
+======================================================================
+
+Rechercher au minimum :
+
+- DATA INPI ;
+- Espacenet / EPO ;
+- European Patent Register ;
+- EPO Open Patent Services si pertinent ;
+- WIPO PATENTSCOPE ;
+- USPTO ;
+- bases officielles des juridictions pertinentes.
+
+Construire des requêtes par :
+
+- mots-clés ;
+- synonymes ;
+- concepts scientifiques ;
+- revendications techniques ;
+- noms de composants ;
+- noms de concurrents ;
+- noms de déposants ;
+- inventeurs ;
+- codes IPC ;
+- codes CPC ;
+- citations entrantes ;
+- citations sortantes ;
+- familles de brevets.
+
+Pour chaque famille pertinente :
+
+- numéro de publication ;
+- numéro de demande ;
+- priorité ;
+- date de priorité ;
+- déposant ;
+- inventeurs ;
+- juridictions ;
+- IPC ;
+- CPC ;
+- statut ;
+- membres de famille ;
+- revendication indépendante pertinente ;
+- caractéristique technique proche du projet ;
+- différence identifiée ;
+- niveau de risque d’antériorité ;
+- lien avec d’autres familles.
+
+ATTENTION :
+
+Une recherche d’état de l’art ou d’antériorités ne constitue pas automatiquement une étude juridique complète de liberté d’exploitation.
+
+Ne pas annoncer une « liberté d’exploitation » sans analyse juridique appropriée.
+
+======================================================================
+NORMALISATION
+======================================================================
+
+Explorer :
+
+- AFNOR ;
+- ISO ;
+- IEC ;
+- CEN ;
+- CENELEC ;
+- ETSI ;
+- organismes sectoriels compétents.
+
+Pour chaque norme :
+
+- référence exacte ;
+- titre ;
+- édition ;
+- date ;
+- statut ;
+- organisme ;
+- comité technique ;
+- domaine ;
+- caractère publié / retiré / révisé / en développement ;
+- caractère réglementairement référencé ou volontaire ;
+- accès intégral ou métadonnées seulement ;
+- pertinence pour le projet.
+
+Examiner notamment, si pertinent :
+
+- série ISO 56000 pour le management de l’innovation ;
+- normes relatives à l’IA ;
+- cybersécurité ;
+- qualité ;
+- santé ;
+- dispositifs médicaux ;
+- environnement ;
+- ACV ;
+- énergie ;
+- économie circulaire ;
+- sécurité ;
+- interopérabilité ;
+- essais ;
+- métrologie ;
+- fabrication ;
+- logiciels.
+
+Ne jamais reproduire illicitement le texte complet d’une norme protégée.
+
+Lorsque le texte intégral est payant :
+- indiquer « accès payant » ;
+- fournir la référence officielle ;
+- exploiter seulement ce qui est légalement accessible ;
+- rechercher les textes réglementaires, métadonnées, résumés et références publiques connexes ;
+- ne pas présenter une source gratuite comme substitut juridiquement équivalent lorsqu’elle ne l’est pas.
+
+======================================================================
+RÉGLEMENTATION
+======================================================================
+
+Rechercher les textes applicables :
+
+France :
+- Légifrance ;
+- autorités compétentes ;
+- textes officiels sectoriels.
+
+Union européenne :
+- EUR-Lex ;
+- règlements ;
+- directives ;
+- décisions ;
+- actes délégués ;
+- actes d’exécution ;
+- communications lorsqu’elles sont pertinentes.
+
+Pour chaque texte :
+
+- référence ;
+- ELI / CELEX si disponible ;
+- titre ;
+- date d’adoption ;
+- date de publication ;
+- entrée en vigueur ;
+- dates d’application ;
+- version consolidée si disponible ;
+- champ d’application ;
+- obligations pertinentes ;
+- articles concernés ;
+- annexes concernées ;
+- liens avec des normes harmonisées ;
+- conséquences pour le projet.
+
+Exemple numérique/IA :
+vérifier directement le texte du règlement européen applicable et non un résumé tiers.
+
+======================================================================
+MARCHÉS PUBLICS
+======================================================================
+
+Analyser les avis pertinents, notamment :
+
+- TED pour l’Union européenne ;
+- sources officielles nationales appropriées ;
+- données ouvertes de marchés attribués lorsque disponibles.
+
+Identifier :
+
+- avis de marché ;
+- attribution ;
+- acheteur ;
+- CPV ;
+- description du besoin ;
+- date ;
+- zone ;
+- exigences techniques ;
+- critères environnementaux ;
+- exigences de cybersécurité ;
+- critères de performance ;
+- valeurs lorsqu’elles sont publiques ;
+- titulaires lorsque publiés.
+
+Objectif :
+
+utiliser les marchés publics comme signal de :
+- besoin réel ;
+- adoption ;
+- maturité ;
+- exigences acheteurs ;
+- technologies déjà achetées ;
+- niveaux de performance demandés.
+
+======================================================================
+FINANCEMENT ET PROJETS PUBLICS
+======================================================================
+
+Rechercher les projets financés comparables :
+
+France :
+- ANR ;
+- France 2030 ;
+- Bpifrance ;
+- ADEME ;
+- organismes publics de recherche.
+
+Europe :
+- CORDIS ;
+- Horizon Europe ;
+- EIC ;
+- ERC ;
+- BEI ;
+- autres programmes appropriés.
+
+Pour chaque projet :
+
+- nom ;
+- acronyme ;
+- identifiant ;
+- coordinateur ;
+- partenaires ;
+- pays ;
+- date début ;
+- date fin ;
+- financement ;
+- objectif ;
+- technologie ;
+- résultats publiés ;
+- publications ;
+- brevets associés lorsque disponibles ;
+- niveau de maturité ;
+- pertinence.
+
+Chercher également les projets terminés et leurs résultats, et pas uniquement les appels ouverts.
+
+======================================================================
+ÉCONOMIE CIRCULAIRE ET ENVIRONNEMENT
+======================================================================
+
+Examiner lorsque pertinent :
+
+- ACV ;
+- empreinte carbone ;
+- consommation énergétique ;
+- consommation d’eau ;
+- matières premières ;
+- matières critiques ;
+- déchets ;
+- recyclabilité ;
+- réemploi ;
+- réparabilité ;
+- durée de vie ;
+- toxicité ;
+- écoconception ;
+- circularité ;
+- émissions évitées ;
+- rebond ;
+- contraintes industrielles.
+
+Privilégier les données :
+
+- ADEME ;
+- agences européennes ;
+- JRC ;
+- Eurostat ;
+- organismes publics de recherche ;
+- normes ;
+- réglementations.
+======================================================================
+SANTÉ
+======================================================================
+
+Lorsque le projet comporte une dimension santé, couvrir :
+
+- littérature biomédicale ;
+- PubMed ;
+- PubMed Central ;
+- Europe PMC ;
+- EMA ;
+- ANSM ;
+- HAS ;
+- Santé publique France ;
+- INSERM ;
+- WHO ;
+- FDA lorsque pertinent ;
+- essais cliniques officiels lorsque pertinent ;
+- dispositifs médicaux ;
+- réglementation européenne ;
+- normes applicables.
+
+Distinguer :
+
+- preuve préclinique ;
+- validation analytique ;
+- validation clinique ;
+- preuve rétrospective ;
+- prospective ;
+- randomisée ;
+- observationnelle ;
+- revue systématique ;
+- méta-analyse.
+
+======================================================================
+NUMÉRIQUE, IA ET CYBERSÉCURITÉ
+======================================================================
+
+Examiner au minimum :
+
+- architecture ;
+- données ;
+- modèles ;
+- entraînement ;
+- inférence ;
+- robustesse ;
+- biais ;
+- explicabilité ;
+- performance ;
+- latence ;
+- coût ;
+- consommation ;
+- protection des données ;
+- cybersécurité ;
+- sécurité des modèles ;
+- propriété intellectuelle ;
+- dépendance aux fournisseurs ;
+- interopérabilité ;
+- réglementation ;
+- normes ;
+- reproductibilité.
+
+Pour tout benchmark IA :
+
+ne jamais comparer des scores issus :
+- de jeux de données différents ;
+- de versions différentes ;
+- de protocoles différents ;
+- de métriques différentes ;
+
+sans l’indiquer explicitement.
+
+======================================================================
+INDUSTRIE 4.0 ET INDUSTRIALISATION
+======================================================================
+
+Analyser lorsque pertinent :
+
+- automatisation ;
+- robotique ;
+- cobotique ;
+- capteurs ;
+- IIoT ;
+- jumeau numérique ;
+- simulation ;
+- MES ;
+- PLM ;
+- fabrication additive ;
+- vision industrielle ;
+- maintenance prédictive ;
+- contrôle qualité ;
+- cybersécurité industrielle ;
+- supply chain ;
+- flexibilité ;
+- changement d’échelle ;
+- rendement ;
+- cadence ;
+- taux de rebut ;
+- fiabilité ;
+- disponibilité ;
+- OEE/TRS ;
+- CAPEX ;
+- OPEX.
+
+======================================================================
+CRITÈRES D’OFFICIALITÉ
+======================================================================
+
+Ne jamais décider qu’une source est officielle uniquement à partir d’un suffixe de domaine.
+
+Les domaines tels que :
+
+.gouv.fr
+.eu
+.europa.eu
+.int
+.gov
+.gov.uk
+.edu
+.fr
+.org
+
+constituent des indices mais pas une preuve suffisante.
+
+Pour chaque source vérifier :
+
+A. identité de l’institution ;
+B. responsabilité éditoriale ;
+C. URL institutionnelle ;
+D. titre réel ;
+E. date ;
+F. auteur institutionnel ou auteur identifié ;
+G. identifiant officiel ;
+H. lien canonique ;
+I. statut du document ;
+J. contenu réellement accessible.
+
+Indices supplémentaires :
+
+- DOI ;
+- ISBN ;
+- ISSN ;
+- HAL ID ;
+- PMID ;
+- PMCID ;
+- arXiv ID ;
+- ANR ID ;
+- CORDIS Grant Agreement ID ;
+- ELI ;
+- CELEX ;
+- numéro de brevet ;
+- identifiant EPO ;
+- identifiant WIPO ;
+- numéro de norme ;
+- référence officielle.
+
+======================================================================
+NIVEAUX DE VÉRIFICATION
+======================================================================
+
+Attribuer à chaque source un statut.
+
+V3 — VÉRIFICATION FORTE
+- origine institutionnelle confirmée ;
+- page ou document ouvert ;
+- titre confirmé ;
+- institution confirmée ;
+- date vérifiée lorsqu’elle existe ;
+- contenu pertinent effectivement consulté ;
+- identifiant vérifié s’il existe.
+
+V2 — VÉRIFICATION DOCUMENTAIRE
+- source institutionnelle confirmée ;
+- notice et métadonnées vérifiées ;
+- contenu intégral non disponible ou non nécessaire.
+
+V1 — SOURCE SECONDAIRE
+- origine identifiable ;
+- information utile ;
+- preuve primaire non retrouvée ou inaccessible ;
+- justification obligatoire.
+
+V0 — NON VÉRIFIÉ
+- résultat moteur ;
+- document inaccessible ;
+- URL supposée ;
+- métadonnées non confirmées.
+
+RÈGLE :
+
+V0 ne compte jamais parmi les 1 000 sources vérifiées.
+
+Une source déclarée :
+« Document identifié mais contenu non vérifié »
+ne doit pas être utilisée comme preuve d’une conclusion substantielle.
+
+======================================================================
+MÉTADONNÉES OBLIGATOIRES
+======================================================================
+
+Pour chaque source collecter au minimum :
+
+1. n° ;
+2. identifiant interne ;
+3. thématique principale ;
+4. sous-thématique ;
+5. titre exact ;
+6. URL canonique ;
+7. URL PDF si distincte ;
+8. institution ;
+9. auteur ;
+10. pays ;
+11. zone géographique ;
+12. type d’organisme ;
+13. date de publication ;
+14. date de dernière mise à jour ;
+15. date de consultation ;
+16. type de source ;
+17. langue ;
+18. résumé factuel en 1 à 2 lignes ;
+19. information essentielle ;
+20. mots-clés ;
+21. technologie ;
+22. performance ;
+23. verrou concerné ;
+24. TRL ou maturité lorsqu’identifiable ;
+25. DOI ;
+26. identifiant officiel ;
+27. licence ;
+28. accès libre / payant / limité ;
+29. primaire / secondaire ;
+30. peer-reviewed oui/non/non applicable ;
+31. données quantitatives ;
+32. unité ;
+33. page ou section probante ;
+34. contradiction éventuelle ;
+35. source contradictoire associée ;
+36. pertinence ;
+37. niveau de preuve ;
+38. niveau de vérification V0/V1/V2/V3 ;
+39. statut HTTP lorsque collecté automatiquement ;
+40. commentaire de contrôle.
+
+Option fortement recommandée :
+enregistrer également le hash SHA-256 du PDF lorsque légalement téléchargé afin d’identifier précisément la version contrôlée.
+
+======================================================================
+FORMAT CSV OBLIGATOIRE
+======================================================================
+
+Fournir un fichier CSV UTF-8.
+
+Colonnes minimales demandées par le commanditaire :
+
+n°,thématique,titre,URL,institution,date,type,résumé,mots-clés,DOI/ID,langue,vérification
+
+Ajouter dans le fichier complet :
+
+sous_thématique,pays,type_organisme,auteur,date_mise_a_jour,date_consultation,url_pdf,licence,accès,primaire_secondaire,peer_reviewed,technologie,performance,donnée_quantitative,unité,verrou,TRL,page_section,pertinence,niveau_preuve,contradiction,source_contradictoire,statut_http,commentaire
+
+Règles CSV :
+
+- UTF-8 ;
+- une source par ligne ;
+- aucune cellule ne doit contenir d’information inventée ;
+- utiliser « ND » lorsque l’information est réellement absente ;
+- ne jamais fabriquer une date ;
+- ne jamais utiliser la date de consultation comme date de publication.
+
+======================================================================
+DÉDUPLICATION
+======================================================================
+
+Détecter obligatoirement :
+
+- URL HTML et PDF d’un même document ;
+- copies d’un document ;
+- traduction du même rapport ;
+- version rééditée ;
+- DOI identique ;
+- même publication dans plusieurs bases ;
+- même rapport hébergé par plusieurs institutions ;
+- même brevet dans plusieurs pays ;
+- mêmes projets présents dans plusieurs bases.
+
+Clés de déduplication :
+
+- DOI ;
+- PMID ;
+- HAL ID ;
+- arXiv ID ;
+- CELEX / ELI ;
+- référence normative ;
+- identifiant de projet ;
+- famille INPADOC / DOCDB ;
+- titre normalisé + organisme + date ;
+- hash du fichier.
+
+BREVETS :
+
+compter prioritairement les familles et non chacune des publications nationales comme une innovation distincte.
+
+======================================================================
+RÉPARTITION DES 1 000 SOURCES
+======================================================================
+
+Le quota total ne doit pas être obtenu par une seule base.
+
+Pour une étude multisectorielle générale, viser comme grille initiale :
+
+- innovation technologique : environ 120 ;
+- transition énergétique : environ 100 ;
+- santé : environ 70 ;
+- numérique / IA : environ 100 ;
+- industrie 4.0 : environ 80 ;
+- Deeptech : environ 80 ;
+- économie circulaire : environ 80 ;
+- financement : environ 70 ;
+- propriété intellectuelle : environ 100 ;
+- réglementation : environ 80 ;
+- normalisation : environ 60 ;
+- marchés publics : environ 60.
+
+Total indicatif : 1 000.
+
+ATTENTION :
+
+ces quotas ne doivent PAS forcer l’introduction de documents non pertinents.
+
+Pour un projet sectoriel :
+- recalculer la répartition selon la pertinence ;
+- expliquer la nouvelle distribution ;
+- conserver une couverture significative des dimensions transversales réellement applicables ;
+- maintenir au minimum 1 000 sources institutionnelles uniques si cette exigence est maintenue par le commanditaire.
+
+Répartition géographique recherchée :
+
+- priorité France ;
+- priorité Union européenne ;
+- compléter par les sources internationales réellement nécessaires.
+
+Documenter la répartition finale par :
+- pays ;
+- institution ;
+- thématique ;
+- année ;
+- type de document ;
+- niveau de vérification.
+
+======================================================================
+PÉRIODE DE RECHERCHE
+======================================================================
+
+Ne pas limiter arbitrairement la recherche à cinq ans.
+
+Utiliser :
+
+- publications très récentes pour l’état actuel ;
+- 5 dernières années pour les évolutions ;
+- 10 dernières années pour les trajectoires ;
+- publications historiques ou brevets plus anciens lorsqu’ils constituent des antériorités fondamentales.
+
+Créer une chronologie des étapes majeures.
+
+======================================================================
+STRATÉGIE DE REQUÊTES
+======================================================================
+
+Avant toute collecte massive :
+
+1. extraire 20 à 100 concepts du projet ;
+2. générer leurs synonymes français et anglais ;
+3. ajouter acronymes ;
+4. termes scientifiques ;
+5. termes industriels ;
+6. noms de technologies ;
+7. concurrents ;
+8. chercheurs ;
+9. laboratoires ;
+10. classifications brevets ;
+11. normes ;
+12. réglementations ;
+13. mots décrivant les limitations.
+
+Créer des requêtes combinant notamment :
+
+[technologie]
+[technologie] performance
+[technologie] limitation
+[technologie] challenge
+[technologie] failure
+[technologie] bottleneck
+[technologie] review
+[technologie] benchmark
+[technologie] validation
+[technologie] prototype
+[technologie] demonstrator
+[technologie] scale-up
+[technologie] industrial
+[technologie] patent
+[technologie] CPC
+[technologie] standard
+[technologie] regulation
+[technologie] safety
+[technologie] cost
+[technologie] lifecycle
+[technologie] energy consumption
+[technologie] environmental impact
+
+Rechercher en français ET en anglais.
+
+Ajouter d’autres langues lorsque le secteur l’exige.
+
+======================================================================
+MÉTHODE DE RECHERCHE EN ENTONNOIR
+======================================================================
+
+PHASE A — Compréhension du besoin
+
+Identifier :
+- fonctions ;
+- contraintes ;
+- environnement ;
+- performances ;
+- coûts ;
+- utilisateurs ;
+- conditions limites.
+
+PHASE B — Fondements scientifiques
+
+Identifier :
+- phénomènes ;
+- modèles ;
+- lois ;
+- principes ;
+- hypothèses.
+
+PHASE C — Familles technologiques
+
+Construire une taxonomie complète.
+
+PHASE D — Solutions existantes
+
+Cartographier :
+- produits ;
+- logiciels ;
+- procédés ;
+- prototypes ;
+- démonstrateurs.
+
+PHASE E — R&D en cours
+
+Cartographier :
+- projets ANR ;
+- projets européens ;
+- programmes publics ;
+- laboratoires ;
+- consortiums.
+
+PHASE F — Brevets
+
+Rechercher les antériorités par :
+- concepts ;
+- déposants ;
+- classifications ;
+- citations.
+
+PHASE G — Normalisation et réglementation
+
+Identifier les contraintes actuelles et futures.
+
+PHASE H — Limites
+
+Extraire toutes les limitations documentées.
+
+PHASE I — Verrous
+
+Regrouper les limites récurrentes et déterminer si elles constituent de véritables verrous.
+
+PHASE J — Comparaison avec le projet
+
+Comparer chaque composant du projet avec l’état de l’art.
+
+PHASE K — Démonstration R&D
+
+Identifier les incertitudes devant être levées expérimentalement.
+
+======================================================================
+AUTOMATISATION DE LA COLLECTE
+======================================================================
+
+Lorsque les conditions d’utilisation le permettent, automatiser une partie de la collecte.
+
+Outils à étudier en priorité :
+
+1. API data.gouv.fr
+2. API HAL
+3. Crossref REST API
+4. Europe PMC REST API
+5. PubMed / NCBI E-utilities
+6. EPO Open Patent Services
+7. DATA INPI et jeux ou interfaces officiellement documentés
+8. OpenAlex API
+9. CORDIS open data
+10. Eurostat API
+11. autres API institutionnelles appropriées.
+
+IMPORTANT POUR INPI :
+
+ne jamais inventer l’existence d’un endpoint ou d’une API non documentée.
+
+Si aucune API publique adaptée n’est officiellement documentée pour la donnée recherchée :
+- utiliser l’interface publique ;
+- utiliser les jeux ouverts disponibles ;
+- ou procéder à une recherche manuelle autorisée.
+
+======================================================================
+PIPELINE TECHNIQUE RECOMMANDÉ
+======================================================================
+
+Étape 1 — Inventaire des sources.
+
+Étape 2 — Génération des requêtes.
+
+Étape 3 — Collecte API / export.
+
+Étape 4 — Normalisation JSON → table structurée.
+
+Étape 5 — Vérification URL.
+
+Étape 6 — Extraction des métadonnées.
+
+Étape 7 — Déduplication.
+
+Étape 8 — Enrichissement DOI / identifiants.
+
+Étape 9 — Classification thématique.
+
+Étape 10 — Score de pertinence.
+
+Étape 11 — contrôle institutionnel.
+
+Étape 12 — lecture ciblée.
+
+Étape 13 — extraction des preuves.
+
+Étape 14 — analyse contradictoire.
+
+Étape 15 — rédaction.
+
+Étape 16 — audit final.
+
+Pour le code, privilégier :
+- Python ;
+- requests/httpx ;
+- pandas ou équivalent ;
+- bibliothèques de parsing appropriées ;
+- gestion des erreurs ;
+- cache ;
+- rate limiting ;
+- reprise sur erreur ;
+- journalisation.
+
+Respecter :
+- robots.txt lorsque applicable ;
+- conditions d’utilisation ;
+- limites d’API ;
+- licences ;
+- droit d’auteur ;
+- politique d’accès des fournisseurs.
+
+======================================================================
+VALIDATION MANUELLE
+======================================================================
+
+L’automatisation ne suffit pas.
+
+Contrôler manuellement :
+
+- les sources les plus importantes ;
+- tous les résultats présentés comme preuves majeures ;
+- les documents contradictoires ;
+- les brevets les plus proches ;
+- les réglementations ;
+- les normes ;
+- les performances utilisées dans les tableaux comparatifs ;
+- les chiffres repris dans le résumé exécutif.
+
+Toute valeur quantitative importante doit être reliée à une localisation précise.
+
+Exemple :
+
+Source S-0473
+Page 36
+Tableau 12
+Valeur : 92,4 %
+Contexte : protocole X, échantillon N=...
+Limite : résultat non comparable au benchmark Y.
+
+======================================================================
+ANALYSE CONTRADICTOIRE
+======================================================================
+
+Pour chaque conclusion majeure :
+
+1. identifier les sources qui la soutiennent ;
+2. rechercher activement des sources qui la contredisent ;
+3. examiner les différences méthodologiques ;
+4. expliquer les divergences ;
+5. attribuer un niveau de confiance.
+
+Ne jamais écrire :
+
+« aucune solution n’existe »
+
+sans avoir défini :
+- le périmètre ;
+- les bases explorées ;
+- les langues ;
+- la période ;
+- les mots-clés ;
+- les limitations de la recherche.
+
+Préférer :
+
+« Dans le corpus vérifié à la date X, aucune source répondant simultanément aux critères A, B et C n’a été identifiée. »
+
+======================================================================
+NIVEAUX DE PREUVE
+======================================================================
+
+Attribuer à chaque conclusion un niveau :
+
+A — preuve très forte
+plusieurs sources primaires convergentes, résultats reproductibles ou données institutionnelles solides.
+
+B — preuve forte
+source primaire solide mais moins de réplication.
+
+C — preuve intermédiaire
+données partielles, littérature encore limitée ou résultats dépendants du contexte.
+
+D — preuve faible
+préprint, démonstration limitée, petite étude, documentation industrielle non indépendante.
+
+E — hypothèse
+élément non suffisamment démontré.
+
+Ne jamais transformer une hypothèse en fait.
+
+======================================================================
+BENCHMARK TECHNOLOGIQUE
+======================================================================
+
+Construire un tableau :
+
+| Solution | Acteur | Principe | Maturité | Performance | Conditions de test | Avantages | Limites | Source |
+
+Comparer les solutions sur des métriques homogènes.
+
+Lorsque les métriques ne sont pas directement comparables :
+écrire explicitement « comparaison directe impossible ».
+
+======================================================================
+ANALYSE DES VERROUS
+======================================================================
+
+Pour chaque verrou :
+
+Nom du verrou :
+[description]
+
+Nature :
+- scientifique ;
+- technologique ;
+- technique ;
+- industriel ;
+- réglementaire ;
+- environnemental ;
+- économique ;
+- humain.
+
+État actuel :
+[preuve]
+
+Meilleure performance publiée :
+[valeur + source]
+
+Limite :
+[valeur + source]
+
+Pourquoi le problème persiste :
+[preuves]
+
+Approches déjà testées :
+[preuves]
+
+Échecs / limitations :
+[preuves]
+
+Hypothèse du projet :
+[description]
+
+Incertitude :
+[description]
+
+Expérience nécessaire :
+[description]
+
+Critère de réussite :
+[métrique]
+
+Critère d’échec :
+[métrique]
+
+======================================================================
+MATRICE ÉTAT DE L’ART / PROJET
+======================================================================
+
+Construire :
+
+| Fonction / caractéristique | État de l’art | Meilleure référence | Projet | Écart | Preuve | Incertitude R&D |
+
+L’écart doit être quantifié dès que possible.
+
+Éviter les formulations purement qualitatives telles que :
+- meilleur ;
+- innovant ;
+- unique ;
+- révolutionnaire ;
+- inédit.
+
+Les remplacer par des faits mesurables.
+
+======================================================================
+MATRICE DES AFFIRMATIONS
+======================================================================
+
+Créer une « Evidence Matrix » :
+
+| Claim ID | Affirmation | Source primaire | Source de corroboration | Contradiction | Niveau de preuve | Confiance |
+
+Aucune affirmation importante du rapport ne doit être orpheline de source.
+
+======================================================================
+ANALYSE DE MATURITÉ
+======================================================================
+
+Lorsque pertinent, estimer séparément :
+
+- maturité scientifique ;
+- maturité technologique ;
+- maturité prototype ;
+- maturité industrielle ;
+- maturité réglementaire ;
+- maturité commerciale.
+
+Ne jamais déduire automatiquement un TRL à partir d’une simple publication.
+
+Justifier chaque niveau par une preuve.
+
+======================================================================
+ANALYSE DE PROPRIÉTÉ INTELLECTUELLE
+======================================================================
+
+Produire :
+
+- carte des principaux déposants ;
+- familles clés ;
+- chronologie ;
+- zones géographiques ;
+- technologies revendiquées ;
+- espaces potentiellement moins couverts ;
+- brevets potentiellement bloquants ;
+- brevets expirés ou abandonnés lorsque vérifiable ;
+- relations citations.
+
+Séparer :
+
+1. antériorité ;
+2. brevetabilité ;
+3. paysage brevet ;
+4. liberté d’exploitation.
+
+Ne pas confondre ces notions.
+
+======================================================================
+ANALYSE CONCURRENTIELLE
+======================================================================
+
+Identifier :
+
+- concurrents directs ;
+- concurrents indirects ;
+- solutions de substitution ;
+- entrants récents ;
+- laboratoires susceptibles de transférer leur technologie ;
+- spin-offs ;
+- acteurs brevetants ;- projets publics pouvant déboucher sur un produit.
+
+Utiliser les documents commerciaux seulement pour caractériser ce qu’un acteur déclare sur son propre produit.
+
+Pour une performance critique :
+chercher une validation indépendante.
+
+======================================================================
+STATISTIQUES ET MARCHÉ
+======================================================================
+
+Prioriser :
+
+- INSEE ;
+- Eurostat ;
+- OECD ;
+- World Bank ;
+- agences publiques ;
+- observatoires institutionnels ;
+- autorités sectorielles.
+
+Ne pas présenter une estimation provenant d’un cabinet commercial comme une statistique officielle.
+
+Si une étude de marché est payante :
+- indiquer l’accès ;
+- chercher une statistique institutionnelle gratuite ;
+- distinguer données observées et prévisions.
+
+======================================================================
+THÈSES ET UNIVERSITÉS
+======================================================================
+
+Rechercher :
+
+- theses.fr ;
+- HAL ;
+- archives ouvertes universitaires ;
+- bibliothèques universitaires ;
+- dépôts de thèses étrangers ;
+- rapports de laboratoires.
+
+Les thèses sont particulièrement importantes pour :
+- résultats négatifs ;
+- détails expérimentaux ;
+- limites ;
+- prototypes ;
+- données non reprises dans des articles courts.
+
+======================================================================
+CRITÈRES DE PERTINENCE
+======================================================================
+
+Noter chaque source de 0 à 5 :
+
+5 = directement déterminante ;
+4 = très pertinente ;
+3 = pertinente ;
+2 = contexte utile ;
+1 = faible ;
+0 = hors sujet.
+
+Le rapport analytique doit privilégier les scores 4 et 5.
+
+Les sources de score faible peuvent rester dans le CSV si elles documentent le processus de recherche, mais ne doivent pas gonfler artificiellement le noyau probant.
+
+======================================================================
+CRITÈRES DE FRAÎCHEUR
+======================================================================
+
+Pour toute information évolutive :
+
+- financement ;
+- réglementation ;
+- norme ;
+- appel ;
+- projet ;
+- statut brevet ;
+- statistique ;
+- acteur ;
+- marché ;
+- technologie récente ;
+
+vérifier la version la plus actuelle disponible à la date de consultation.
+
+======================================================================
+INTERDICTIONS ABSOLUES
+======================================================================
+
+Ne jamais :
+
+- inventer un document ;
+- inventer un titre ;
+- inventer un DOI ;
+- inventer un brevet ;
+- inventer un numéro de publication ;
+- inventer un auteur ;
+- inventer une date ;
+- inventer un résultat ;
+- inventer une citation ;
+- inventer un chiffre ;
+- inventer une URL ;
+- inventer une API ;
+- prétendre avoir lu un texte inaccessible ;
+- présenter un snippet de moteur comme preuve ;
+- faire passer une source secondaire pour une source primaire ;
+- comptabiliser artificiellement plusieurs fois le même document ;
+- assimiler plusieurs membres d’une même famille brevet à plusieurs inventions différentes ;
+- attribuer une conclusion Bpifrance non présente dans le texte applicable.
+
+======================================================================
+SOURCES EXCLUES DU CORPUS OFFICIEL
+======================================================================
+
+Ne pas compter dans le Corpus A :
+
+- Wikipedia ;
+- Reddit ;
+- Quora ;
+- forums ;
+- blogs anonymes ;
+- publications LinkedIn ;
+- contenus IA ;
+- pages SEO ;
+- agrégateurs ;
+- comparateurs ;
+- sites de cabinets sans données primaires ;
+- communiqués purement promotionnels ;
+- pages commerciales de distributeurs ;
+- copies de rapports ;
+- contenus sans auteur identifiable.
+
+Ils peuvent uniquement servir de piste de recherche.
+
+======================================================================
+MÉTHODE DE CONTRÔLE DES URL
+======================================================================
+
+Pour chaque URL, lorsque techniquement possible :
+
+- vérifier HTTP 200 ou redirection légitime ;
+- suivre la redirection ;
+- identifier l’URL canonique ;
+- enregistrer le domaine final ;
+- détecter les liens morts ;
+- repérer les contenus remplacés ;
+- contrôler le MIME type ;
+- identifier les PDF ;
+- enregistrer la date de consultation.
+
+Ne jamais supprimer silencieusement une source devenue inaccessible.
+
+Indiquer :
+« source auparavant identifiée, URL actuellement inaccessible »
+lorsque cela est établi.
+
+======================================================================
+PLAN DE TRAVAIL
+======================================================================
+
+Produire un plan de travail comportant :
+
+- étape ;
+- objectif ;
+- méthode ;
+- outils ;
+- nombre de sources cible ;
+- contrôles ;
+- dépendances ;
+- charge humaine ;
+- charge machine ;
+- livrable.
+
+Ne pas inventer une durée arbitraire.
+
+Effectuer d’abord un pilote sur environ 50 sources représentatives.
+
+Mesurer :
+- temps moyen de collecte ;
+- temps de vérification ;
+- taux de doublons ;
+- taux de documents inaccessibles ;
+- temps de lecture approfondie ;
+- nombre moyen de preuves utiles.
+
+À partir de ces mesures, calculer une estimation réaliste du travail complet, exprimée en :
+- heures de travail humain ;
+- jours-personnes ;
+- volume de requêtes ;
+- nombre de documents à lire intégralement.
+
+======================================================================
+LIVRABLES FINAUX
+======================================================================
+
+Produire obligatoirement :
+
+LIVRABLE A — Résumé exécutif
+
+Présenter en début de rapport :
+- objet ;
+- périmètre ;
+- date ;
+- nombre de sources ;
+- conclusions principales ;
+- principaux verrous ;
+- principales antériorités ;
+- principales différenciations ;
+- risques ;
+- niveau de confiance.
+
+LIVRABLE B — Méthodologie
+
+Décrire :
+- bases ;
+- mots-clés ;
+- période ;
+- langues ;
+- critères ;
+- méthode de validation ;
+- déduplication ;
+- limites.
+
+LIVRABLE C — Cartographie documentaire
+
+Présenter :
+- nombre total ;
+- France ;
+- Europe ;
+- international ;
+- par thème ;
+- par institution ;
+- par année ;
+- par type ;
+- par niveau V.
+
+LIVRABLE D — Tableau synthétique
+
+Colonnes minimales :
+
+n°
+thématique
+titre
+URL
+institution
+date
+type
+résumé
+mots-clés
+DOI/ID
+langue
+vérification
+
+LIVRABLE E — CSV COMPLET
+
+Minimum 1 000 sources institutionnelles vérifiées du Corpus A.
+
+LIVRABLE F — État de l’art scientifique
+
+LIVRABLE G — État de l’art technologique
+
+LIVRABLE H — Analyse brevets
+
+LIVRABLE I — Analyse réglementaire
+
+LIVRABLE J — Analyse normative
+
+LIVRABLE K — Projets de R&D et financements comparables
+
+LIVRABLE L — Analyse marché et demande publique
+
+LIVRABLE M — Benchmark des solutions
+
+LIVRABLE N — Analyse des limites
+
+LIVRABLE O — Matrice des verrous
+
+LIVRABLE P — Matrice projet / état de l’art
+
+LIVRABLE Q — Evidence Matrix
+
+LIVRABLE R — Conclusion contradictoire sur le degré de différenciation
+
+LIVRABLE S — Limites de l’étude
+
+======================================================================
+FORMAT DU RAPPORT
+======================================================================
+
+Le rapport final doit être analytique et rédigé en français.
+
+Structure recommandée :
+
+1. Résumé exécutif
+2. Objet et périmètre
+3. Référentiel du dispositif
+4. Méthode documentaire
+5. Cartographie des sources
+6. Fondements scientifiques
+7. État de l’art technologique
+8. Solutions existantes
+9. Projets R&D
+10. Brevets
+11. Normalisation
+12. Réglementation
+13. Marché et demande
+14. Performances comparées
+15. Limites
+16. Verrous
+17. Différenciation du projet
+18. Incertitudes de R&D
+19. Programme expérimental suggéré
+20. Risques
+21. Conclusion
+22. Bibliographie
+23. Annexes
+24. CSV
+
+======================================================================
+VINGT SOURCES DE DÉPART À CONTRÔLER
+======================================================================
+
+Utiliser les ressources suivantes comme points de départ méthodologiques.
+Elles ne constituent PAS à elles seules l’état de l’art du projet.
+
+1.
+Bpifrance — Diag Axes d’Innovation
+https://diaginno.bpifrance.fr/produit/diagnostic-axes-innovation/
+Thèmes : innovation, faisabilité.
+
+2.
+ANR — données sur les projets financés
+https://data.anr.fr/
+Thèmes : R&D, innovation, projets français.
+
+3.
+ADEME — données ouvertes
+https://data.ademe.fr/
+Thèmes : énergie, climat, économie circulaire, environnement.
+
+4.
+CORDIS — données et projets européens de R&I
+https://cordis.europa.eu/
+Thèmes : innovation, Deeptech, numérique, industrie, santé, énergie.
+
+5.
+Commission européenne — Horizon Europe
+https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en
+Thèmes : R&D, innovation, financement.
+
+6.
+European Innovation Council — EIC Transition
+https://eic.ec.europa.eu/eic-funding-opportunities/eic-transition_en
+Thèmes : Deeptech, maturation technologique.
+
+7.
+European Innovation Scoreboard
+https://projects.research-and-innovation.ec.europa.eu/en/statistics/performance-indicators/european-innovation-scoreboard/eis
+Thèmes : innovation, statistiques, comparaison européenne.
+
+8.
+EUR-Lex — règlement (UE) 2024/1689 sur l’intelligence artificielle
+https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng
+Thèmes : IA, réglementation.
+
+9.
+data.gouv.fr — documentation
+https://guides.data.gouv.fr/
+Thèmes : statistiques, données publiques, collecte automatisée.
+
+10.
+HAL — documentation API
+https://api.archives-ouvertes.fr/docs/
+Thèmes : publications scientifiques, recherche française.
+
+11.
+PubMed
+https://pubmed.ncbi.nlm.nih.gov/
+Thèmes : santé, sciences biomédicales.
+
+12.
+Crossref REST API
+https://www.crossref.org/documentation/retrieve-metadata/rest-api/
+Thèmes : DOI, métadonnées scientifiques.
+
+13.
+DATA INPI
+https://data.inpi.fr/
+Thèmes : propriété intellectuelle, brevets français.
+
+14.
+EPO — Open Patent Services
+https://developers.epo.org/
+Thèmes : brevets européens et internationaux, automatisation.
+
+15.
+WIPO PATENTSCOPE
+https://patentscope.wipo.int/
+Thèmes : brevets internationaux.
+
+16.
+EPO Deep Tech Finder
+https://dtf.epo.org/
+Thèmes : Deeptech, universités, brevets.
+
+17.
+ISO 56000:2025
+https://www.iso.org/standard/84436.html
+Thèmes : innovation, normalisation.
+
+18.
+AFNOR Norm’Info
+https://norminfo.afnor.org/
+Thèmes : normalisation française.
+
+19.
+TED — avis européens de marchés publics
+https://ted.europa.eu/
+Thèmes : marchés publics, demande institutionnelle.
+
+20.
+Banque européenne d’investissement — projets
+https://www.eib.org/en/projects/index.htm
+Thèmes : financement, innovation, énergie, numérique, industrie, économie circulaire.
+
+Compléter cette liste avec toutes les sources spécifiques au projet.
+
+======================================================================
+OUTILS ET BASES COMPLÉMENTAIRES À ÉVALUER
+======================================================================
+
+Vérifier également selon besoin :
+
+- Eurostat ;
+- INSEE ;
+- EMA ;
+- ENISA ;
+- EEA ;
+- ECHA ;
+- EFSA ;
+- USPTO ;
+- NCBI ;
+- PubMed Central ;
+- Europe PMC ;
+- arXiv ;
+- OpenAlex ;
+- Scopus ;
+- theses.fr ;
+- Recherche Data Gouv ;
+- OECD ;
+- IEA ;
+- WHO ;
+- ITU ;
+- World Bank ;
+- JRC ;
+- ISO ;
+- IEC ;
+- CEN ;
+- CENELEC ;
+- ETSI.
+
+======================================================================
+RÈGLE POUR LES ACCÈS PAYANTS
+======================================================================
+
+Le budget documentaire n’est pas contraint.
+
+Il est donc possible d’identifier une source payante.
+
+Cependant, pour chaque source payante :
+
+- indiquer explicitement « accès payant » ;
+- ne pas prétendre avoir lu le texte sans accès réel ;
+- chercher une version légalement ouverte ;
+- indiquer une alternative gratuite lorsqu’elle existe ;
+- préciser si l’alternative gratuite est équivalente, partielle ou seulement complémentaire.
+
+Exemples :
+
+Scopus :
+chercher aussi OpenAlex, Crossref, HAL et bases institutionnelles.
+
+Article :
+chercher DOI + HAL + PubMed Central + Europe PMC + dépôt institutionnel.
+
+Norme ISO :
+utiliser les métadonnées et informations publiques, mais ne jamais prétendre qu’un résumé gratuit remplace le texte intégral de la norme.
+
+======================================================================
+CONTRÔLE QUALITÉ FINAL
+======================================================================
+
+Avant livraison, effectuer quatre audits.
+
+AUDIT 1 — EXACTITUDE
+- chiffres vérifiés ;
+- dates vérifiées ;
+- identifiants vérifiés ;
+- liens vérifiés.
+
+AUDIT 2 — TRAÇABILITÉ
+- chaque conclusion possède une source ;
+- chaque donnée possède sa localisation.
+
+AUDIT 3 — DÉDUPLICATION
+- absence de doublons documentaires ;
+- familles de brevets consolidées.
+
+AUDIT 4 — CONTRADICTION
+- recherche active de résultats contraires ;
+- limites exposées ;
+- niveau de confiance explicite.
+
+======================================================================
+CONDITIONS DE LIVRAISON
+======================================================================
+
+Ne livre pas un corpus artificiellement complété.
+
+Si le seuil de 1 000 sources vérifiées n’est pas effectivement atteint, écrire :
+
+« Corpus vérifié incomplet : X sources effectivement validées sur un objectif de 1 000. »
+
+Ne jamais écrire que 1 000 sources ont été vérifiées si seules 1 000 références ont été générées.
+
+Le nombre annoncé dans le rapport doit correspondre au nombre réel de lignes uniques et validées du CSV après déduplication.
+
+Terminer par un tableau de contrôle :
+
+| Contrôle | Résultat |
+|---|---|
+| Nombre Corpus A | |
+| Nombre Corpus B | |
+| Familles de brevets | |
+| Normes | |
+| Textes réglementaires | |
+| Projets R&D | |
+| Sources France | |
+| Sources UE hors France | |
+| Sources internationales | |
+| Sources V3 | |
+| Sources V2 | |
+| Sources secondaires justifiées | |
+| Doublons supprimés | |
+| Liens inaccessibles | |
+| Sources payantes | |
+| Conclusions avec preuve | |
+| Conclusions contradictoires analysées | |
+
+DERNIÈRE RÈGLE :
+
+La qualité de l’état de l’art ne se mesure pas au nombre de références, mais à la capacité du corpus vérifié à démontrer précisément :
+
+- ce qui existe déjà ;
+- ce qui fonctionne ;
+- ce qui ne fonctionne pas ;
+- jusqu’à quelles performances ;
+- avec quel niveau de preuve ;
+- quelles limites persistent ;
+- quelles antériorités existent ;
+- quelles incertitudes le projet devra réellement lever ;
+- et en quoi les travaux proposés dépassent objectivement l’état des connaissances ou des techniques accessible à la date de l’analyse.
+```
+
+## Sources initiales vérifiées
+
+Les vingt points de départ intégrés dans le prompt couvrent bien les principales familles demandées. **ANR Data** permet notamment d’explorer les projets financés, et l’ANR expose un jeu consacré aux projets AAPG financés de 2014 à 2025. **ADEME Data** couvre des jeux relatifs aux déchets, à l’économie circulaire, au climat, à l’énergie et à la recherche. **CORDIS** expose les données de projets et collaborations issus des programmes européens de recherche et d’innovation. citeturn8search2turn8search10turn8search5turn8search3
+
+| Source | Domaine prioritaire | Accès / point de vigilance |
+|---|---|---|
+| **Bpifrance – Diag Axes d’Innovation** | Innovation, faisabilité | Source Bpifrance ; le dispositif décrit notamment un accompagnement des premières étapes et études de faisabilité. citeturn3search1 |
+| **ANR Data** | Projets R&D français | Accès public aux données de projets financés. citeturn8search2turn8search10 |
+| **ADEME Data** | Énergie, climat, circularité | Jeux de données publics ; couverture explicite de l’économie circulaire, du climat, de l’énergie et de la recherche. citeturn8search5 |
+| **CORDIS** | R&D européenne | Données européennes de projets et collaborations. citeturn8search3 |
+| **Horizon Europe** | Financement R&I | Programme européen de recherche et d’innovation ; page officielle actualisée. citeturn5search19 |
+| **EIC Transition** | Deeptech | Maturation et validation de technologies au-delà de la preuve de principe expérimentale. citeturn0search14 |
+| **European Innovation Scoreboard** | Innovation, statistiques | Comparaison des performances nationales de recherche et d’innovation. citeturn10search19 |
+| **EUR-Lex – règlement IA 2024/1689** | Numérique, IA, réglementation | Texte juridique primaire de l’Union européenne, adopté le 13 juin 2024. citeturn9search4 |
+| **data.gouv.fr – documentation API** | Données publiques | Documentation technique et références d’API disponibles publiquement. citeturn1search2 |
+| **HAL API** | Publications scientifiques | Interface officielle HAL ; les mécanismes de requête et pagination sont documentés. citeturn2search0turn2search4 |
+| **PubMed** | Santé | Base NLM/NIH de littérature biomédicale. citeturn6search22 |
+| **Crossref REST API** | DOI, métadonnées | API REST publique ; accès public possible sans inscription dans son mode standard. citeturn5search0turn5search4 |
+| **DATA INPI** | Brevets, PI | Recherche dans les bases françaises de brevets, marques et dessins/modèles. citeturn5search3turn5search11 |
+| **EPO Open Patent Services** | Brevets | Service REST donnant accès aux données issues des bases de l’OEB. citeturn4search29 |
+| **WIPO PATENTSCOPE** | Brevets internationaux | Base officielle de l’OMPI consacrée aux collections nationales et internationales. citeturn4search19 |
+| **EPO Deep Tech Finder** | Deeptech | Identification d’universités européennes associées à des demandes de brevet OEB. citeturn4search9 |
+| **ISO 56000:2025** | Innovation, normalisation | Édition 2 publiée en janvier 2025 ; contenu intégral soumis aux conditions d’accès ISO. citeturn10search9 |
+| **AFNOR Norm’Info** | Normalisation française | Informations publiques sur les travaux de normalisation par secteurs. citeturn10search6turn10search10 |
+| **TED** | Marchés publics | Avis européens, recherche avancée/experte et données réutilisables. citeturn11view0 |
+| **Banque européenne d’investissement – projets** | Financement | Projets financés, projets envisagés, innovation, numérique, santé, énergie et économie circulaire. citeturn11view1 |
+
+Deux ressources complémentaires méritent d’être mobilisées presque systématiquement dans l’exécution future : **Eurostat** pour les statistiques européennes et **EMA** lorsqu’une dimension médicament ou santé réglementée est présente. Leurs ressources institutionnelles étaient accessibles et actives au **3 octobre 2026**. citeturn11view3turn11view2
+
+## Contrôle de robustesse du futur corpus
+
+Le point le plus important du prompt est la distinction entre **« référence trouvée » et « source vérifiée »**. Les 1 000 lignes demandées ne devront être annoncées comme atteintes qu’après déduplication et validation. Cela évite notamment de compter séparément une notice, son PDF, sa traduction et une copie, ou dix publications nationales appartenant à une seule famille de brevets.
+
+La collecte automatisée devra en outre rester **reproductible** : conservation des requêtes, filtres, dates de collecte, identifiants, erreurs, URL finales et versions. Crossref fournit par exemple des mécanismes publics de recherche et de filtrage ; EPO OPS fournit un accès REST aux mêmes familles de données sous-jacentes utilisées par les services de recherche brevet de l’OEB ; TED expose également des ressources destinées aux réutilisateurs. citeturn5search8turn4search29turn11view0
+
+Enfin, les ressources payantes doivent être traitées sans fausse équivalence. **Scopus peut être utilisé lorsqu’un accès conforme est disponible**, mais, pour un acteur privé/commercial, Elsevier indique qu’un accès API commercial est soumis à licence et abonnement. OpenAlex, Crossref, HAL, PubMed et Europe PMC peuvent compléter ou parfois remplacer une partie des fonctions bibliographiques, mais ils ne doivent pas être présentés comme reproduisant exactement la couverture, l’indexation ou les métriques de Scopus. citeturn7view2turn5search0turn6search22
