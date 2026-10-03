@@ -73,3 +73,10 @@ CREATE TABLE IF NOT EXISTS crawl_events (
   exclusion_reason TEXT,
   occurred_at TEXT NOT NULL
 );
+
+
+CREATE TABLE IF NOT EXISTS registry_meta (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
