@@ -66,4 +66,5 @@ jobs:
             exit 0
           fi
           git commit -m "data: refresh certified global research registry"
+          git pull --rebase origin main
           git push origin HEAD:main
