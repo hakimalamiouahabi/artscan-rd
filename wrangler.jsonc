@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "artscan-rd",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "artscan-rd", "database_id": "REPLACE_AFTER_D1_CREATE" }
+  ],
+  "queues": {
+    "producers": [{ "binding": "CRAWL_QUEUE", "queue": "artscan-rd-crawl" }],
+    "consumers": [{ "queue": "artscan-rd-crawl", "max_batch_size": 8, "max_batch_timeout": 10, "max_retries": 3 }]
+  },
+  "observability": { "enabled": true },
+  "limits": { "cpu_ms": 10 }
+}
