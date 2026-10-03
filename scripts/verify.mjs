@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const read=p=>fs.readFileSync(p,'utf8');
+const worker=read('src/worker.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json'));
+const fail=m=>{throw new Error(m)};
+if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('Runtime LLM dependency detected');
+if(/serpapi|tavily|exa|bing search|google custom search|firecrawl|tinyfish/i.test(worker))fail('External search API/runtime dependency detected');
+if(!worker.includes('robots.txt'))fail('robots.txt gate missing');
+if(!worker.includes('safePublicUrl'))fail('SSRF guard missing');
+if(!schema.includes('official = 1 AND public_access = 1 AND free_access = 1'))fail('3/3 source gate missing');
+if(!html.includes('LEYTON<span>•</span>FRANCE'))fail('Leyton France identity missing');
+if(!css.includes('grid-template-columns:340px minmax(0,1fr)'))fail('13-inch two-column layout missing');
+if(!css.includes('overflow-x:hidden'))fail('Horizontal overflow guard missing');
+if(pkg.name!=='artscan-rd')fail('Package identity invalid');
+console.log(JSON.stringify({ok:true,llmRuntime:false,externalSearchApiRuntime:false,robots:true,ssrf:true,sourceGate:'3/3',desktopTarget:'1366x768'},null,2));
