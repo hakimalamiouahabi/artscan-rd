@@ -1,0 +1,161 @@
+name: deploy-cloudflare
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "schema.sql"
+      - "seed.sql"
+      - "wrangler.jsonc"
+      - "package.json"
+      - ".github/workflows/deploy-cloudflare.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: artscan-rd-cloudflare
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      D1_NAME: artscan-rd
+      QUEUE_NAME: artscan-rd-crawl
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Cloudflare credential
+        id: auth
+        shell: bash
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Cloudflare deployment is not enabled yet. Add repository secret CLOUDFLARE_API_TOKEN."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.auth.outputs.ready == 'true'
+        with:
+          node-version: "22"
+
+      - name: Quality gate
+        if: steps.auth.outputs.ready == 'true'
+        run: node scripts/verify.mjs
+
+      - name: Install Wrangler
+        if: steps.auth.outputs.ready == 'true'
+        run: npm install --no-save wrangler@4
+
+      - name: Resolve Cloudflare account
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsS "https://api.cloudflare.com/client/v4/accounts?per_page=50"             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" > /tmp/accounts.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/accounts.json','utf8'));
+          if(!j.success) throw new Error('Cloudflare account lookup failed');
+          const a=j.result||[];
+          if(a.length!==1) throw new Error('The token must expose exactly one Cloudflare account; found '+a.length);
+          fs.appendFileSync(process.env.GITHUB_ENV,'CLOUDFLARE_ACCOUNT_ID='+a[0].id+'\n');
+          NODE
+
+      - name: Ensure D1 database
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx wrangler d1 list --json > /tmp/d1.json
+          DB_ID="$(node -e "const a=require('/tmp/d1.json');const d=a.find(x=>x.name===process.env.D1_NAME);process.stdout.write(d?.uuid||d?.id||'')")"
+          if [ -z "$DB_ID" ]; then
+            npx wrangler d1 create "$D1_NAME" --location weur
+            npx wrangler d1 list --json > /tmp/d1.json
+            DB_ID="$(node -e "const a=require('/tmp/d1.json');const d=a.find(x=>x.name===process.env.D1_NAME);process.stdout.write(d?.uuid||d?.id||'')")"
+          fi
+          test -n "$DB_ID"
+          echo "ARTSCAN_D1_ID=$DB_ID" >> "$GITHUB_ENV"
+
+      - name: Ensure crawl queue
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! npx wrangler queues list --json > /tmp/queues.json 2>/dev/null; then
+            npx wrangler queues list > /tmp/queues.txt || true
+          fi
+          node <<'NODE' > /tmp/queue-exists
+          const fs=require('fs');
+          let yes=false;
+          try {
+            const x=JSON.parse(fs.readFileSync('/tmp/queues.json','utf8'));
+            const a=Array.isArray(x)?x:(x.queues||x.result||[]);
+            yes=a.some(q=>(q.name||q.queue_name)===process.env.QUEUE_NAME);
+          } catch {}
+          process.stdout.write(yes?'yes':'no');
+          NODE
+          if [ "$(cat /tmp/queue-exists)" != "yes" ]; then
+            npx wrangler queues create "$QUEUE_NAME" || true
+          fi
+
+      - name: Generate deploy config
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const p='wrangler.jsonc';
+          let s=fs.readFileSync(p,'utf8');
+          if(!process.env.ARTSCAN_D1_ID) throw new Error('Missing ARTSCan D1 id');
+          s=s.replace('REPLACE_AFTER_D1_CREATE',process.env.ARTSCAN_D1_ID);
+          fs.writeFileSync('/tmp/wrangler.deploy.jsonc',s);
+          NODE
+
+      - name: Apply D1 schema and certified seed
+        if: steps.auth.outputs.ready == 'true'
+        run: |
+          npx wrangler d1 execute "$D1_NAME" --remote --file=schema.sql
+          npx wrangler d1 execute "$D1_NAME" --remote --file=seed.sql
+
+      - name: Deploy Worker
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -o pipefail
+          npx wrangler deploy --config /tmp/wrangler.deploy.jsonc 2>&1 | tee /tmp/deploy.log
+          URL="$(grep -Eo 'https://[^ ]+\.workers\.dev' /tmp/deploy.log | tail -1 || true)"
+          echo "ARTSCAN_URL=$URL" >> "$GITHUB_ENV"
+
+      - name: Production smoke test
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${ARTSCAN_URL:-}" ]; then
+            echo "::error::Unable to resolve deployed workers.dev URL"
+            exit 1
+          fi
+          curl -fsS "$ARTSCAN_URL/api/health" > /tmp/health.json
+          node -e "const j=require('/tmp/health.json');if(!j.ok||j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true)process.exit(1);console.log(j)"
+
+      - name: Deployment summary
+        if: steps.auth.outputs.ready == 'true'
+        run: |
+          {
+            echo "## ARTSCan R&D — Cloudflare"
+            echo "- URL: $ARTSCAN_URL"
+            echo "- D1: $D1_NAME"
+            echo "- Queue: $QUEUE_NAME"
+            echo "- LLM runtime: 0"
+            echo "- Search API runtime: 0"
+            echo "- Direct HTTP: enabled"
+          } >> "$GITHUB_STEP_SUMMARY"
