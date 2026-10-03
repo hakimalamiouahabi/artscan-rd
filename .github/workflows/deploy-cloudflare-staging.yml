@@ -11,6 +11,8 @@ on:
       - "seed.generated.sql"
       - "wrangler.jsonc"
       - "package.json"
+      - "scripts/**"
+      - "data/**"
       - ".github/workflows/deploy-cloudflare-staging.yml"
 
 permissions:
