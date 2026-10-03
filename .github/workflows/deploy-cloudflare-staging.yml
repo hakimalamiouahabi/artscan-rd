@@ -8,7 +8,7 @@ on:
       - "src/**"
       - "public/**"
       - "schema.sql"
-      - "seed.sql"
+      - "seed.generated.sql"
       - "wrangler.jsonc"
       - "package.json"
       - ".github/workflows/deploy-cloudflare-staging.yml"
@@ -93,7 +93,7 @@ jobs:
       - name: Apply D1 schema and seed
         run: |
           npx wrangler d1 execute "$D1_NAME" --remote --file=schema.sql
-          npx wrangler d1 execute "$D1_NAME" --remote --file=seed.sql
+          npx wrangler d1 execute "$D1_NAME" --remote --file=seed.generated.sql
 
       - name: Deploy staging Worker
         shell: bash
