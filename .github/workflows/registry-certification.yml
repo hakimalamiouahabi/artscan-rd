@@ -22,7 +22,7 @@ concurrency:
 jobs:
   certify:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,6 +54,23 @@ jobs:
           console.log(JSON.stringify(s,null,2));
           NODE
 
+      - name: Harvest verified Corpus A from refreshed registry
+        run: |
+          node --check scripts/harvest-corpus-a.mjs
+          node scripts/harvest-corpus-a.mjs
+
+      - name: Validate Corpus A
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const a=JSON.parse(fs.readFileSync('data/corpus-a.generated.json','utf8'));
+          const s=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          if(a.some(x=>x.corpus!=='A'||x.official!==true||x.public_access!==true||x.free_access!==true||x.primary_secondary!=='primary'||x.access_status!=='free'||!['V2','V3'].includes(x.verification_level))) process.exit(1);
+          if(new Set(a.map(x=>x.canonical_hash)).size!==a.length) process.exit(1);
+          if(Number(s.verified_unique_documents)!==a.length) process.exit(1);
+          console.log(JSON.stringify(s,null,2));
+          NODE
+
       - name: Commit certified registry
         shell: bash
         run: |
@@ -68,19 +85,40 @@ jobs:
           cp data/source-registry.generated.json "$OUT/data/"
           cp data/registry-stats.json "$OUT/data/"
           cp seed.generated.sql "$OUT/"
+          cp data/corpus-a.generated.json "$OUT/data/"
+          cp data/corpus-a.generated.csv "$OUT/data/"
+          cp data/corpus-a-stats.json "$OUT/data/"
+          cp corpus-a.generated.sql "$OUT/"
 
           git fetch origin main
           git reset --hard origin/main
 
           cp "$OUT/data/"* data/
           cp "$OUT/seed.generated.sql" ./
+          cp "$OUT/data/corpus-a.generated.json" data/
+          cp "$OUT/data/corpus-a.generated.csv" data/
+          cp "$OUT/data/corpus-a-stats.json" data/
+          cp "$OUT/corpus-a.generated.sql" ./
 
           git config user.name "artscan-registry-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql
+          git add data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
           if git diff --cached --quiet; then
             echo "No registry changes"
             exit 0
           fi
-          git commit -m "data: refresh certified global research registry"
+          git commit -m "data: refresh certified registry and verified Corpus A"
           git push origin HEAD:main
+
+      - name: Sync refreshed registry and Corpus A to staging D1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          npm install --no-save wrangler@4
+          npx wrangler d1 execute artscan-rd-staging --remote --file=schema.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --file=seed.generated.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --file=corpus-a.generated.sql
