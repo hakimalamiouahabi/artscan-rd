@@ -4,7 +4,7 @@ const MAX_BODY = 800_000;
 const MAX_ROBOTS_BODY = 200_000;
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 4;
-const BATCH_SOURCE_IDS = 2;
+const BATCH_SOURCE_IDS = 1;
 const MIN_EXPERT_SOURCES = 1000;
 
 const STOPWORDS = new Set((`le la les un une des de du et ou en pour par sur dans avec sans au aux ce cette ces son sa ses leur leurs plus moins
