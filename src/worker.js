@@ -5,6 +5,7 @@ const MAX_ROBOTS_BODY = 200_000;
 const FETCH_TIMEOUT_MS = 5000;
 const MAX_REDIRECTS = 4;
 const BATCH_SOURCE_IDS = 1;
+const QUEUE_BATCH_MESSAGES = 100;
 const MIN_EXPERT_DOCUMENTS = 1000;
 
 const STOPWORDS = new Set((`le la les un une des de du et ou en pour par sur dans avec sans au aux ce cette ces son sa ses leur leurs plus moins
@@ -85,7 +86,13 @@ async function createResearch(request, env){
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
-  for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){await env.CRAWL_QUEUE.send({jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth})}
+  const messages=[];
+  for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){
+    messages.push({body:{jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth}});
+  }
+  for(let i=0;i<messages.length;i+=QUEUE_BATCH_MESSAGES){
+    await env.CRAWL_QUEUE.sendBatch(messages.slice(i,i+QUEUE_BATCH_MESSAGES));
+  }
   await env.DB.prepare(`UPDATE research_jobs SET status='running' WHERE id=?`).bind(id).run();
   return json({jobId:id,status:"running",totalSources:ids.length},202);
 }
