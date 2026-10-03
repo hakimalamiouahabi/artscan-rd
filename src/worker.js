@@ -85,7 +85,7 @@ async function createResearch(request, env){
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
-  for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){await env.CRAWL_QUEUE.send({jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context})}
+  for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){await env.CRAWL_QUEUE.send({jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth})}
   await env.DB.prepare(`UPDATE research_jobs SET status='running' WHERE id=?`).bind(id).run();
   return json({jobId:id,status:"running",totalSources:ids.length},202);
 }
@@ -94,11 +94,16 @@ async function getResearch(id, env){
   const job=await env.DB.prepare(`SELECT * FROM research_jobs WHERE id=?`).bind(id).first();
   if(!job)return json({error:"Recherche introuvable"},404);
   const ev=await env.DB.prepare(`SELECT e.page_url,e.title,e.snippet,e.evidence_kind,e.lexical_score,s.organism,s.country,s.continent,s.certification_url FROM evidence e JOIN sources s ON s.id=e.source_id WHERE e.job_id=? ORDER BY e.lexical_score DESC,e.id LIMIT 250`).bind(id).all();
-  return json({job,evidence:ev.results,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
+  let documentary={verifiedDocuments:0,v3:0,v2:0,target:MIN_EXPERT_SOURCES,complete:false};
+  try{
+    const c=await env.DB.prepare(`SELECT COUNT(*) AS n, SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3, SUM(CASE WHEN d.verification_level='V2' THEN 1 ELSE 0 END) AS v2 FROM job_documents jd JOIN documents d ON d.id=jd.document_id WHERE jd.job_id=?`).bind(id).first();
+    documentary={verifiedDocuments:Number(c?.n||0),v3:Number(c?.v3||0),v2:Number(c?.v2||0),target:MIN_EXPERT_SOURCES,complete:Number(c?.n||0)>=MIN_EXPERT_SOURCES};
+  }catch{}
+  return json({job,evidence:ev.results,documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
 }
 
 async function processQueueMessage(body, env){
-  const {jobId,sourceIds,topic,context}=body||{};
+  const {jobId,sourceIds,topic,context,depth='standard'}=body||{};
   if(!jobId||!Array.isArray(sourceIds)||!sourceIds.length)return;
   const qs=sourceIds.map(()=>"?").join(",");
   const rows=await env.DB.prepare(`SELECT * FROM sources WHERE id IN (${qs}) AND active=1 AND official=1 AND public_access=1 AND free_access=1`).bind(...sourceIds).all();
@@ -106,7 +111,7 @@ async function processQueueMessage(body, env){
   let reachable=0, matched=0, errors=0;
   for(const source of rows.results){
     try{
-      const result=await scanSource(source,terms,jobId,env);
+      const result=await scanSource(source,terms,jobId,env,depth);
       if(result.reachable)reachable++;
       if(result.matched)matched++;
     }catch(e){errors++;console.error("SOURCE_SCAN_FAILED",source.root_url,String(e?.message||e))}
@@ -116,7 +121,7 @@ async function processQueueMessage(body, env){
   if(job && Number(job.processed_sources)>=Number(job.total_sources))await env.DB.prepare(`UPDATE research_jobs SET status='complete',completed_at=? WHERE id=?`).bind(new Date().toISOString(),jobId).run();
 }
 
-async function scanSource(source,terms,jobId,env){
+async function scanSource(source,terms,jobId,env,depth='standard'){
   const root=normalizeHttpUrl(source.root_url); if(!root)return {reachable:false,matched:false};
   if(!safePublicUrl(root))return {reachable:false,matched:false};
 
@@ -140,7 +145,7 @@ async function scanSource(source,terms,jobId,env){
     const candidates=extractLocs(sm.text)
       .filter(u=>sameCrawlHost(u,root)&&robotsAllowedForUrl(robots.text,u,ROBOTS_UA))
       .map(u=>({u,s:lexicalScore(decodeURIComponent(u),terms)}))
-      .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,2);
+      .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,depth==='expert'?12:depth==='approfondi'?5:2);
     for(const c of candidates){const p=await fetchText(c.u,MAX_BODY,root);if(p)pages.push(p)}
   }
 
@@ -148,7 +153,14 @@ async function scanSource(source,terms,jobId,env){
   for(const page of pages){
     const title=extractTitle(page.text)||source.organism;
     const snippets=extractSnippets(page.text,terms).slice(0,4);
-    const doc=await upsertVerifiedDocument(env,source,page,title,snippets,terms);
+    let docId=null;
+    if(snippets.length){
+      docId=await upsertVerifiedDocument(env,source,page,title,snippets,terms);
+      if(docId){
+        const rel=Math.max(0,Math.min(5,Math.ceil((snippets[0]?.score||0)/2)));
+        await env.DB.prepare(`INSERT INTO job_documents(job_id,document_id,relevance_score,evidence_count,included_reason) VALUES(?,?,?,?,?) ON CONFLICT(job_id,document_id) DO UPDATE SET relevance_score=MAX(job_documents.relevance_score,excluded.relevance_score), evidence_count=MAX(job_documents.evidence_count,excluded.evidence_count)`).bind(jobId,docId,rel,snippets.length,'lexical_match_on_verified_primary_source').run();
+      }
+    }
     for(const sn of snippets){
       const hash=await sha256(page.url+"\n"+sn.text);
       await env.DB.prepare(`INSERT OR IGNORE INTO evidence(job_id,source_id,page_url,title,snippet,evidence_kind,lexical_score,retrieved_at,content_hash) VALUES(?,?,?,?,?,?,?,?,?)`).bind(jobId,source.id,page.url,title,sn.text,classify(sn.text),sn.score,new Date().toISOString(),hash).run();
@@ -221,7 +233,7 @@ async function upsertVerifiedDocument(env,source,page,title,snippets,terms){
   const text=stripHtml(page.text).slice(0,5000);
   const factual=(snippets[0]?.text||text.slice(0,500)||'').slice(0,900);
   const relevance=Math.max(0,Math.min(5,Math.ceil((snippets[0]?.score||0)/2)));
-  const verification=title&&text.length>=200?'V3':'V2';
+  const verification='V2';
   const now=new Date().toISOString();
   await env.DB.prepare(`
     INSERT INTO documents(
@@ -244,7 +256,8 @@ async function upsertVerifiedDocument(env,source,page,title,snippets,terms){
     'free','primary','not_applicable',relevance,'B',verification,page.status,
     'Vérifiée par ouverture HTTP directe depuis une source institutionnelle 3/3.',await sha256(page.text),canonicalHash,1,1,1
   ).run();
-  return internalId;
+  const row=await env.DB.prepare(`SELECT id FROM documents WHERE canonical_hash=?`).bind(canonicalHash).first();
+  return row?.id||null;
 }
 function canonicalizeDocumentUrl(u){
   try{
