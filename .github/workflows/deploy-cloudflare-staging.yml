@@ -136,4 +136,11 @@ jobs:
             echo "- Institutional registry: certified 3/3 sources loaded from generated seed"
             echo "- Corpus A: verified V2/V3 documents loaded when corpus-a.generated.sql exists"
             echo "- Production readiness: based on 1000 verified Corpus A documents, not site count"
+            if [ -f /tmp/health.json ]; then
+              echo ""
+              echo '### Health'
+              echo '```json'
+              cat /tmp/health.json
+              echo '```'
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
