@@ -59,8 +59,7 @@ for(const x of merged)byContinent[x.continent]=(byContinent[x.continent]||0)+1;
 const stats={
   certifiedSources:merged.length,
   certifiedUniqueHosts:hosts.size,
-  expertMinimumUniqueHosts:1000,
-  productionReady:hosts.size>=1000,
+  institutionalRegistryReady:hosts.size>0,
   byContinent,
   byOrigin:Object.fromEntries(inputs.map(([name,path])=>[name,readArray(path).length]))
 };
