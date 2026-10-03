@@ -85,9 +85,6 @@ async function createResearch(request, env){
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
-  for(const sourceId of ids){
-    await env.DB.prepare(`INSERT OR IGNORE INTO job_source_status(job_id,source_id,status) VALUES(?,?,'queued')`).bind(id,sourceId).run();
-  }
   for(let i=0;i<ids.length;i+=BATCH_SOURCE_IDS){await env.CRAWL_QUEUE.send({jobId:id,sourceIds:ids.slice(i,i+BATCH_SOURCE_IDS),topic,context,depth})}
   await env.DB.prepare(`UPDATE research_jobs SET status='running' WHERE id=?`).bind(id).run();
   return json({jobId:id,status:"running",totalSources:ids.length},202);
