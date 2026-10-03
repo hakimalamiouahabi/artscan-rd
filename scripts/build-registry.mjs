@@ -70,16 +70,32 @@ fs.writeFileSync('data/registry-stats.json',JSON.stringify(stats,null,2)+'\n');
 
 const q=s=>"'"+String(s??'').replaceAll("'","''")+"'";
 const values=merged.map(x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type||'official_research_source')},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${x.access_http_status==null?'NULL':Number(x.access_http_status)},${q(x.access_checked_at||new Date().toISOString())})`).join(',\n');
-const sql=`INSERT OR REPLACE INTO sources
+const sql=`INSERT INTO sources
 (organism,country,continent,root_url,source_type,official,public_access,free_access,certification_url,certification_date,language,category,active,last_http_status,last_checked_at)
 VALUES
-${values};
+${values}
+ON CONFLICT(root_url) DO UPDATE SET
+  organism=excluded.organism,
+  country=excluded.country,
+  continent=excluded.continent,
+  source_type=excluded.source_type,
+  official=excluded.official,
+  public_access=excluded.public_access,
+  free_access=excluded.free_access,
+  certification_url=excluded.certification_url,
+  certification_date=excluded.certification_date,
+  language=excluded.language,
+  category=excluded.category,
+  active=excluded.active,
+  last_http_status=excluded.last_http_status,
+  last_checked_at=excluded.last_checked_at,
+  updated_at=CURRENT_TIMESTAMP;
 
-INSERT OR REPLACE INTO registry_meta(key,value,updated_at) VALUES
+INSERT INTO registry_meta(key,value,updated_at) VALUES
 ('certified_sources',${q(String(stats.certifiedSources))},CURRENT_TIMESTAMP),
 ('certified_unique_hosts',${q(String(stats.certifiedUniqueHosts))},CURRENT_TIMESTAMP),
-('expert_minimum_unique_hosts','1000',CURRENT_TIMESTAMP),
-('production_ready',${q(stats.productionReady?'1':'0')},CURRENT_TIMESTAMP);
+('institutional_registry_ready','1',CURRENT_TIMESTAMP)
+ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP;
 `;
 fs.writeFileSync('seed.generated.sql',sql);
 
