@@ -8,8 +8,6 @@ on:
       - "scripts/harvest-corpus-a.mjs"
       - "data/source-registry.generated.json"
       - ".github/workflows/corpus-a-harvest.yml"
-  schedule:
-    - cron: "47 4 1,15 * *"
 
 permissions:
   contents: write
