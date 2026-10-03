@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');
-const worker=read('src/worker.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json'));
+const worker=read('src/worker.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json')),stats=fs.existsSync('data/registry-stats.json')?JSON.parse(read('data/registry-stats.json')):{certifiedUniqueHosts:seed.length,certifiedSources:seed.length};
 const fail=m=>{throw new Error(m)};
 if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('Runtime LLM dependency detected');
 if(/serpapi|tavily|exa|bing search|google custom search|firecrawl|tinyfish/i.test(worker))fail('External search API/runtime dependency detected');
@@ -10,10 +10,10 @@ if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier D1 subrequest 
 if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert registry floor missing');
 if(!schema.includes('official = 1 AND public_access = 1 AND free_access = 1'))fail('3/3 source gate missing');
 if(seed.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active)))fail('Invalid active seed source');
-if(process.env.STRICT_PRODUCTION==='1'&&seed.length<1000)fail(`Production registry incomplete: ${seed.length}/1000`);
+if(process.env.STRICT_PRODUCTION==='1'&&Number(stats.certifiedUniqueHosts||0)<1000)fail(`Production registry incomplete: ${stats.certifiedUniqueHosts||0}/1000 distinct certified sites`);
 if(!html.includes('LEYTON<span>•</span>FRANCE'))fail('Leyton France identity missing');
 if(!css.includes('grid-template-columns:340px minmax(0,1fr)'))fail('13-inch two-column layout missing');
 if(!css.includes('overflow-x:hidden'))fail('Horizontal overflow guard missing');
 if(/fonts\.googleapis\.com|@import\s+url\(/i.test(css))fail('External font dependency detected');
 if(pkg.name!=='artscan-rd')fail('Package identity invalid');
-console.log(JSON.stringify({ok:true,llmRuntime:false,externalSearchApiRuntime:false,robotsPathRules:true,ssrf:true,sourceGate:'3/3',batchSourceIds:1,registrySeedCount:seed.length,productionRegistryReady:seed.length>=1000,desktopTarget:'1366x768'},null,2));
+console.log(JSON.stringify({ok:true,llmRuntime:false,externalSearchApiRuntime:false,robotsPathRules:true,ssrf:true,sourceGate:'3/3',batchSourceIds:1,registrySeedCount:seed.length,certifiedSources:Number(stats.certifiedSources||seed.length),certifiedUniqueHosts:Number(stats.certifiedUniqueHosts||seed.length),productionRegistryReady:Number(stats.certifiedUniqueHosts||0)>=1000,desktopTarget:'1366x768'},null,2));
