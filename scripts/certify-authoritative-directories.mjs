@@ -43,6 +43,43 @@ const DIRECTORIES=[
     url:'https://roadmap2021.esfri.eu/projects-and-landmarks/browse-the-catalogue/',
     country:'European Research Area', continent:'Europe', category:'research_infrastructure',
     accept:(u)=>u.hostname==='roadmap2021.esfri.eu' && /^\/projects-and-landmarks\/browse-the-catalogue\/[a-z0-9][a-z0-9-]+\/?$/i.test(u.pathname)
+  },
+  {
+    id:'nih',
+    name:'U.S. National Institutes of Health — Institutes and Centers',
+    url:'https://www.nih.gov/institutes-nih/list-institutes-centers',
+    country:'United States', continent:'North America', category:'biomedical_research',
+    accept:(u)=>u.hostname==='www.cancer.gov'||u.hostname==='cancer.gov'||u.hostname.endsWith('.nih.gov'),
+    reject:(u)=>u.hostname==='www.nih.gov'
+  },
+  {
+    id:'nasa',
+    name:'NASA — Centers and Facilities',
+    url:'https://www.nasa.gov/centers-and-facilities/',
+    country:'United States', continent:'North America', category:'space_research',
+    accept:(u)=>u.hostname==='www.nasa.gov' && /^\/(headquarters|ames|armstrong|glenn|goddard|goddard-institute-for-space-studies|jpl|johnson|katherine-johnson-ivv-facility|kennedy|langley|marshall|michoud-assembly-facility|nesc|nasa-safety-center|nasa-shared-services-center|neil-armstrong-test-facility|stennis|wallops|white-sands-test-facility)\/?$/i.test(u.pathname)
+  },
+  {
+    id:'usgs-centers',
+    name:'U.S. Geological Survey — Science Centers',
+    url:'https://www.usgs.gov/science/science-centers',
+    country:'United States', continent:'North America', category:'earth_science',
+    accept:(u)=>u.hostname==='www.usgs.gov' && /^\/centers\/[^/]+\/?$/i.test(u.pathname)
+  },
+  {
+    id:'usgs-labs',
+    name:'U.S. Geological Survey — Laboratories',
+    url:'https://www.usgs.gov/science/laboratories',
+    country:'United States', continent:'North America', category:'earth_science',
+    accept:(u)=>u.hostname==='www.usgs.gov' && /^\/labs\//i.test(u.pathname)
+  },
+  {
+    id:'fraunhofer',
+    name:'Fraunhofer — Institutes and Research Units',
+    url:'https://www.fraunhofer.de/en/institutes/institutes-and-research-establishments-in-germany.html',
+    country:'Germany', continent:'Europe', category:'applied_research',
+    accept:(u)=>u.hostname.endsWith('.fraunhofer.de') && !/^(?:www\.)?(?:map|maps|standortkarte)\.fraunhofer\.de$/i.test(u.hostname),
+    reject:(u)=>u.hostname==='www.fraunhofer.de'
   }
 ];
 
@@ -72,13 +109,17 @@ function anchors(html,base){
   return out;
 }
 async function checkAnonymous(url){
-  const r=await fetchText(url,{allowNon2xx:true});
-  if(!r)return {ok:false,status:null,resolvedUrl:null,reason:'unreachable'};
-  if(r.status<200||r.status>=400)return {ok:false,status:r.status,resolvedUrl:r.url,reason:'http_'+r.status};
-  const n=r.text.toLowerCase();
-  const loginWall=/\b(sign in|log in|login required|authentication required|access denied|subscription required|subscribe to continue|paywall)\b/i.test(n.slice(0,120000));
-  if(loginWall)return {ok:false,status:r.status,resolvedUrl:r.url,reason:'access_gate_detected'};
-  return {ok:true,status:r.status,resolvedUrl:r.url,reason:null};
+  for(let attempt=0;attempt<2;attempt++){
+    const r=await fetchText(url,{allowNon2xx:true});
+    if(r && r.status>=200 && r.status<400 && r.text.length>=80){
+      return {ok:true,status:r.status,resolvedUrl:r.url,reason:null};
+    }
+    if(r && r.status>=400 && r.status!==408 && r.status!==429 && r.status<500){
+      return {ok:false,status:r.status,resolvedUrl:r.url,reason:'http_'+r.status};
+    }
+    if(attempt===0)await new Promise(res=>setTimeout(res,350));
+  }
+  return {ok:false,status:null,resolvedUrl:null,reason:'unreachable'};
 }
 function labelFromUrl(url){try{return new URL(url).hostname.replace(/^www\./,'')}catch{return url}}
 
@@ -91,7 +132,7 @@ for(const d of DIRECTORIES){
   for(const a of anchors(page.text,d.url)){
     if(d.reject?.(a.u))continue;
     if(!d.accept?.call(d,a.u))continue;
-    const canonical=a.url.replace(/^http:/,'https:').replace(/\/$/,'/');
+    const canonical=a.url.replace(/\/$/,'/');
     if(seen.has(canonical))continue;seen.add(canonical);
     candidates.push({d,a,canonical});
   }
@@ -106,7 +147,7 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
     return {
       organism:a.text||labelFromUrl(canonical),
       country:d.country,continent:d.continent,
-      root_url:canonical,
+      root_url:access.resolvedUrl||canonical,
       source_type:d.id==='esfri'?'official_research_infrastructure_record':'official_research_institution',
       official:true,
       public_access:true,
