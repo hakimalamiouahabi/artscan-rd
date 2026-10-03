@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 
 const UA='ARTSCAN-RD/3.2 registry-certifier (+https://github.com/hakimalamiouahabi/artscan-rd)';
-const TIMEOUT=10000;
+const TIMEOUT=6500;
 const MAX_HTML=2_000_000;
 const today=new Date().toISOString().slice(0,10);
 
@@ -138,11 +138,14 @@ for(const d of DIRECTORIES){
   }
 }
 
-const CONCURRENCY=12;
+const CONCURRENCY=8;
 for(let i=0;i<candidates.length;i+=CONCURRENCY){
   const slice=candidates.slice(i,i+CONCURRENCY);
-  const checked=await Promise.all(slice.map(async ({d,a,canonical})=>{
-    const access=await checkAnonymous(canonical);
+  const checked=await Promise.allSettled(slice.map(async ({d,a,canonical})=>{
+    const access=await Promise.race([
+      checkAnonymous(canonical),
+      new Promise(resolve=>setTimeout(()=>resolve({ok:false,status:null,resolvedUrl:null,reason:'deadline'}),15000))
+    ]);
     if(!access.ok){console.error('CANDIDATE_REJECT',d.id,canonical,access.reason);return null}
     return {
       organism:a.text||labelFromUrl(canonical),
@@ -162,7 +165,7 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
       active:true
     };
   }));
-  discovered.push(...checked.filter(Boolean));
+  discovered.push(...checked.filter(x=>x.status==='fulfilled'&&x.value).map(x=>x.value));
   console.log('PROGRESS',Math.min(i+CONCURRENCY,candidates.length),'/',candidates.length,'certified',discovered.length);
 }
 const byKey=new Map();
