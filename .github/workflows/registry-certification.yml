@@ -58,13 +58,29 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          OUT=/tmp/artscan-registry-output
+          rm -rf "$OUT"
+          mkdir -p "$OUT/data"
+          cp data/registry-authoritative.json "$OUT/data/"
+          cp data/registry-authoritative-stats.json "$OUT/data/"
+          cp data/registry-ipeds.json "$OUT/data/"
+          cp data/registry-ipeds-stats.json "$OUT/data/"
+          cp data/source-registry.generated.json "$OUT/data/"
+          cp data/registry-stats.json "$OUT/data/"
+          cp seed.generated.sql "$OUT/"
+
+          git fetch origin main
+          git reset --hard origin/main
+
+          cp "$OUT/data/"* data/
+          cp "$OUT/seed.generated.sql" ./
+
           git config user.name "artscan-registry-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add             data/registry-authoritative.json             data/registry-authoritative-stats.json             data/registry-ipeds.json             data/registry-ipeds-stats.json             data/source-registry.generated.json             data/registry-stats.json             seed.generated.sql
+          git add data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql
           if git diff --cached --quiet; then
             echo "No registry changes"
             exit 0
           fi
           git commit -m "data: refresh certified global research registry"
-          git pull --rebase origin main
           git push origin HEAD:main
