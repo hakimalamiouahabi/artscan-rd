@@ -217,3 +217,17 @@ CREATE TABLE IF NOT EXISTS job_documents (
 );
 CREATE INDEX IF NOT EXISTS idx_job_documents_job_relevance
   ON job_documents(job_id, relevance_score DESC);
+
+
+CREATE TABLE IF NOT EXISTS job_source_status (
+  job_id TEXT NOT NULL REFERENCES research_jobs(id) ON DELETE CASCADE,
+  source_id INTEGER NOT NULL REFERENCES sources(id) ON DELETE CASCADE,
+  status TEXT NOT NULL CHECK (status IN ('queued','processing','complete')),
+  reachable INTEGER NOT NULL DEFAULT 0 CHECK (reachable IN (0,1)),
+  matched INTEGER NOT NULL DEFAULT 0 CHECK (matched IN (0,1)),
+  error INTEGER NOT NULL DEFAULT 0 CHECK (error IN (0,1)),
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(job_id, source_id)
+);
+CREATE INDEX IF NOT EXISTS idx_job_source_status_job
+  ON job_source_status(job_id, status);
