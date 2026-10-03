@@ -2,18 +2,6 @@ name: deploy-cloudflare
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "public/**"
-      - "schema.sql"
-      - "seed.generated.sql"
-      - "wrangler.jsonc"
-      - "package.json"
-      - "scripts/**"
-      - "data/**"
-      - ".github/workflows/deploy-cloudflare.yml"
 
 permissions:
   contents: read
@@ -28,22 +16,37 @@ jobs:
     timeout-minutes: 15
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: "2360fa66c85ca46ffb73dcd895454b5a"
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       D1_NAME: artscan-rd
       QUEUE_NAME: artscan-rd-crawl
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check Cloudflare credential
+      - name: Check Cloudflare credentials
         id: auth
         shell: bash
         run: |
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Cloudflare deployment is not enabled yet. Add repository secret CLOUDFLARE_API_TOKEN."
-          else
-            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "::error::Missing CLOUDFLARE_API_TOKEN or CLOUDFLARE_ACCOUNT_ID."
+            exit 1
           fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Documentary production gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsS "https://artscan-rd-staging.mnin-nbda-beta.workers.dev/api/health" > /tmp/staging-health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/staging-health.json','utf8'));
+          if(!j.ok) throw new Error('Staging health is not OK');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('Production blocked: verified Corpus A is '+Number(j.corpusAVerified||0)+'/1000');
+          if(Number(j.invalidActive||0)!==0) throw new Error('Production blocked: invalid active institutional sources');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Production blocked: runtime invariants failed');
+          console.log(j);
+          NODE
 
       - uses: actions/setup-node@v4
         if: steps.auth.outputs.ready == 'true'
@@ -52,26 +55,12 @@ jobs:
 
       - name: Quality gate
         if: steps.auth.outputs.ready == 'true'
-        run: node --check src/worker.js && STRICT_PRODUCTION=1 node scripts/verify.mjs
+        run: node --check src/worker.js && node scripts/verify.mjs
 
       - name: Install Wrangler
         if: steps.auth.outputs.ready == 'true'
         run: npm install --no-save wrangler@4
 
-      - name: Resolve Cloudflare account
-        if: steps.auth.outputs.ready == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl -fsS "https://api.cloudflare.com/client/v4/accounts?per_page=50"             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" > /tmp/accounts.json
-          node <<'NODE'
-          const fs=require('fs');
-          const j=JSON.parse(fs.readFileSync('/tmp/accounts.json','utf8'));
-          if(!j.success) throw new Error('Cloudflare account lookup failed');
-          const a=j.result||[];
-          if(a.length!==1) throw new Error('The token must expose exactly one Cloudflare account; found '+a.length);
-          fs.appendFileSync(process.env.GITHUB_ENV,'CLOUDFLARE_ACCOUNT_ID='+a[0].id+'\n');
-          NODE
 
       - name: Ensure D1 database
         if: steps.auth.outputs.ready == 'true'
