@@ -2,6 +2,10 @@ name: deploy-cloudflare
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/deploy-cloudflare.yml"
 
 permissions:
   contents: read
@@ -131,7 +135,18 @@ jobs:
             exit 1
           fi
           curl -fsS "$ARTSCAN_URL/api/health" > /tmp/health.json
-          node -e "const j=require('/tmp/health.json');if(!j.ok||j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true)process.exit(1);console.log(j)"
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          if(!j.ok) throw new Error('production health not ok');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
+          if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
+          if(Number(j.certifiedInstitutions||0)!==Number(s.certifiedSources||0)) throw new Error('production registry mismatch');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('production Corpus A below 1000');
+          if(j.productionReady!==true) throw new Error('productionReady is false');
+          console.log(j);
+          NODE
 
       - name: Deployment summary
         if: steps.auth.outputs.ready == 'true'
