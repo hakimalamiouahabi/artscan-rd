@@ -34,5 +34,6 @@ if(!html.includes('LEYTON<span>•</span>FRANCE'))fail('Leyton France identity m
 if(!css.includes('grid-template-columns:340px minmax(0,1fr)'))fail('13-inch two-column layout missing');
 if(!css.includes('overflow-x:hidden'))fail('Horizontal overflow guard missing');
 if(/fonts\.googleapis\.com|@import\s+url\(/i.test(css))fail('External font dependency detected');
+if(!css.trimStart().startsWith(':root{'))fail('Malformed CSS prefix residue detected');
 if(pkg.name!=='artscan-rd')fail('Package identity invalid');
 console.log(JSON.stringify({ok:true,llmRuntime:false,externalSearchApiRuntime:false,robotsPathRules:true,ssrf:true,sourceGate:'3/3',batchSourceIds:1,registrySeedCount:seed.length,certifiedSources:Number(stats.certifiedSources||seed.length),certifiedUniqueHosts:Number(stats.certifiedUniqueHosts||seed.length),institutionalRegistryHosts:Number(stats.certifiedUniqueHosts||seed.length),desktopTarget:'1366x768'},null,2));
