@@ -3,6 +3,7 @@ const read=p=>fs.readFileSync(p,'utf8');
 const worker=read('src/worker.js'),app=read('public/app.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json')),stats=fs.existsSync('data/registry-stats.json')?JSON.parse(read('data/registry-stats.json')):{certifiedUniqueHosts:seed.length,certifiedSources:seed.length},qualityWorkflow=read('.github/workflows/quality.yml'),registryWorkflow=read('.github/workflows/registry-certification.yml'),stagingDeploy=read('.github/workflows/deploy-cloudflare-staging.yml'),productionDeploy=read('.github/workflows/deploy-cloudflare.yml'),corpusHarvestWorkflow=read('.github/workflows/corpus-a-harvest.yml'),rebuildWorkflow=read('.github/workflows/rebuild-registry-artifacts.yml'),harvestScript=read('scripts/harvest-corpus-a.mjs');
 const fail=m=>{throw new Error(m)};
 const buildScript=read('scripts/build-registry.mjs'),seedCertScript=read('scripts/certify-seed-sources.mjs'),generatedRegistry=JSON.parse(read('data/source-registry.generated.json')),generatedCorpus=JSON.parse(read('data/corpus-a.generated.json'));
+const corpusStats=JSON.parse(read('data/corpus-a-stats.json'));
 const corpusAccessRoots=new Set(generatedCorpus.filter(d=>d?.corpus==='A'&&d?.active===true&&d?.official===true&&d?.public_access===true&&d?.free_access===true&&d?.primary_secondary==='primary'&&d?.access_status==='free'&&['V2','V3'].includes(d?.verification_level)&&Number(d?.http_status)>=200&&Number(d?.http_status)<300).map(d=>d.source_root_url));
 const hasRecorded2xx=x=>{const raw=x?.access_http_status??x?.last_http_status;if(raw==null)return false;const n=Number(raw);return Number.isFinite(n)&&n>=200&&n<300};
 if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('Runtime LLM dependency detected');
@@ -14,6 +15,7 @@ if(!worker.includes('QUEUE_BATCH_MESSAGES = 100'))fail('Queue producer batching 
 if(!worker.includes('sendBatch'))fail('Large-scan queue batching missing');
 if(!worker.includes('local_corpus_lexical_match'))fail('Local corpus retrieval missing');
 if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
+if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert institutional-source floor missing');
 if(!worker.includes('corpusASources'))fail('Corpus A represented-source metric missing');
 if(!worker.includes('selectedDocuments'))fail('Per-research documentary selection metric missing');
 if(!worker.includes('corpusVerified'))fail('Global Corpus A metric missing');
@@ -26,7 +28,7 @@ if(!qualityWorkflow.includes('workflow_dispatch:'))fail('Manual quality verifica
 if(!registryWorkflow.includes('cron: "0 0,1 1,15 * *"')||!registryWorkflow.includes('TZ=Europe/Paris'))fail('Fortnightly 02:00 Europe/Paris registry schedule missing');
 if(!registryWorkflow.includes("github.event_name == 'schedule'")||!registryWorkflow.includes('d1 execute artscan-rd --remote')||!registryWorkflow.includes('Production Corpus A mismatch'))fail('Validated scheduled production data promotion missing');
 if(!harvestScript.includes("UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1"))fail('Corpus A stale-document deactivation missing from generator');
-if(!harvestScript.includes('HARVEST_TARGET_DOCS=1500')||!harvestScript.includes('MIN_VERIFIED_DOCUMENTS=1000')||!harvestScript.includes('sources_represented:sourcesRepresented')||!harvestScript.includes('unique.length>=MIN_VERIFIED_DOCUMENTS'))fail('Documentary Corpus A threshold/diversity logic missing');
+if(!harvestScript.includes('MAX_DOCS_PER_SOURCE=1')||!harvestScript.includes('TARGET_DOCS=1000')||!harvestScript.includes('TARGET_SOURCES=1000')||!harvestScript.includes('sources_represented:sourcesRepresented')||!harvestScript.includes('sourcesRepresented>=TARGET_SOURCES'))fail('Broad institutional Corpus A coverage logic missing');
 for(const [name,w] of [['registry',registryWorkflow],['staging deploy',stagingDeploy],['production deploy',productionDeploy],['corpus harvest',corpusHarvestWorkflow],['registry rebuild',rebuildWorkflow]])if(!w.includes("UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1"))fail(name+' stale Corpus A cleanup missing');
 if(!stagingDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(stagingDeploy)||/^\s*schedule:/m.test(stagingDeploy))fail('Staging deploy must remain manual-only');
 if(!productionDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(productionDeploy)||/^\s*schedule:/m.test(productionDeploy))fail('Production deploy must remain manual-only');
@@ -39,6 +41,7 @@ if(Number(stats.certifiedSources||0)!==generatedRegistry.length)fail('Registry s
 if(generatedCorpus.some(x=>x?.corpus!=='A'||x?.official!==true||x?.public_access!==true||x?.free_access!==true||x?.primary_secondary!=='primary'||x?.access_status!=='free'||!['V2','V3'].includes(x?.verification_level)))fail('Invalid generated Corpus A document');
 if(new Set(generatedCorpus.map(x=>x.canonical_hash)).size!==generatedCorpus.length)fail('Duplicate Corpus A canonical hash');
 if(new Set(generatedCorpus.map(x=>x.canonical_url)).size!==generatedCorpus.length)fail('Duplicate Corpus A canonical URL');
+if(corpusStats.complete===true&&(Number(corpusStats.verified_unique_documents||0)<Number(corpusStats.target||1000)||Number(corpusStats.sources_represented||0)<Number(corpusStats.target_sources||1000)))fail('Corpus A falsely marked complete');
 const generatedRoots=new Set(generatedRegistry.map(x=>x.root_url));
 if(generatedCorpus.some(x=>!generatedRoots.has(x.source_root_url)))fail('Corpus A document orphaned from certified registry');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
