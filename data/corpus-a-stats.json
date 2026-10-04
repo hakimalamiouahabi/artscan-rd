@@ -3,7 +3,7 @@
   "corpus": "A",
   "target": 1000,
   "verified_unique_documents": 1281,
-  "complete": true,
+  "complete": false,
   "verification_levels": {
     "V2": 1281,
     "V3": 0
@@ -19,5 +19,9 @@
     "Oceania": 12,
     "South America": 11
   },
-  "duplicates_removed": 281
+  "duplicates_removed": 281,
+  "target_sources": 1000,
+  "sources_represented": null,
+  "coverage_recertification_required": true,
+  "coverage_note": "Legacy corpus met the document-count threshold but was built before the 1000 represented-source coverage gate. Re-harvest required."
 }
