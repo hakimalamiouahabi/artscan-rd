@@ -113,7 +113,7 @@ const DIRECTORIES=[
   }
 ];
 
-const seed=JSON.parse(fs.readFileSync('data/source-registry.seed.json','utf8'));
+const previousAuthoritative=fs.existsSync('data/registry-authoritative.json')?JSON.parse(fs.readFileSync('data/registry-authoritative.json','utf8')):[];
 
 async function fetchText(url,{allowNon2xx=false}={}){
   const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),TIMEOUT);
@@ -184,6 +184,16 @@ for(const d of DIRECTORIES){
     if(seen.has(canonical))continue;seen.add(canonical);
     candidates.push({d,a,canonical,certificationDate:today,certificationMethod:'authoritative_official_directory_link_plus_anonymous_http_access'});
   }
+  if(!page){
+    for(const prev of previousAuthoritative.filter(x=>x.certification_url===d.url&&snapshotFresh(x.certification_date))){
+      try{
+        const u=new URL(prev.root_url);if(d.reject?.(u)||!d.accept?.call(d,u))continue;
+        const canonical=u.toString().replace(/\/$/,'/');
+        if(seen.has(canonical))continue;seen.add(canonical);
+        candidates.push({d,a:{url:canonical,u,text:prev.organism},canonical,certificationDate:prev.certification_date,certificationMethod:'previous_certified_directory_snapshot_plus_current_anonymous_http_access',previousRow:prev});
+      }catch{}
+    }
+  }
   const fallbackAllowed=page||snapshotFresh(d.fallbackSnapshotDate);
   if(!page&&d.fallbacks?.length&&!fallbackAllowed)console.error('DIRECTORY_FALLBACK_EXPIRED',d.id,d.fallbackSnapshotDate);
   if(fallbackAllowed)for(const [name,url] of d.fallbacks||[]){
@@ -199,7 +209,7 @@ for(const d of DIRECTORIES){
 const CONCURRENCY=8;
 for(let i=0;i<candidates.length;i+=CONCURRENCY){
   const slice=candidates.slice(i,i+CONCURRENCY);
-  const checked=await Promise.allSettled(slice.map(async ({d,a,canonical,certificationDate,certificationMethod})=>{
+  const checked=await Promise.allSettled(slice.map(async ({d,a,canonical,certificationDate,certificationMethod,previousRow})=>{
     const access=await Promise.race([
       checkAnonymous(canonical),
       new Promise(resolve=>setTimeout(()=>resolve({ok:false,status:null,resolvedUrl:null,reason:'deadline'}),15000))
@@ -209,7 +219,7 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
       organism:a.text||labelFromUrl(canonical),
       country:d.country,continent:d.continent,
       root_url:access.resolvedUrl||canonical,
-      source_type:d.id==='esfri'?'official_research_infrastructure_record':'official_research_institution',
+      source_type:previousRow?.source_type||(d.id==='esfri'?'official_research_infrastructure_record':'official_research_institution'),
       official:true,
       public_access:true,
       free_access:true,
@@ -218,8 +228,8 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
       certification_method:certificationMethod||'authoritative_official_directory_link_plus_anonymous_http_access',
       access_checked_at:new Date().toISOString(),
       access_http_status:access.status,
-      language:'en',
-      category:d.category,
+      language:previousRow?.language||'en',
+      category:previousRow?.category||d.category,
       active:true
     };
   }));
