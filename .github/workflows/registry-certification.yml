@@ -17,8 +17,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: artscan-registry-certification
-  cancel-in-progress: true
+  group: artscan-rd-staging-d1
+  cancel-in-progress: false
 
 jobs:
   certify:
