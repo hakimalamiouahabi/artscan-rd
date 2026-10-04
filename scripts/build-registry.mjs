@@ -74,11 +74,16 @@ for(const x of merged)byContinent[x.continent]=(byContinent[x.continent]||0)+1;
 
 const byOrigin={};
 for(const x of merged)byOrigin[x.registry_origin]=(byOrigin[x.registry_origin]||0)+1;
+const documentaryAccessEvidenceOnly=merged.filter(x=>{
+  const status=Number(x?.access_http_status??x?.last_http_status);
+  return !(Number.isFinite(status)&&status>=200&&status<300)&&documentaryAccessRoots.has(x.root_url);
+}).length;
 const stats={
   certifiedSources:merged.length,
   certifiedUniqueHosts:hosts.size,
   institutionalRegistryReady:hosts.size>0,
   excludedWithoutAccessEvidence:excludedWithoutAccessEvidence.length,
+  documentaryAccessEvidenceOnly,
   byContinent,
   byOrigin
 };
