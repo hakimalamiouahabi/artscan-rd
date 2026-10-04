@@ -47,6 +47,10 @@ ARTSCAN distingue désormais strictement :
 
 Le seuil de 1 000 concerne le **Corpus A documentaire effectivement vérifié et dédupliqué**, jamais le simple nombre de domaines ou d'URL générées.
 
+Une recherche individuelle distingue désormais explicitement :
+- **Corpus A global vérifié** : référentiel documentaire disponible, auquel s'applique le seuil de 1 000 ;
+- **documents retenus pour la recherche** : sous-ensemble pertinent pour le sujet traité, sans réinterpréter ce sous-ensemble comme la taille du Corpus A.
+
 ## Actualisation
 
 Le registre institutionnel et le Corpus A sont réévalués deux fois par mois, les 1er et 15. Les collectes restent HTTP/HTTPS directes, sans LLM ni API de moteur de recherche au runtime.
