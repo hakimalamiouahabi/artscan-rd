@@ -92,6 +92,8 @@ jobs:
           const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
           if(!j.ok) throw new Error('Staging health failed');
           if(Number(j.invalidActive||0)!==0) throw new Error('Invalid active source');
+          const s=JSON.parse(require('fs').readFileSync('data/registry-stats.json','utf8'));
+          if(Number(j.certifiedInstitutions||0)!==Number(s.certifiedSources||0)) throw new Error('Active registry mismatch: staging='+Number(j.certifiedInstitutions||0)+' repo='+Number(s.certifiedSources||0));
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Corpus A below 1000 after sync: '+Number(j.corpusAVerified||0));
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
