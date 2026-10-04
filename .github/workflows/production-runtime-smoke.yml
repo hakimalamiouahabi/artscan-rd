@@ -1,0 +1,73 @@
+name: production-runtime-smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/production-runtime-smoke.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: artscan-production-runtime-smoke
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BASE_URL: https://artscan-rd.mnin-nbda-beta.workers.dev
+    steps:
+      - name: Verify production health
+        run: |
+          set -euo pipefail
+          curl -fsS "$BASE_URL/api/health" > /tmp/health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          if(!j.ok) throw new Error('production health not ok');
+          if(j.productionReady!==true) throw new Error('productionReady=false');
+          if(Number(j.certifiedInstitutions||0)<1000) throw new Error('institutional registry below 1000');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('Corpus A below 1000');
+          if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
+          console.log(JSON.stringify(j,null,2));
+          NODE
+
+      - name: Launch production research
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST "$BASE_URL/api/research"             -H 'content-type: application/json'             --data '{"topic":"stockage hydrogene hydrures metalliques","context":"solutions existantes performances limites verrous scientifiques et technologiques","depth":"standard"}'             > /tmp/start.json
+          JOB_ID="$(node -e "const j=require('/tmp/start.json');if(!j.jobId)process.exit(1);process.stdout.write(j.jobId)")"
+          echo "JOB_ID=$JOB_ID" >> "$GITHUB_ENV"
+
+      - name: Wait for deterministic result
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 150); do
+            curl -fsS "$BASE_URL/api/research/$JOB_ID" > /tmp/result.json
+            STATUS="$(node -e "const j=require('/tmp/result.json');process.stdout.write(String(j.job?.status||''))")"
+            echo "poll=$i status=$STATUS"
+            if [ "$STATUS" = "complete" ]; then break; fi
+            sleep 5
+          done
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/result.json','utf8'));
+          if(j.job?.status!=='complete') throw new Error('production research did not complete');
+          if(Number(j.job?.processed_sources||0)<1) throw new Error('no source processed');
+          if(!Array.isArray(j.evidence)||j.evidence.length<1) throw new Error('no evidence returned');
+          if(typeof j.documentary?.verifiedDocuments!=='number') throw new Error('documentary metrics missing');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
+          console.log(JSON.stringify({
+            processed:j.job.processed_sources,
+            reachable:j.job.reachable_sources,
+            matched:j.job.matched_sources,
+            errors:j.job.error_count,
+            evidence:j.evidence.length,
+            documentary:j.documentary
+          },null,2));
+          NODE
