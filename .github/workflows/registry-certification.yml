@@ -100,6 +100,7 @@ jobs:
           if(a.some(x=>x.corpus!=='A'||x.official!==true||x.public_access!==true||x.free_access!==true||x.primary_secondary!=='primary'||x.access_status!=='free'||!['V2','V3'].includes(x.verification_level))) process.exit(1);
           if(new Set(a.map(x=>x.canonical_hash)).size!==a.length) process.exit(1);
           if(Number(s.verified_unique_documents)!==a.length) process.exit(1);
+          if(Number(s.sources_represented||0)<Number(s.target_sources||1000)) process.exit(1);
           if(s.complete!==true) process.exit(1);
           console.log(JSON.stringify(s,null,2));
           NODE
@@ -188,6 +189,8 @@ jobs:
           if(Number(j.invalidActive||0)!==0) throw new Error('Invalid active source');
           if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Staging registry mismatch');
           if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Staging Corpus A mismatch');
+          if(Number(j.corpusASources||0)!==Number(c.sources_represented||0)) throw new Error('Staging Corpus A source coverage mismatch');
+          if(Number(j.corpusASources||0)<Number(c.target_sources||1000)) throw new Error('Staging Corpus A below 1000 represented sources');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Staging Corpus A below 1000');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
@@ -222,6 +225,8 @@ jobs:
           if(Number(j.invalidActive||0)!==0) throw new Error('Production contains invalid active source');
           if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Production registry mismatch');
           if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Production Corpus A mismatch');
+          if(Number(j.corpusASources||0)!==Number(c.sources_represented||0)) throw new Error('Production Corpus A source coverage mismatch');
+          if(Number(j.corpusASources||0)<Number(c.target_sources||1000)) throw new Error('Production Corpus A below 1000 represented sources');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Production Corpus A below 1000');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Production runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
