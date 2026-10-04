@@ -59,7 +59,9 @@ jobs:
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
           if(Number(j.job?.processed_sources||0)<1) throw new Error('no sources processed');
           if(!Array.isArray(j.evidence)) throw new Error('evidence payload missing');
-          if(typeof j.documentary?.verifiedDocuments!=='number') throw new Error('documentary metrics missing');
+          if(typeof j.documentary?.selectedDocuments!=='number') throw new Error('selected documentary metric missing');
+          if(typeof j.documentary?.corpusVerified!=='number') throw new Error('global Corpus A metric missing');
+          if(j.documentary?.corpusComplete!==true||Number(j.documentary?.corpusVerified||0)<1000) throw new Error('global Corpus A below target');
           console.log(JSON.stringify({
             processed:j.job.processed_sources,
             reachable:j.job.reachable_sources,
