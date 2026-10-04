@@ -95,7 +95,7 @@ ON CONFLICT(root_url) DO UPDATE SET
   last_checked_at=excluded.last_checked_at,
   updated_at=CURRENT_TIMESTAMP;`);
 }
-const sql=sourceStatements.join('\n\n')+`\n\nINSERT INTO registry_meta(key,value,updated_at) VALUES
+const sql=`UPDATE sources SET active=0, updated_at=CURRENT_TIMESTAMP WHERE active=1;\n\n`+sourceStatements.join('\n\n')+`\n\nINSERT INTO registry_meta(key,value,updated_at) VALUES
 ('certified_sources',${q(String(stats.certifiedSources))},CURRENT_TIMESTAMP),
 ('certified_unique_hosts',${q(String(stats.certifiedUniqueHosts))},CURRENT_TIMESTAMP),
 ('institutional_registry_ready','1',CURRENT_TIMESTAMP)
