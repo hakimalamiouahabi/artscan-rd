@@ -45,7 +45,7 @@ ARTSCAN distingue désormais strictement :
 - Corpus D : normalisation et réglementation ;
 - Corpus E : sources industrielles ou secondaires, justifiées.
 
-Le seuil de 1 000 concerne le **Corpus A documentaire effectivement vérifié et dédupliqué**, jamais le simple nombre de domaines ou d'URL générées.
+Le Corpus A n'est certifié complet que lorsqu'il contient **au moins 1 000 documents V2/V3 effectivement vérifiés et dédupliqués provenant d'au moins 1 000 sources institutionnelles distinctes**. Un domaine, une URL générée ou une institution simplement enregistrée sans document vérifié ne compte pas.
 
 Une recherche individuelle distingue désormais explicitement :
 - **Corpus A global vérifié** : référentiel documentaire disponible, auquel s'applique le seuil de 1 000 ;
