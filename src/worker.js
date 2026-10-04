@@ -81,6 +81,7 @@ async function createResearch(request, env){
   if(topic.length<4||topic.length>1200)return json({error:"Sujet invalide"},400);
   const n=await registryNumbers(env);
   if(n.invalidActive>0)return json({error:"Registre institutionnel invalide : une source active ne satisfait pas la règle 3/3."},503);
+  if(depth==="expert"&&!n.productionReady)return json({error:`Mode Expert indisponible : Corpus A vérifié ${n.corpusAVerified}/${MIN_EXPERT_DOCUMENTS} documents.`},503);
   const limit=depth==="expert"?Math.min(n.certified,2000):depth==="approfondi"?Math.min(n.certified,480):Math.min(n.certified,160);
   const rows=await env.DB.prepare(`SELECT id FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 ORDER BY CASE WHEN category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, id LIMIT ?`).bind(limit).all();
   const ids=rows.results.map(r=>r.id);
