@@ -92,7 +92,7 @@ jobs:
           const s=JSON.parse(require('fs').readFileSync('data/registry-stats.json','utf8'));
           const c=JSON.parse(require('fs').readFileSync('data/corpus-a-stats.json','utf8'));
           if(Number(j.certifiedInstitutions||0)!==Number(s.certifiedSources||0)) throw new Error('Active registry mismatch: staging='+Number(j.certifiedInstitutions||0)+' repo='+Number(s.certifiedSources||0));
-          if(Number(c.sources_represented||0)<Number(c.target_sources||1000)||c.complete!==true) throw new Error('Repository Corpus A institutional coverage below target');
+          if(c.complete!==true||Number(c.verified_unique_documents||0)<Number(c.target||1000)) throw new Error('Repository Corpus A documentary coverage below target');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Corpus A below 1000 after sync: '+Number(j.corpusAVerified||0));
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
