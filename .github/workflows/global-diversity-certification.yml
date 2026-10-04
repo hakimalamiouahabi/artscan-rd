@@ -2,11 +2,6 @@ name: global-diversity-certification
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/certify-global-directories.mjs"
-      - ".github/workflows/global-diversity-certification.yml"
 
 permissions:
   contents: write

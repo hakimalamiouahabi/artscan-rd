@@ -2,11 +2,6 @@ name: corpus-a-harvest
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "scripts/harvest-corpus-a.mjs"
-      - ".github/workflows/corpus-a-harvest.yml"
 
 permissions:
   contents: write
