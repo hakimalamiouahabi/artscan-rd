@@ -36,6 +36,7 @@ if(!productionDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(productio
 if(!seedCertScript.includes('anonymous_direct_http_2xx')||!seedCertScript.includes('verified_corpus_a_http_2xx'))fail('Seed direct/documentary access recertification missing');
 if(!authoritativeCertScript.includes('embeddedUrls')||!authoritativeCertScript.includes('for(let attempt=0;attempt<3&&!page;attempt++)'))fail('Authoritative directory resilience missing');
 if(!authoritativeCertScript.includes('snapshotFresh')||!authoritativeCertScript.includes('authoritative_directory_snapshot_fallback_plus_current_anonymous_http_access'))fail('Time-bounded official-directory fallback integrity missing');
+if(!authoritativeCertScript.includes('previous_certified_directory_snapshot_plus_current_anonymous_http_access')||!authoritativeCertScript.includes("previousAuthoritative.filter(x=>x.certification_url===d.url&&snapshotFresh(x.certification_date))"))fail('Time-bounded last-known-good directory continuity missing');
 if(!authoritativeCertScript.includes('National Cancer Institute (NCI)')||!authoritativeCertScript.includes('National Center for Complementary and Integrative Health (NCCIH)'))fail('NIH official IC fallback coverage missing');
 if(!buildScript.includes('excludedWithoutAccessEvidence')||buildScript.includes('access_checked_at||new Date'))fail('Registry access-evidence gate or truthful timestamp handling missing');
 if(generatedRegistry.some(x=>!(x?.official===true&&x?.public_access===true&&x?.free_access===true&&x?.active===true)))fail('Invalid generated 3/3 source');
