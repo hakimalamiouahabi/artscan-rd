@@ -2,12 +2,6 @@ name: runtime-smoke
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "src/worker.js"
-      - "public/app.js"
-      - ".github/workflows/runtime-smoke.yml"
 
 permissions:
   contents: read
