@@ -2,19 +2,6 @@ name: deploy-cloudflare-staging
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "src/**"
-      - "public/**"
-      - "schema.sql"
-      - "seed.generated.sql"
-      - "corpus-a.generated.sql"
-      - "wrangler.jsonc"
-      - "package.json"
-      - "scripts/**"
-      - "data/**"
-      - ".github/workflows/deploy-cloudflare-staging.yml"
 
 permissions:
   contents: read
