@@ -1,20 +1,22 @@
 {
-  "certifiedSources": 1098,
-  "certifiedUniqueHosts": 844,
+  "certifiedSources": 1082,
+  "certifiedUniqueHosts": 830,
   "institutionalRegistryReady": true,
+  "excludedWithoutAccessEvidence": 16,
+  "documentaryAccessEvidenceOnly": 8,
   "byContinent": {
     "Africa": 23,
-    "Asia": 146,
-    "Europe": 229,
-    "International": 3,
-    "North America": 673,
+    "Asia": 143,
+    "Europe": 223,
+    "International": 2,
+    "North America": 667,
     "Oceania": 1,
     "South America": 23
   },
   "byOrigin": {
-    "seed": 24,
+    "seed": 8,
+    "global_diversity": 143,
     "authoritative": 374,
-    "ipeds": 557,
-    "global_diversity": 143
+    "ipeds": 557
   }
 }
