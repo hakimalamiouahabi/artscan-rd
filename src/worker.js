@@ -46,11 +46,12 @@ async function registryNumbers(env){
   try{
     const a=await env.DB.prepare(`SELECT COUNT(*) AS n FROM corpus_a_verified`).first();
     corpusAVerified=Number(a?.n||0);
-    const lv=await env.DB.prepare(`SELECT verification_level, COUNT(*) AS n FROM documents WHERE active=1 GROUP BY verification_level`).all();
+    const lv=await env.DB.prepare(`SELECT verification_level, COUNT(*) AS n FROM corpus_a_verified GROUP BY verification_level`).all();
     verificationLevels=Object.fromEntries((lv.results||[]).map(r=>[r.verification_level,Number(r.n||0)]));
   }catch{}
   return {
     total:Number(total?.n||0),
+    storedInstitutionRecords:Number(total?.n||0),
     certified:Number(certified?.n||0),
     certifiedInstitutions:Number(certified?.n||0),
     corpusAVerified,
