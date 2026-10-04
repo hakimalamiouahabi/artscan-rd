@@ -29,6 +29,7 @@ jobs:
           if(j.runtime?.externalSearchApi!==false) throw new Error('external search API enabled');
           if(j.runtime?.httpDirect!==true) throw new Error('direct HTTP disabled');
           if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
+          if(typeof j.corpusASources!=='number') throw new Error('Corpus A represented-source metric missing');
           console.log(j);
           NODE
 
@@ -62,6 +63,7 @@ jobs:
           if(typeof j.documentary?.selectedDocuments!=='number') throw new Error('selected documentary metric missing');
           if(typeof j.documentary?.corpusVerified!=='number') throw new Error('global Corpus A metric missing');
           if(j.documentary?.corpusComplete!==true||Number(j.documentary?.corpusVerified||0)<1000) throw new Error('global Corpus A below target');
+          if(Number(j.documentary?.corpusSources||0)<1000) throw new Error('global Corpus A represented-source coverage below target');
           console.log(JSON.stringify({
             processed:j.job.processed_sources,
             reachable:j.job.reachable_sources,
