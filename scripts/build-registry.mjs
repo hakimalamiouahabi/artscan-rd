@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 
+const seedInput=fs.existsSync('data/registry-seed-certified.json')?'data/registry-seed-certified.json':'data/source-registry.seed.json';
 const inputs=[
-  ['seed','data/source-registry.seed.json'],
+  ['seed',seedInput],
   ['authoritative','data/registry-authoritative.json'],
   ['ipeds','data/registry-ipeds.json'],
   ['global_diversity','data/registry-global-diversity.json']
