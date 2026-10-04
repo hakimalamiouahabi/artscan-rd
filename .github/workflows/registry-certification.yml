@@ -161,6 +161,7 @@ jobs:
           npm install --no-save wrangler@4
           npx wrangler d1 execute artscan-rd-staging --remote --file=schema.sql
           npx wrangler d1 execute artscan-rd-staging --remote --file=seed.generated.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --command "UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1;"
           npx wrangler d1 execute artscan-rd-staging --remote --file=corpus-a.generated.sql
 
       - name: Verify staging after scheduled refresh
@@ -179,5 +180,39 @@ jobs:
           if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Staging Corpus A mismatch');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Staging Corpus A below 1000');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
+          console.log(JSON.stringify(j,null,2));
+          NODE
+
+
+      - name: Promote validated registry and Corpus A to production D1
+        if: steps.paris_gate.outputs.run == 'true' && github.event_name == 'schedule'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          npx wrangler d1 execute artscan-rd --remote --file=schema.sql
+          npx wrangler d1 execute artscan-rd --remote --file=seed.generated.sql
+          npx wrangler d1 execute artscan-rd --remote --command "UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1;"
+          npx wrangler d1 execute artscan-rd --remote --file=corpus-a.generated.sql
+
+      - name: Verify production data after scheduled refresh
+        if: steps.paris_gate.outputs.run == 'true' && github.event_name == 'schedule'
+        run: |
+          set -euo pipefail
+          curl -fsS "https://artscan-rd.mnin-nbda-beta.workers.dev/api/health" > /tmp/production-health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/production-health.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          const c=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          if(!j.ok) throw new Error('Production health failed');
+          if(Number(j.invalidActive||0)!==0) throw new Error('Production contains invalid active source');
+          if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Production registry mismatch');
+          if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Production Corpus A mismatch');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('Production Corpus A below 1000');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Production runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
           NODE
