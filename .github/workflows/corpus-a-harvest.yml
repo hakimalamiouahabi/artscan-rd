@@ -12,8 +12,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: artscan-corpus-a-harvest
-  cancel-in-progress: true
+  group: artscan-rd-staging-d1
+  cancel-in-progress: false
 
 jobs:
   harvest:
