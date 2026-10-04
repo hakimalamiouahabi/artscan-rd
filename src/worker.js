@@ -83,13 +83,26 @@ async function createResearch(request, env){
   if(n.invalidActive>0)return json({error:"Registre institutionnel invalide : une source active ne satisfait pas la règle 3/3."},503);
   if(depth==="expert"&&!n.productionReady)return json({error:`Mode Expert indisponible : Corpus A vérifié ${n.corpusAVerified}/${MIN_EXPERT_DOCUMENTS} documents.`},503);
   const limit=depth==="expert"?Math.min(n.certified,2000):depth==="approfondi"?Math.min(n.certified,480):Math.min(n.certified,160);
-  const rows=await env.DB.prepare(`SELECT id FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 ORDER BY CASE WHEN category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, id LIMIT ?`).bind(limit).all();
+  const localTerms=makeTerms(topic,context).slice(0,8);
+  let rows;
+  if(localTerms.length){
+    const sourceScoreExpr=localTerms.map(()=>`COALESCE(MAX(CASE WHEN instr(ds.search_text, ?) > 0 THEN 1 ELSE 0 END),0)`).join(' + ');
+    const sourceSql=`SELECT s.id, (${sourceScoreExpr}) AS corpus_relevance
+      FROM sources s
+      LEFT JOIN documents d ON d.source_id=s.id AND d.corpus='A' AND d.active=1 AND d.official=1 AND d.public_access=1 AND d.free_access=1 AND d.access_status='free' AND d.primary_secondary='primary' AND d.verification_level IN ('V2','V3')
+      LEFT JOIN document_search ds ON ds.document_id=d.id
+      WHERE s.active=1 AND s.official=1 AND s.public_access=1 AND s.free_access=1
+      GROUP BY s.id
+      ORDER BY corpus_relevance DESC, CASE WHEN s.category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, s.id
+      LIMIT ?`;
+    rows=await env.DB.prepare(sourceSql).bind(...localTerms,limit).all();
+  }else{
+    rows=await env.DB.prepare(`SELECT id FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1 ORDER BY CASE WHEN category IN ('research','regulation','patents','science') THEN 0 ELSE 1 END, id LIMIT ?`).bind(limit).all();
+  }
   const ids=rows.results.map(r=>r.id);
   const id=crypto.randomUUID().replaceAll("-","");
   const now=new Date().toISOString();
   await env.DB.prepare(`INSERT INTO research_jobs(id,topic,context,depth,status,total_sources,created_at) VALUES(?,?,?,?,?,?,?)`).bind(id,topic,context,depth,"queued",ids.length,now).run();
-
-  const localTerms=makeTerms(topic,context).slice(0,8);
   if(localTerms.length){
     const scoreExpr=localTerms.map(()=>`CASE WHEN instr(ds.search_text, ?) > 0 THEN 1 ELSE 0 END`).join(' + ');
     const whereExpr=localTerms.map(()=>`instr(ds.search_text, ?) > 0`).join(' OR ');
