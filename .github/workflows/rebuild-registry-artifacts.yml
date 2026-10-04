@@ -77,6 +77,7 @@ jobs:
           npm install --no-save wrangler@4
           npx wrangler d1 execute artscan-rd-staging --remote --file=schema.sql
           npx wrangler d1 execute artscan-rd-staging --remote --file=seed.generated.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --command "UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1;"
           npx wrangler d1 execute artscan-rd-staging --remote --file=corpus-a.generated.sql
 
       - name: Verify staging documentary threshold
