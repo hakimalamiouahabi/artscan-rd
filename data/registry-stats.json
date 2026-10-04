@@ -1,20 +1,20 @@
 {
-  "certifiedSources": 1169,
-  "certifiedUniqueHosts": 855,
+  "certifiedSources": 1098,
+  "certifiedUniqueHosts": 844,
   "institutionalRegistryReady": true,
   "byContinent": {
-    "Africa": 21,
-    "Asia": 159,
+    "Africa": 23,
+    "Asia": 146,
     "Europe": 229,
     "International": 3,
-    "North America": 731,
+    "North America": 673,
     "Oceania": 1,
-    "South America": 25
+    "South America": 23
   },
   "byOrigin": {
     "seed": 24,
-    "authoritative": 433,
+    "authoritative": 374,
     "ipeds": 557,
-    "global_diversity": 155
+    "global_diversity": 143
   }
 }

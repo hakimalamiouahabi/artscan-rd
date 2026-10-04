@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-10-03T23:10:55.631Z",
-  "certified": 155,
+  "generated_at": "2026-10-04T10:31:19.583Z",
+  "certified": 143,
   "byContinent": {
-    "Africa": 20,
-    "Asia": 27,
+    "Africa": 22,
+    "Asia": 15,
     "Europe": 83,
-    "South America": 25
+    "South America": 23
   },
   "byCountry": {
-    "South Africa": 20,
-    "India": 27,
+    "South Africa": 22,
+    "India": 15,
     "Italy": 83,
-    "Brazil": 25
+    "Brazil": 23
   }
 }
