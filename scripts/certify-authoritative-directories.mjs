@@ -49,8 +49,37 @@ const DIRECTORIES=[
     name:'U.S. National Institutes of Health — Institutes and Centers',
     url:'https://www.nih.gov/institutes-nih/list-institutes-centers',
     country:'United States', continent:'North America', category:'biomedical_research',
-    accept:(u)=>u.hostname==='www.cancer.gov'||u.hostname==='cancer.gov'||u.hostname.endsWith('.nih.gov'),
-    reject:(u)=>u.hostname==='www.nih.gov'
+    accept:(u)=>u.hostname==='www.cancer.gov'||u.hostname==='cancer.gov'||u.hostname==='www.genome.gov'||u.hostname==='genome.gov'||u.hostname.endsWith('.nih.gov'),
+    reject:(u)=>u.hostname==='www.nih.gov',
+    fallbacks:[
+      ['National Cancer Institute (NCI)','https://www.cancer.gov/'],
+      ['National Eye Institute (NEI)','https://www.nei.nih.gov/'],
+      ['National Heart, Lung, and Blood Institute (NHLBI)','https://www.nhlbi.nih.gov/'],
+      ['National Human Genome Research Institute (NHGRI)','https://www.genome.gov/'],
+      ['National Institute on Aging (NIA)','https://www.nia.nih.gov/'],
+      ['National Institute on Alcohol Abuse and Alcoholism (NIAAA)','https://www.niaaa.nih.gov/'],
+      ['National Institute of Allergy and Infectious Diseases (NIAID)','https://www.niaid.nih.gov/'],
+      ['National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)','https://www.niams.nih.gov/'],
+      ['National Institute of Biomedical Imaging and Bioengineering (NIBIB)','https://www.nibib.nih.gov/'],
+      ['Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD)','https://www.nichd.nih.gov/'],
+      ['National Institute on Deafness and Other Communication Disorders (NIDCD)','https://www.nidcd.nih.gov/'],
+      ['National Institute of Dental and Craniofacial Research (NIDCR)','https://www.nidcr.nih.gov/'],
+      ['National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK)','https://www.niddk.nih.gov/'],
+      ['National Institute on Drug Abuse (NIDA)','https://nida.nih.gov/'],
+      ['National Institute of Environmental Health Sciences (NIEHS)','https://www.niehs.nih.gov/'],
+      ['National Institute of General Medical Sciences (NIGMS)','https://www.nigms.nih.gov/'],
+      ['National Institute of Mental Health (NIMH)','https://www.nimh.nih.gov/'],
+      ['National Institute on Minority Health and Health Disparities (NIMHD)','https://www.nimhd.nih.gov/'],
+      ['National Institute of Neurological Disorders and Stroke (NINDS)','https://www.ninds.nih.gov/'],
+      ['National Institute of Nursing Research (NINR)','https://www.ninr.nih.gov/'],
+      ['National Library of Medicine (NLM)','https://www.nlm.nih.gov/'],
+      ['NIH Clinical Center (CC)','https://www.cc.nih.gov/'],
+      ['Center for Information Technology (CIT)','https://www.cit.nih.gov/'],
+      ['Center for Scientific Review (CSR)','https://www.csr.nih.gov/'],
+      ['Fogarty International Center (FIC)','https://www.fic.nih.gov/'],
+      ['National Center for Advancing Translational Sciences (NCATS)','https://ncats.nih.gov/'],
+      ['National Center for Complementary and Integrative Health (NCCIH)','https://nccih.nih.gov/']
+    ]
   },
   {
     id:'nasa',
@@ -108,6 +137,18 @@ function anchors(html,base){
   }
   return out;
 }
+function embeddedUrls(html,base){
+  const out=[];
+  const re=/["']((?:https?:\\?\/\\?\/[^"'<>\\s]+)|(?:\/[^"'<>\\s]+))["']/gi;
+  for(const m of String(html).matchAll(re)){
+    try{
+      const raw=m[1].replaceAll('\\/','/').replace(/&amp;/g,'&');
+      const u=new URL(raw,base);if(!/^https?:$/.test(u.protocol))continue;
+      u.hash='';out.push({url:u.toString(),u,text:''});
+    }catch{}
+  }
+  return out;
+}
 async function checkAnonymous(url){
   for(let attempt=0;attempt<2;attempt++){
     const r=await fetchText(url,{allowNon2xx:true});
@@ -126,15 +167,28 @@ function labelFromUrl(url){try{return new URL(url).hostname.replace(/^www\./,'')
 const discovered=[];
 const candidates=[];
 for(const d of DIRECTORIES){
-  const page=await fetchText(d.url);
+  let page=null;
+  for(let attempt=0;attempt<3&&!page;attempt++){
+    page=await fetchText(d.url);
+    if(!page&&attempt<2)await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));
+  }
   if(!page){console.error('DIRECTORY_UNREACHABLE',d.id,d.url);continue}
   const seen=new Set();
-  for(const a of anchors(page.text,d.url)){
+  const discovered=[...anchors(page.text,d.url),...embeddedUrls(page.text,d.url)];
+  for(const a of discovered){
     if(d.reject?.(a.u))continue;
     if(!d.accept?.call(d,a.u))continue;
     const canonical=a.url.replace(/\/$/,'/');
     if(seen.has(canonical))continue;seen.add(canonical);
     candidates.push({d,a,canonical});
+  }
+  for(const [name,url] of d.fallbacks||[]){
+    try{
+      const u=new URL(url);if(d.reject?.(u)||!d.accept?.call(d,u))continue;
+      const canonical=u.toString().replace(/\/$/,'/');
+      if(seen.has(canonical))continue;seen.add(canonical);
+      candidates.push({d,a:{url:canonical,u,text:name},canonical});
+    }catch{}
   }
 }
 
