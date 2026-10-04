@@ -2,10 +2,6 @@ name: production-runtime-smoke
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/production-runtime-smoke.yml"
 
 permissions:
   contents: read
@@ -60,7 +56,12 @@ jobs:
           if(j.job?.status!=='complete') throw new Error('production research did not complete');
           if(Number(j.job?.processed_sources||0)<1) throw new Error('no source processed');
           if(!Array.isArray(j.evidence)||j.evidence.length<1) throw new Error('no evidence returned');
-          if(typeof j.documentary?.verifiedDocuments!=='number') throw new Error('documentary metrics missing');
+          const h=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          const selected=Number(j.documentary?.selectedDocuments??j.documentary?.verifiedDocuments??0);
+          const corpusVerified=Number(j.documentary?.corpusVerified??h.corpusAVerified??0);
+          if(selected<1) throw new Error('no verified document selected for research');
+          if(corpusVerified<1000) throw new Error('global Corpus A below target');
+          if(j.documentary?.corpusComplete===false) throw new Error('global Corpus A marked incomplete');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
           console.log(JSON.stringify({
             processed:j.job.processed_sources,
