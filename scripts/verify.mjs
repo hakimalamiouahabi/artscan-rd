@@ -11,6 +11,9 @@ if(!worker.includes('QUEUE_BATCH_MESSAGES = 100'))fail('Queue producer batching 
 if(!worker.includes('sendBatch'))fail('Large-scan queue batching missing');
 if(!worker.includes('local_corpus_lexical_match'))fail('Local corpus retrieval missing');
 if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
+if(!worker.includes('selectedDocuments'))fail('Per-research documentary selection metric missing');
+if(!worker.includes('corpusVerified'))fail('Global Corpus A metric missing');
+if(!worker.includes('corpusComplete'))fail('Global Corpus A readiness metric missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS job_documents'))fail('Per-job corpus mapping missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS job_source_status'))fail('Queue idempotency table missing');
