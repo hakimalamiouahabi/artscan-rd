@@ -20,8 +20,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: artscan-rd-cloudflare-staging
-  cancel-in-progress: true
+  group: artscan-rd-staging-d1
+  cancel-in-progress: false
 
 jobs:
   deploy-staging:
