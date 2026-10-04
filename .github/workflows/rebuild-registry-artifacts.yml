@@ -11,8 +11,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: artscan-rebuild-registry-artifacts
-  cancel-in-progress: true
+  group: artscan-rd-staging-d1
+  cancel-in-progress: false
 
 jobs:
   rebuild:
