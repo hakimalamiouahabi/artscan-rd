@@ -2,10 +2,9 @@
   "generated_at": "2026-10-04T10:39:10.785Z",
   "corpus": "A",
   "target": 1000,
-  "harvest_target": 1500,
   "verified_unique_documents": 1281,
   "sources_represented": 117,
-  "complete": true,
+  "complete": false,
   "verification_levels": {
     "V2": 1281,
     "V3": 0
@@ -21,5 +20,8 @@
     "Oceania": 12,
     "South America": 11
   },
-  "duplicates_removed": 281
+  "duplicates_removed": 281,
+  "target_sources": 1000,
+  "coverage_recertification_required": true,
+  "coverage_note": "Corpus historique: seuil documentaire atteint, mais couverture institutionnelle insuffisante. Recertification requise avec >=1000 sources institutionnelles distinctes."
 }
