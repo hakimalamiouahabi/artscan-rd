@@ -26,12 +26,27 @@ function hostOf(value){
 }
 function validActive(x){return x?.official===true&&x?.public_access===true&&x?.free_access===true&&x?.active===true}
 
+const corpusA=readArray('data/corpus-a.generated.json');
+const documentaryAccessRoots=new Set(corpusA
+  .filter(d=>d?.corpus==='A'&&d?.active===true&&d?.official===true&&d?.public_access===true&&d?.free_access===true&&d?.primary_secondary==='primary'&&d?.access_status==='free'&&['V2','V3'].includes(d?.verification_level)&&Number(d?.http_status)>=200&&Number(d?.http_status)<300)
+  .map(d=>canonicalUrl(d.source_root_url)).filter(Boolean));
+
+function hasAccessEvidence(x){
+  const status=Number(x?.access_http_status??x?.last_http_status);
+  return (Number.isFinite(status)&&status>=200&&status<300)||documentaryAccessRoots.has(x.root_url);
+}
+
 const all=[];
+const excludedWithoutAccessEvidence=[];
 for(const [origin,path] of inputs){
   for(const row of readArray(path)){
     const root=canonicalUrl(row.root_url); if(!root)continue;
     const item={...row,root_url:root,registry_origin:origin};
     if(!validActive(item))throw new Error('Invalid active 3/3 source in '+path+': '+root);
+    if(!hasAccessEvidence(item)){
+      excludedWithoutAccessEvidence.push({origin,root_url:root,organism:item.organism});
+      continue;
+    }
     all.push(item);
   }
 }
@@ -57,19 +72,22 @@ const hosts=new Set(merged.map(x=>hostOf(x.root_url)).filter(Boolean));
 const byContinent={};
 for(const x of merged)byContinent[x.continent]=(byContinent[x.continent]||0)+1;
 
+const byOrigin={};
+for(const x of merged)byOrigin[x.registry_origin]=(byOrigin[x.registry_origin]||0)+1;
 const stats={
   certifiedSources:merged.length,
   certifiedUniqueHosts:hosts.size,
   institutionalRegistryReady:hosts.size>0,
+  excludedWithoutAccessEvidence:excludedWithoutAccessEvidence.length,
   byContinent,
-  byOrigin:Object.fromEntries(inputs.map(([name,path])=>[name,readArray(path).length]))
+  byOrigin
 };
 
 fs.writeFileSync('data/source-registry.generated.json',JSON.stringify(merged,null,2)+'\n');
 fs.writeFileSync('data/registry-stats.json',JSON.stringify(stats,null,2)+'\n');
 
 const q=s=>"'"+String(s??'').replaceAll("'","''")+"'";
-const tuple=x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type||'official_research_source')},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${x.access_http_status==null?'NULL':Number(x.access_http_status)},${q(x.access_checked_at||new Date().toISOString())})`;
+const tuple=x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type||'official_research_source')},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${x.access_http_status==null?'NULL':Number(x.access_http_status)},${x.access_checked_at==null?'NULL':q(x.access_checked_at)})`;
 const CHUNK_SIZE=75;
 const sourceStatements=[];
 for(let i=0;i<merged.length;i+=CHUNK_SIZE){
