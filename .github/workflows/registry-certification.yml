@@ -7,6 +7,7 @@ on:
     paths:
       - "scripts/certify-authoritative-directories.mjs"
       - "scripts/import_ipeds_public_research.py"
+      - "scripts/certify-global-directories.mjs"
       - "scripts/build-registry.mjs"
       - ".github/workflows/registry-certification.yml"
   schedule:
@@ -39,6 +40,9 @@ jobs:
 
       - name: Certify US public graduate institutions from NCES IPEDS
         run: python scripts/import_ipeds_public_research.py
+
+      - name: Certify global public research diversity
+        run: node scripts/certify-global-directories.mjs
 
       - name: Build merged registry and D1 seed
         run: node scripts/build-registry.mjs
@@ -82,6 +86,8 @@ jobs:
           cp data/registry-authoritative-stats.json "$OUT/data/"
           cp data/registry-ipeds.json "$OUT/data/"
           cp data/registry-ipeds-stats.json "$OUT/data/"
+          cp data/registry-global-diversity.json "$OUT/data/"
+          cp data/registry-global-diversity-stats.json "$OUT/data/"
           cp data/source-registry.generated.json "$OUT/data/"
           cp data/registry-stats.json "$OUT/data/"
           cp seed.generated.sql "$OUT/"
@@ -102,7 +108,7 @@ jobs:
 
           git config user.name "artscan-registry-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
+          git add data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/registry-global-diversity.json data/registry-global-diversity-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
           if git diff --cached --quiet; then
             echo "No registry changes"
             exit 0
