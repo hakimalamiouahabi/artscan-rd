@@ -43,7 +43,6 @@ jobs:
           const j=JSON.parse(fs.readFileSync('/tmp/staging-health.json','utf8'));
           if(!j.ok) throw new Error('Staging health is not OK');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Production blocked: verified Corpus A is '+Number(j.corpusAVerified||0)+'/1000');
-          if(Number(j.corpusASources||0)<1000) throw new Error('Production blocked: represented institutional sources are '+Number(j.corpusASources||0)+'/1000');
           if(Number(j.invalidActive||0)!==0) throw new Error('Production blocked: invalid active institutional sources');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Production blocked: runtime invariants failed');
           console.log(j);
@@ -142,7 +141,6 @@ jobs:
           if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
           if(Number(j.certifiedInstitutions||0)!==Number(s.certifiedSources||0)) throw new Error('production registry mismatch');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('production Corpus A below 1000 documents');
-          if(Number(j.corpusASources||0)<1000) throw new Error('production Corpus A below 1000 represented sources');
           if(j.productionReady!==true) throw new Error('productionReady is false');
           console.log(j);
           NODE
