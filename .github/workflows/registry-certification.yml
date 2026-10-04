@@ -3,7 +3,7 @@ name: registry-certification
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 4 1,15 * *"
+    - cron: "0 0,1 1,15 * *"
 
 permissions:
   contents: write
@@ -17,29 +17,57 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
+      - name: Gate scheduled refresh at 02:00 Europe/Paris
+        id: paris_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          DAY="$(TZ=Europe/Paris date +%d)"
+          HOUR="$(TZ=Europe/Paris date +%H)"
+          if { [ "$DAY" = "01" ] || [ "$DAY" = "15" ]; } && [ "$HOUR" = "02" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "No refresh: Europe/Paris local time is $(TZ=Europe/Paris date --iso-8601=seconds)"
+          fi
+
       - uses: actions/checkout@v4
+        if: steps.paris_gate.outputs.run == 'true'
         with:
           fetch-depth: 0
+
       - uses: actions/setup-node@v4
+        if: steps.paris_gate.outputs.run == 'true'
         with:
           node-version: "22"
+
       - uses: actions/setup-python@v5
+        if: steps.paris_gate.outputs.run == 'true'
         with:
           python-version: "3.12"
 
       - name: Certify authoritative-directory research sources
+        if: steps.paris_gate.outputs.run == 'true'
         run: node scripts/certify-authoritative-directories.mjs
 
       - name: Certify US public graduate institutions from NCES IPEDS
+        if: steps.paris_gate.outputs.run == 'true'
         run: python scripts/import_ipeds_public_research.py
 
       - name: Certify global public research diversity
+        if: steps.paris_gate.outputs.run == 'true'
         run: node scripts/certify-global-directories.mjs
 
       - name: Build merged registry and D1 seed
+        if: steps.paris_gate.outputs.run == 'true'
         run: node scripts/build-registry.mjs
 
       - name: Validate 3/3 and unique-host accounting
+        if: steps.paris_gate.outputs.run == 'true'
         run: |
           node - <<'NODE'
           const fs=require('fs');
@@ -51,11 +79,13 @@ jobs:
           NODE
 
       - name: Harvest verified Corpus A from refreshed registry
+        if: steps.paris_gate.outputs.run == 'true'
         run: |
           node --check scripts/harvest-corpus-a.mjs
           node scripts/harvest-corpus-a.mjs
 
       - name: Validate Corpus A
+        if: steps.paris_gate.outputs.run == 'true'
         run: |
           node <<'NODE'
           const fs=require('fs');
@@ -67,7 +97,18 @@ jobs:
           console.log(JSON.stringify(s,null,2));
           NODE
 
+      - name: Full quality gate
+        if: steps.paris_gate.outputs.run == 'true'
+        run: |
+          node --check src/worker.js
+          node --check scripts/harvest-corpus-a.mjs
+          node --check scripts/certify-authoritative-directories.mjs
+          node --check scripts/certify-global-directories.mjs
+          node --check scripts/build-registry.mjs
+          node scripts/verify.mjs
+
       - name: Commit certified registry
+        if: steps.paris_gate.outputs.run == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -109,6 +150,7 @@ jobs:
           git push origin HEAD:main
 
       - name: Sync refreshed registry and Corpus A to staging D1
+        if: steps.paris_gate.outputs.run == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -120,3 +162,22 @@ jobs:
           npx wrangler d1 execute artscan-rd-staging --remote --file=schema.sql
           npx wrangler d1 execute artscan-rd-staging --remote --file=seed.generated.sql
           npx wrangler d1 execute artscan-rd-staging --remote --file=corpus-a.generated.sql
+
+      - name: Verify staging after scheduled refresh
+        if: steps.paris_gate.outputs.run == 'true'
+        run: |
+          set -euo pipefail
+          curl -fsS "https://artscan-rd-staging.mnin-nbda-beta.workers.dev/api/health" > /tmp/health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          const c=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          if(!j.ok) throw new Error('Staging health failed');
+          if(Number(j.invalidActive||0)!==0) throw new Error('Invalid active source');
+          if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Staging registry mismatch');
+          if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Staging Corpus A mismatch');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('Staging Corpus A below 1000');
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
+          console.log(JSON.stringify(j,null,2));
+          NODE
