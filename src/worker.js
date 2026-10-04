@@ -7,7 +7,6 @@ const MAX_REDIRECTS = 4;
 const BATCH_SOURCE_IDS = 1;
 const QUEUE_BATCH_MESSAGES = 100;
 const MIN_EXPERT_DOCUMENTS = 1000;
-const MIN_EXPERT_SOURCES = 1000;
 
 const STOPWORDS = new Set((`le la les un une des de du et ou en pour par sur dans avec sans au aux ce cette ces son sa ses leur leurs plus moins
  the a an and or of to in on for with without from by is are be this that these those project projet solution system systeme système technologie
@@ -60,9 +59,8 @@ async function registryNumbers(env){
     corpusASources,
     verificationLevels,
     expertMinimumDocuments:MIN_EXPERT_DOCUMENTS,
-    expertMinimumSources:MIN_EXPERT_SOURCES,
     invalidActive:Number(invalid?.n||0),
-    productionReady:corpusAVerified>=MIN_EXPERT_DOCUMENTS && corpusASources>=MIN_EXPERT_SOURCES && Number(invalid?.n||0)===0
+    productionReady:corpusAVerified>=MIN_EXPERT_DOCUMENTS && Number(invalid?.n||0)===0
   };
 }
 
@@ -85,7 +83,7 @@ async function createResearch(request, env){
   if(topic.length<4||topic.length>1200)return json({error:"Sujet invalide"},400);
   const n=await registryNumbers(env);
   if(n.invalidActive>0)return json({error:"Registre institutionnel invalide : une source active ne satisfait pas la règle 3/3."},503);
-  if(depth==="expert"&&!n.productionReady)return json({error:`Mode Expert indisponible : Corpus A ${n.corpusAVerified}/${MIN_EXPERT_DOCUMENTS} documents et ${n.corpusASources}/${MIN_EXPERT_SOURCES} sources institutionnelles représentées.`},503);
+  if(depth==="expert"&&!n.productionReady)return json({error:`Mode Expert indisponible : Corpus A vérifié ${n.corpusAVerified}/${MIN_EXPERT_DOCUMENTS} documents.`},503);
   const limit=depth==="expert"?Math.min(n.certified,2000):depth==="approfondi"?Math.min(n.certified,480):Math.min(n.certified,160);
   const localTerms=makeTerms(topic,context).slice(0,8);
   let rows;
@@ -156,7 +154,7 @@ async function getResearch(id, env){
     seen.add(key);
     merged.push({...x,evidence_kind:x.evidence_kind||classify((x.title||'')+' '+(x.snippet||''))});
   }
-  let documentary={selectedDocuments:0,verifiedDocuments:0,v3:0,v2:0,corpusVerified:0,corpusSources:0,target:MIN_EXPERT_DOCUMENTS,targetSources:MIN_EXPERT_SOURCES,corpusComplete:false,complete:false};
+  let documentary={selectedDocuments:0,verifiedDocuments:0,v3:0,v2:0,corpusVerified:0,corpusSources:0,target:MIN_EXPERT_DOCUMENTS,corpusComplete:false,complete:false};
   try{
     const c=await env.DB.prepare(`SELECT COUNT(*) AS selected_n,
       SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3,
@@ -167,8 +165,8 @@ async function getResearch(id, env){
     const selectedDocuments=Number(c?.selected_n||0);
     const corpusVerified=Number(c?.corpus_n||0);
     const corpusSources=Number(c?.corpus_source_n||0);
-    const corpusComplete=corpusVerified>=MIN_EXPERT_DOCUMENTS&&corpusSources>=MIN_EXPERT_SOURCES;
-    documentary={selectedDocuments,verifiedDocuments:selectedDocuments,v3:Number(c?.v3||0),v2:Number(c?.v2||0),corpusVerified,corpusSources,target:MIN_EXPERT_DOCUMENTS,targetSources:MIN_EXPERT_SOURCES,corpusComplete,complete:corpusComplete};
+    const corpusComplete=corpusVerified>=MIN_EXPERT_DOCUMENTS;
+    documentary={selectedDocuments,verifiedDocuments:selectedDocuments,v3:Number(c?.v3||0),v2:Number(c?.v2||0),corpusVerified,corpusSources,target:MIN_EXPERT_DOCUMENTS,corpusComplete,complete:corpusComplete};
   }catch{}
   return json({job,evidence:merged.slice(0,250),documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
 }
