@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 const read=p=>fs.readFileSync(p,'utf8');
-const worker=read('src/worker.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json')),stats=fs.existsSync('data/registry-stats.json')?JSON.parse(read('data/registry-stats.json')):{certifiedUniqueHosts:seed.length,certifiedSources:seed.length};
+const worker=read('src/worker.js'),app=read('public/app.js'),html=read('public/index.html'),css=read('public/styles.css'),schema=read('schema.sql'),pkg=JSON.parse(read('package.json')),seed=JSON.parse(read('data/source-registry.seed.json')),stats=fs.existsSync('data/registry-stats.json')?JSON.parse(read('data/registry-stats.json')):{certifiedUniqueHosts:seed.length,certifiedSources:seed.length},qualityWorkflow=read('.github/workflows/quality.yml'),registryWorkflow=read('.github/workflows/registry-certification.yml'),stagingDeploy=read('.github/workflows/deploy-cloudflare-staging.yml'),productionDeploy=read('.github/workflows/deploy-cloudflare.yml');
 const fail=m=>{throw new Error(m)};
 if(/openai|anthropic|gemini|flootAi|workers-ai|ai gateway/i.test(worker))fail('Runtime LLM dependency detected');
 if(/\b(?:serpapi|tavily|firecrawl|tinyfish)\b|bing\s+search|google\s+custom\s+search|\bexa(?:\.ai)?\b/i.test(worker))fail('External search API/runtime dependency detected');
@@ -14,6 +14,13 @@ if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentar
 if(!worker.includes('selectedDocuments'))fail('Per-research documentary selection metric missing');
 if(!worker.includes('corpusVerified'))fail('Global Corpus A metric missing');
 if(!worker.includes('corpusComplete'))fail('Global Corpus A readiness metric missing');
+if(!worker.includes('depth==="expert"&&!n.productionReady'))fail('Expert mode production-readiness gate missing');
+if(!app.includes('expert.disabled=!ready'))fail('Expert UI readiness gate missing');
+if(/sources effectivement validées/i.test(app))fail('Per-research documents are mislabeled as sources');
+if(!qualityWorkflow.includes('workflow_dispatch:'))fail('Manual quality verification missing');
+if(!registryWorkflow.includes('cron: "0 0,1 1,15 * *"')||!registryWorkflow.includes('TZ=Europe/Paris'))fail('Fortnightly 02:00 Europe/Paris registry schedule missing');
+if(!stagingDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(stagingDeploy)||/^\s*schedule:/m.test(stagingDeploy))fail('Staging deploy must remain manual-only');
+if(!productionDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(productionDeploy)||/^\s*schedule:/m.test(productionDeploy))fail('Production deploy must remain manual-only');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS documents'))fail('Document corpus table missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS job_documents'))fail('Per-job corpus mapping missing');
 if(!schema.includes('CREATE TABLE IF NOT EXISTS job_source_status'))fail('Queue idempotency table missing');
