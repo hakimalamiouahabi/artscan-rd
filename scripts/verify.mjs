@@ -14,6 +14,7 @@ if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentar
 if(!worker.includes('selectedDocuments'))fail('Per-research documentary selection metric missing');
 if(!worker.includes('corpusVerified'))fail('Global Corpus A metric missing');
 if(!worker.includes('corpusComplete'))fail('Global Corpus A readiness metric missing');
+if(!worker.includes('corpus_relevance'))fail('Corpus-ranked source selection missing');
 if(!worker.includes('depth==="expert"&&!n.productionReady'))fail('Expert mode production-readiness gate missing');
 if(!app.includes('expert.disabled=!ready'))fail('Expert UI readiness gate missing');
 if(/sources effectivement validées/i.test(app))fail('Per-research documents are mislabeled as sources');
