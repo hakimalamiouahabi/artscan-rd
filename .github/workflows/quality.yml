@@ -22,6 +22,7 @@ jobs:
         run: |
           node --check src/worker.js
           node --check scripts/harvest-corpus-a.mjs
+          node --check scripts/certify-seed-sources.mjs
           node --check scripts/certify-authoritative-directories.mjs
           node --check scripts/certify-global-directories.mjs
           node --check scripts/build-registry.mjs
