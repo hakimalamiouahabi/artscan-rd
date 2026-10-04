@@ -1,0 +1,98 @@
+name: rebuild-registry-artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/rebuild-registry-artifacts.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: artscan-rebuild-registry-artifacts
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Rebuild merged registry and D1 seed
+        run: |
+          node --check scripts/build-registry.mjs
+          node scripts/build-registry.mjs
+
+      - name: Validate rebuilt registry
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const a=JSON.parse(fs.readFileSync('data/source-registry.generated.json','utf8'));
+          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          if(a.length<1) throw new Error('Empty registry');
+          if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) throw new Error('Invalid active 3/3 source');
+          if(Number(s.certifiedSources)!==a.length) throw new Error('Stats mismatch');
+          if(!fs.readFileSync('seed.generated.sql','utf8').includes('ON CONFLICT(root_url) DO UPDATE')) throw new Error('FK-safe upsert missing');
+          console.log(JSON.stringify(s,null,2));
+          NODE
+
+      - name: Commit rebuilt artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=/tmp/artscan-registry-rebuild
+          rm -rf "$OUT"
+          mkdir -p "$OUT/data"
+          cp data/source-registry.generated.json "$OUT/data/"
+          cp data/registry-stats.json "$OUT/data/"
+          cp seed.generated.sql "$OUT/"
+
+          git fetch origin main
+          git reset --hard origin/main
+          cp "$OUT/data/"* data/
+          cp "$OUT/seed.generated.sql" ./
+
+          git config user.name "artscan-registry-rebuild-bot"
+          git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
+          git add data/source-registry.generated.json data/registry-stats.json seed.generated.sql
+          if git diff --cached --quiet; then
+            echo "No registry artifact changes"
+          else
+            git commit -m "data: rebuild merged certified registry artifacts"
+            git push origin HEAD:main
+          fi
+
+      - name: Sync registry and Corpus A to staging D1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          npm install --no-save wrangler@4
+          npx wrangler d1 execute artscan-rd-staging --remote --file=schema.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --file=seed.generated.sql
+          npx wrangler d1 execute artscan-rd-staging --remote --file=corpus-a.generated.sql
+
+      - name: Verify staging documentary threshold
+        run: |
+          set -euo pipefail
+          curl -fsS "https://artscan-rd-staging.mnin-nbda-beta.workers.dev/api/health" > /tmp/health.json
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          if(!j.ok) throw new Error('Staging health failed');
+          if(Number(j.invalidActive||0)!==0) throw new Error('Invalid active source');
+          if(Number(j.corpusAVerified||0)<1000) throw new Error('Corpus A below 1000 after sync: '+Number(j.corpusAVerified||0));
+          if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
+          console.log(JSON.stringify(j,null,2));
+          NODE
