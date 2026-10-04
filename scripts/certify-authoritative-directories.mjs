@@ -51,6 +51,7 @@ const DIRECTORIES=[
     country:'United States', continent:'North America', category:'biomedical_research',
     accept:(u)=>u.hostname==='www.cancer.gov'||u.hostname==='cancer.gov'||u.hostname==='www.genome.gov'||u.hostname==='genome.gov'||u.hostname.endsWith('.nih.gov'),
     reject:(u)=>u.hostname==='www.nih.gov',
+    fallbackSnapshotDate:'2026-10-04',
     fallbacks:[
       ['National Cancer Institute (NCI)','https://www.cancer.gov/'],
       ['National Eye Institute (NEI)','https://www.nei.nih.gov/'],
@@ -163,6 +164,7 @@ async function checkAnonymous(url){
   return {ok:false,status:null,resolvedUrl:null,reason:'unreachable'};
 }
 function labelFromUrl(url){try{return new URL(url).hostname.replace(/^www\./,'')}catch{return url}}
+function snapshotFresh(date,maxAgeDays=45){if(!date)return false;const t=Date.parse(date+'T00:00:00Z');return Number.isFinite(t)&&Date.now()-t<=maxAgeDays*86400000}
 
 const discovered=[];
 const candidates=[];
@@ -172,22 +174,24 @@ for(const d of DIRECTORIES){
     page=await fetchText(d.url);
     if(!page&&attempt<2)await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));
   }
-  if(!page){console.error('DIRECTORY_UNREACHABLE',d.id,d.url);continue}
+  if(!page)console.error('DIRECTORY_UNREACHABLE',d.id,d.url);
   const seen=new Set();
-  const discovered=[...anchors(page.text,d.url),...embeddedUrls(page.text,d.url)];
+  const discovered=page?[...anchors(page.text,d.url),...embeddedUrls(page.text,d.url)]:[];
   for(const a of discovered){
     if(d.reject?.(a.u))continue;
     if(!d.accept?.call(d,a.u))continue;
     const canonical=a.url.replace(/\/$/,'/');
     if(seen.has(canonical))continue;seen.add(canonical);
-    candidates.push({d,a,canonical});
+    candidates.push({d,a,canonical,certificationDate:today,certificationMethod:'authoritative_official_directory_link_plus_anonymous_http_access'});
   }
-  for(const [name,url] of d.fallbacks||[]){
+  const fallbackAllowed=page||snapshotFresh(d.fallbackSnapshotDate);
+  if(!page&&d.fallbacks?.length&&!fallbackAllowed)console.error('DIRECTORY_FALLBACK_EXPIRED',d.id,d.fallbackSnapshotDate);
+  if(fallbackAllowed)for(const [name,url] of d.fallbacks||[]){
     try{
       const u=new URL(url);if(d.reject?.(u)||!d.accept?.call(d,u))continue;
       const canonical=u.toString().replace(/\/$/,'/');
       if(seen.has(canonical))continue;seen.add(canonical);
-      candidates.push({d,a:{url:canonical,u,text:name},canonical});
+      candidates.push({d,a:{url:canonical,u,text:name},canonical,certificationDate:page?today:d.fallbackSnapshotDate,certificationMethod:page?'authoritative_official_directory_link_plus_anonymous_http_access':'authoritative_directory_snapshot_fallback_plus_current_anonymous_http_access'});
     }catch{}
   }
 }
@@ -195,7 +199,7 @@ for(const d of DIRECTORIES){
 const CONCURRENCY=8;
 for(let i=0;i<candidates.length;i+=CONCURRENCY){
   const slice=candidates.slice(i,i+CONCURRENCY);
-  const checked=await Promise.allSettled(slice.map(async ({d,a,canonical})=>{
+  const checked=await Promise.allSettled(slice.map(async ({d,a,canonical,certificationDate,certificationMethod})=>{
     const access=await Promise.race([
       checkAnonymous(canonical),
       new Promise(resolve=>setTimeout(()=>resolve({ok:false,status:null,resolvedUrl:null,reason:'deadline'}),15000))
@@ -210,8 +214,8 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
       public_access:true,
       free_access:true,
       certification_url:d.url,
-      certification_date:today,
-      certification_method:'authoritative_official_directory_link_plus_anonymous_http_access',
+      certification_date:certificationDate||today,
+      certification_method:certificationMethod||'authoritative_official_directory_link_plus_anonymous_http_access',
       access_checked_at:new Date().toISOString(),
       access_http_status:access.status,
       language:'en',
