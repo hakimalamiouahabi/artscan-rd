@@ -144,6 +144,35 @@ jobs:
           console.log(j);
           NODE
 
+      - name: End-to-end production research smoke
+        if: steps.auth.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST "$ARTSCAN_URL/api/research" \
+            -H 'content-type: application/json' \
+            --data '{"topic":"stockage hydrogene hydrures metalliques","context":"solutions existantes performances limites verrous scientifiques et technologiques","depth":"standard"}' \
+            > /tmp/research-start.json
+          JOB_ID="$(node -e "const j=require('/tmp/research-start.json');if(!j.jobId)process.exit(1);process.stdout.write(j.jobId)")"
+          for i in $(seq 1 150); do
+            curl -fsS "$ARTSCAN_URL/api/research/$JOB_ID" > /tmp/research-result.json
+            STATUS="$(node -e "const j=require('/tmp/research-result.json');process.stdout.write(String(j.job?.status||''))")"
+            echo "poll=$i status=$STATUS"
+            if [ "$STATUS" = "complete" ]; then break; fi
+            sleep 5
+          done
+          node <<'NODE'
+          const fs=require('fs');
+          const j=JSON.parse(fs.readFileSync('/tmp/research-result.json','utf8'));
+          if(j.job?.status!=='complete') throw new Error('production research did not complete');
+          if(Number(j.job?.processed_sources||0)<1) throw new Error('no source processed');
+          if(!Array.isArray(j.evidence)||j.evidence.length<1) throw new Error('no evidence returned');
+          if(typeof j.documentary?.selectedDocuments!=='number') throw new Error('selected documentary metric missing');
+          if(typeof j.documentary?.corpusVerified!=='number') throw new Error('global Corpus A metric missing');
+          if(j.documentary?.corpusComplete!==true||Number(j.documentary?.corpusVerified||0)<1000) throw new Error('global Corpus A below target');
+          console.log(JSON.stringify({processed:j.job.processed_sources,evidence:j.evidence.length,documentary:j.documentary},null,2));
+          NODE
+
       - name: Deployment summary
         if: steps.auth.outputs.ready == 'true'
         run: |
