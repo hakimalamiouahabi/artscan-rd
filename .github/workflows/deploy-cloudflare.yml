@@ -110,10 +110,10 @@ jobs:
       - name: Apply D1 schema and certified seed
         if: steps.auth.outputs.ready == 'true'
         run: |
-          npx wrangler d1 execute "$D1_NAME" --remote --file=schema.sql
-          npx wrangler d1 execute "$D1_NAME" --remote --file=seed.generated.sql
+          npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=schema.sql
+          npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=seed.generated.sql
           if [ -f corpus-a.generated.sql ]; then
-            npx wrangler d1 execute "$D1_NAME" --remote --file=corpus-a.generated.sql
+            npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=corpus-a.generated.sql
           fi
 
       - name: Deploy Worker
