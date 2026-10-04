@@ -3,7 +3,8 @@ import fs from 'node:fs';
 const inputs=[
   ['seed','data/source-registry.seed.json'],
   ['authoritative','data/registry-authoritative.json'],
-  ['ipeds','data/registry-ipeds.json']
+  ['ipeds','data/registry-ipeds.json'],
+  ['global_diversity','data/registry-global-diversity.json']
 ];
 
 function readArray(path){
@@ -68,8 +69,12 @@ fs.writeFileSync('data/source-registry.generated.json',JSON.stringify(merged,nul
 fs.writeFileSync('data/registry-stats.json',JSON.stringify(stats,null,2)+'\n');
 
 const q=s=>"'"+String(s??'').replaceAll("'","''")+"'";
-const values=merged.map(x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type||'official_research_source')},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${x.access_http_status==null?'NULL':Number(x.access_http_status)},${q(x.access_checked_at||new Date().toISOString())})`).join(',\n');
-const sql=`INSERT INTO sources
+const tuple=x=>`(${q(x.organism)},${q(x.country)},${q(x.continent)},${q(x.root_url)},${q(x.source_type||'official_research_source')},1,1,1,${q(x.certification_url)},${q(x.certification_date)},${q(x.language||'en')},${q(x.category||'research')},1,${x.access_http_status==null?'NULL':Number(x.access_http_status)},${q(x.access_checked_at||new Date().toISOString())})`;
+const CHUNK_SIZE=75;
+const sourceStatements=[];
+for(let i=0;i<merged.length;i+=CHUNK_SIZE){
+  const values=merged.slice(i,i+CHUNK_SIZE).map(tuple).join(',\n');
+  sourceStatements.push(`INSERT INTO sources
 (organism,country,continent,root_url,source_type,official,public_access,free_access,certification_url,certification_date,language,category,active,last_http_status,last_checked_at)
 VALUES
 ${values}
@@ -88,9 +93,9 @@ ON CONFLICT(root_url) DO UPDATE SET
   active=excluded.active,
   last_http_status=excluded.last_http_status,
   last_checked_at=excluded.last_checked_at,
-  updated_at=CURRENT_TIMESTAMP;
-
-INSERT INTO registry_meta(key,value,updated_at) VALUES
+  updated_at=CURRENT_TIMESTAMP;`);
+}
+const sql=sourceStatements.join('\n\n')+`\n\nINSERT INTO registry_meta(key,value,updated_at) VALUES
 ('certified_sources',${q(String(stats.certifiedSources))},CURRENT_TIMESTAMP),
 ('certified_unique_hosts',${q(String(stats.certifiedUniqueHosts))},CURRENT_TIMESTAMP),
 ('institutional_registry_ready','1',CURRENT_TIMESTAMP)
