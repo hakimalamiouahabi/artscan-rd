@@ -181,27 +181,35 @@ CREATE TABLE IF NOT EXISTS evidence_claims (
   UNIQUE(job_id, claim_id)
 );
 
-CREATE VIEW IF NOT EXISTS corpus_a_verified AS
-SELECT *
-FROM documents
-WHERE corpus='A'
-  AND active=1
-  AND official=1
-  AND public_access=1
-  AND free_access=1
-  AND access_status='free'
-  AND primary_secondary='primary'
-  AND verification_level IN ('V2','V3');
+DROP VIEW IF EXISTS documentary_quality_stats;
+DROP VIEW IF EXISTS corpus_a_verified;
 
-CREATE VIEW IF NOT EXISTS documentary_quality_stats AS
+CREATE VIEW corpus_a_verified AS
+SELECT d.*
+FROM documents d
+JOIN sources s ON s.id=d.source_id
+WHERE d.corpus='A'
+  AND d.active=1
+  AND d.official=1
+  AND d.public_access=1
+  AND d.free_access=1
+  AND d.access_status='free'
+  AND d.primary_secondary='primary'
+  AND d.verification_level IN ('V2','V3')
+  AND s.active=1
+  AND s.official=1
+  AND s.public_access=1
+  AND s.free_access=1;
+
+CREATE VIEW documentary_quality_stats AS
 SELECT
   (SELECT COUNT(*) FROM corpus_a_verified) AS corpus_a_verified,
   (SELECT COUNT(*) FROM documents WHERE corpus='B' AND active=1) AS corpus_b,
   (SELECT COUNT(*) FROM patent_families) AS patent_families,
   (SELECT COUNT(*) FROM documents WHERE corpus='D' AND active=1) AS corpus_d,
   (SELECT COUNT(*) FROM documents WHERE corpus='E' AND active=1) AS corpus_e,
-  (SELECT COUNT(*) FROM documents WHERE verification_level='V3' AND active=1) AS v3,
-  (SELECT COUNT(*) FROM documents WHERE verification_level='V2' AND active=1) AS v2,
+  (SELECT COUNT(*) FROM corpus_a_verified WHERE verification_level='V3') AS v3,
+  (SELECT COUNT(*) FROM corpus_a_verified WHERE verification_level='V2') AS v2,
   (SELECT COUNT(*) FROM documents WHERE verification_level='V1' AND active=1) AS v1,
   (SELECT COUNT(*) FROM documents WHERE verification_level='V0' AND active=1) AS v0;
 
