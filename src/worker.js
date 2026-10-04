@@ -64,7 +64,7 @@ async function registryNumbers(env){
 
 async function health(env){
   const n=await registryNumbers(env);
-  return json({ok:true,service:"ARTSCAN R&D",version:"4.0.0",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n});
+  return json({ok:true,service:"ARTSCAN R&D",version:"4.0.1",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n});
 }
 
 async function registryStats(env){
@@ -138,10 +138,17 @@ async function getResearch(id, env){
     seen.add(key);
     merged.push({...x,evidence_kind:x.evidence_kind||classify((x.title||'')+' '+(x.snippet||''))});
   }
-  let documentary={verifiedDocuments:0,v3:0,v2:0,target:MIN_EXPERT_DOCUMENTS,complete:false};
+  let documentary={selectedDocuments:0,verifiedDocuments:0,v3:0,v2:0,corpusVerified:0,target:MIN_EXPERT_DOCUMENTS,corpusComplete:false,complete:false};
   try{
-    const c=await env.DB.prepare(`SELECT COUNT(*) AS n, SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3, SUM(CASE WHEN d.verification_level='V2' THEN 1 ELSE 0 END) AS v2 FROM job_documents jd JOIN documents d ON d.id=jd.document_id WHERE jd.job_id=?`).bind(id).first();
-    documentary={verifiedDocuments:Number(c?.n||0),v3:Number(c?.v3||0),v2:Number(c?.v2||0),target:MIN_EXPERT_DOCUMENTS,complete:Number(c?.n||0)>=MIN_EXPERT_DOCUMENTS};
+    const c=await env.DB.prepare(`SELECT COUNT(*) AS selected_n,
+      SUM(CASE WHEN d.verification_level='V3' THEN 1 ELSE 0 END) AS v3,
+      SUM(CASE WHEN d.verification_level='V2' THEN 1 ELSE 0 END) AS v2,
+      (SELECT COUNT(*) FROM corpus_a_verified) AS corpus_n
+      FROM job_documents jd JOIN documents d ON d.id=jd.document_id WHERE jd.job_id=?`).bind(id).first();
+    const selectedDocuments=Number(c?.selected_n||0);
+    const corpusVerified=Number(c?.corpus_n||0);
+    const corpusComplete=corpusVerified>=MIN_EXPERT_DOCUMENTS;
+    documentary={selectedDocuments,verifiedDocuments:selectedDocuments,v3:Number(c?.v3||0),v2:Number(c?.v2||0),corpusVerified,target:MIN_EXPERT_DOCUMENTS,corpusComplete,complete:corpusComplete};
   }catch{}
   return json({job,evidence:merged.slice(0,250),documentary,runtime:{llm:false,externalSearchApi:false,httpDirect:true}});
 }
