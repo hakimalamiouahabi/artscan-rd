@@ -11,6 +11,8 @@ if(!worker.includes('QUEUE_BATCH_MESSAGES = 100'))fail('Queue producer batching 
 if(!worker.includes('sendBatch'))fail('Large-scan queue batching missing');
 if(!worker.includes('local_corpus_lexical_match'))fail('Local corpus retrieval missing');
 if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
+if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert institutional-source floor missing');
+if(!worker.includes('corpusASources'))fail('Corpus A represented-source metric missing');
 if(!worker.includes('selectedDocuments'))fail('Per-research documentary selection metric missing');
 if(!worker.includes('corpusVerified'))fail('Global Corpus A metric missing');
 if(!worker.includes('corpusComplete'))fail('Global Corpus A readiness metric missing');
@@ -22,6 +24,7 @@ if(!qualityWorkflow.includes('workflow_dispatch:'))fail('Manual quality verifica
 if(!registryWorkflow.includes('cron: "0 0,1 1,15 * *"')||!registryWorkflow.includes('TZ=Europe/Paris'))fail('Fortnightly 02:00 Europe/Paris registry schedule missing');
 if(!registryWorkflow.includes("github.event_name == 'schedule'")||!registryWorkflow.includes('d1 execute artscan-rd --remote')||!registryWorkflow.includes('Production Corpus A mismatch'))fail('Validated scheduled production data promotion missing');
 if(!harvestScript.includes("UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1"))fail('Corpus A stale-document deactivation missing from generator');
+if(!harvestScript.includes('MAX_DOCS_PER_SOURCE=1')||!harvestScript.includes('TARGET_SOURCES=1000')||!harvestScript.includes('sources_represented:sourcesRepresented')||!harvestScript.includes('sourcesRepresented>=TARGET_SOURCES'))fail('Broad institutional Corpus A coverage logic missing');
 for(const [name,w] of [['registry',registryWorkflow],['staging deploy',stagingDeploy],['production deploy',productionDeploy],['corpus harvest',corpusHarvestWorkflow],['registry rebuild',rebuildWorkflow]])if(!w.includes("UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1"))fail(name+' stale Corpus A cleanup missing');
 if(!stagingDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(stagingDeploy)||/^\s*schedule:/m.test(stagingDeploy))fail('Staging deploy must remain manual-only');
 if(!productionDeploy.includes('workflow_dispatch:')||/^\s*push:/m.test(productionDeploy)||/^\s*schedule:/m.test(productionDeploy))fail('Production deploy must remain manual-only');
