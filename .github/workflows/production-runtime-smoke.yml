@@ -28,6 +28,7 @@ jobs:
           if(j.productionReady!==true) throw new Error('productionReady=false');
           if(Number(j.certifiedInstitutions||0)<1000) throw new Error('institutional registry below 1000');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Corpus A below 1000');
+          if(Number(j.corpusASources||0)<1000) throw new Error('Corpus A below 1000 represented sources');
           if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
           console.log(JSON.stringify(j,null,2));
@@ -61,6 +62,8 @@ jobs:
           const corpusVerified=Number(j.documentary?.corpusVerified??h.corpusAVerified??0);
           if(selected<1) throw new Error('no verified document selected for research');
           if(corpusVerified<1000) throw new Error('global Corpus A below target');
+          const corpusSources=Number(j.documentary?.corpusSources??h.corpusASources??0);
+          if(corpusSources<1000) throw new Error('global Corpus A represented-source coverage below target');
           if(j.documentary?.corpusComplete===false) throw new Error('global Corpus A marked incomplete');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
           console.log(JSON.stringify({
