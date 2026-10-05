@@ -48,6 +48,7 @@ if(!authoritativeCertScript.includes('snapshotFresh')||!authoritativeCertScript.
 if(!authoritativeCertScript.includes('previous_certified_directory_snapshot_plus_current_anonymous_http_access')||!authoritativeCertScript.includes("previousAuthoritative.filter(x=>x.certification_url===d.url&&snapshotFresh(x.certification_date))"))fail('Time-bounded last-known-good directory continuity missing');
 if(!authoritativeCertScript.includes('National Cancer Institute (NCI)')||!authoritativeCertScript.includes('National Center for Complementary and Integrative Health (NCCIH)'))fail('NIH official IC fallback coverage missing');
 if(!franceEsrScript.includes('fr-esr-principaux-etablissements-enseignement-superieur')||!franceEsrScript.includes("sector!=='public'")||!franceEsrScript.includes('official_MESR_open_data_public_sector_plus_current_anonymous_http_access'))fail('French public ESR official-data certification missing');
+if(!franceEsrScript.includes('for(let attempt=0;attempt<2;attempt++)')||!franceEsrScript.includes("MESR dataset unavailable"))fail('French MESR retry resilience missing');
 if(!buildScript.includes("['france_esr','data/registry-france-esr.json']"))fail('French public ESR registry merge missing');
 if(!registryWorkflow.includes('Certify French public higher-education sources from MESR'))fail('French public ESR scheduled certification missing');
 if(!australiaRbgScript.includes('higher-education-providers-eligible-research-block-grants')||!australiaRbgScript.includes('Australian_Department_of_Education_RBG_directory_plus_current_anonymous_http_access'))fail('Australian RBG official-directory certification missing');
@@ -55,6 +56,7 @@ if(!australiaRbgScript.includes('OFFICIAL_RBG_FALLBACKS')||!australiaRbgScript.i
 if(!buildScript.includes("['australia_rbg','data/registry-australia-rbg.json']"))fail('Australian RBG registry merge missing');
 if(!registryWorkflow.includes('Certify Australian research-grant higher-education providers'))fail('Australian RBG scheduled certification missing');
 if(!japanPublicScript.includes('daigaku1.htm')||!japanPublicScript.includes('daigaku2.htm')||!japanPublicScript.includes('official_MEXT_university_directory_plus_current_anonymous_http_access'))fail('Japanese public university MEXT certification missing');
+if(!japanPublicScript.includes('for(let attempt=0;attempt<2;attempt++)')||!japanPublicScript.includes("MEXT directory unavailable"))fail('Japanese MEXT retry resilience missing');
 if(!buildScript.includes("['japan_public_universities','data/registry-japan-public-universities.json']"))fail('Japanese public university registry merge missing');
 if(!registryWorkflow.includes('Certify Japanese national and public universities from MEXT'))fail('Japanese public university scheduled certification missing');
 if(!buildScript.includes('excludedWithoutAccessEvidence')||buildScript.includes('access_checked_at||new Date'))fail('Registry access-evidence gate or truthful timestamp handling missing');
