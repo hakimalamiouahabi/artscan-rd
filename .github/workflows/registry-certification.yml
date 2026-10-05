@@ -52,61 +52,43 @@ jobs:
 
       - name: Recertify historical seed sources by direct anonymous HTTP
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node --check scripts/certify-seed-sources.mjs
-          node scripts/certify-seed-sources.mjs
+        run: npm run certify:seed
 
       - name: Certify authoritative-directory research sources
         if: steps.paris_gate.outputs.run == 'true'
-        run: node scripts/certify-authoritative-directories.mjs
+        run: npm run certify:authoritative
 
       - name: Certify US public graduate institutions from NCES IPEDS
         if: steps.paris_gate.outputs.run == 'true'
-        run: python scripts/import_ipeds_public_research.py
+        run: npm run certify:ipeds
 
       - name: Certify global public research diversity
         if: steps.paris_gate.outputs.run == 'true'
-        run: node scripts/certify-global-directories.mjs
+        run: npm run certify:global
 
       - name: Certify French public higher-education sources from MESR
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node --check scripts/certify-france-esr.mjs
-          node scripts/certify-france-esr.mjs
+        run: npm run certify:france
 
       - name: Certify Australian research-grant higher-education providers
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node --check scripts/certify-australia-rbg.mjs
-          node scripts/certify-australia-rbg.mjs
+        run: npm run certify:australia
 
       - name: Certify Japanese national and public universities from MEXT
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node --check scripts/certify-japan-public-universities.mjs
-          node scripts/certify-japan-public-universities.mjs
+        run: npm run certify:japan
 
       - name: Build merged registry and D1 seed
         if: steps.paris_gate.outputs.run == 'true'
-        run: node scripts/build-registry.mjs
+        run: npm run build:registry
 
       - name: Validate 3/3 and unique-host accounting
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node - <<'NODE'
-          const fs=require('fs');
-          const a=JSON.parse(fs.readFileSync('data/source-registry.generated.json','utf8'));
-          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
-          if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) process.exit(1);
-          if(!Number.isInteger(s.certifiedUniqueHosts)||s.certifiedUniqueHosts<1) process.exit(1);
-          console.log(JSON.stringify(s,null,2));
-          NODE
+        run: npm run validate:registry
 
       - name: Harvest verified Corpus A from refreshed registry
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node --check scripts/harvest-corpus-a.mjs
-          node scripts/harvest-corpus-a.mjs
+        run: npm run harvest:corpus-a
 
       - name: Upload Corpus A coverage diagnostics
         uses: actions/upload-artifact@v4
@@ -119,18 +101,7 @@ jobs:
 
       - name: Validate Corpus A
         if: steps.paris_gate.outputs.run == 'true'
-        run: |
-          node <<'NODE'
-          const fs=require('fs');
-          const a=JSON.parse(fs.readFileSync('data/corpus-a.generated.json','utf8'));
-          const s=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
-          if(a.some(x=>x.corpus!=='A'||x.official!==true||x.public_access!==true||x.free_access!==true||x.primary_secondary!=='primary'||x.access_status!=='free'||!['V2','V3'].includes(x.verification_level))) process.exit(1);
-          if(new Set(a.map(x=>x.canonical_hash)).size!==a.length) process.exit(1);
-          if(Number(s.verified_unique_documents)!==a.length) process.exit(1);
-          if(Number(s.sources_represented||0)<Number(s.target_sources||1000)) process.exit(1);
-          if(s.complete!==true) process.exit(1);
-          console.log(JSON.stringify(s,null,2));
-          NODE
+        run: npm run validate:corpus-a
 
       - name: Full quality gate
         if: steps.paris_gate.outputs.run == 'true'
@@ -144,7 +115,9 @@ jobs:
           node --check scripts/certify-australia-rbg.mjs
           node --check scripts/certify-japan-public-universities.mjs
           node --check scripts/build-registry.mjs
-          node scripts/verify.mjs
+          node --check scripts/validate-registry.mjs
+          node --check scripts/validate-corpus-a.mjs
+          npm test
 
       - name: Commit certified registry
         if: steps.paris_gate.outputs.run == 'true'
