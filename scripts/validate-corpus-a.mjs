@@ -30,6 +30,10 @@ const expectedMisses=Math.max(0,Number(stats.sources_scanned||registry.length)-r
 if(misses.length!==expectedMisses)throw new Error('Corpus A miss diagnostics count mismatch');
 const missReasonTotal=Object.values(stats.miss_reasons||{}).reduce((a,b)=>a+Number(b||0),0);
 if(missReasonTotal!==misses.length)throw new Error('Corpus A miss-reason accounting mismatch');
+for(const [name,map] of [['country',stats.misses_by_country],['continent',stats.misses_by_continent],['category',stats.misses_by_category]]){const total=Object.values(map||{}).reduce((n,v)=>n+Number(v||0),0);if(total!==misses.length)throw new Error('Corpus A misses-by-'+name+' accounting mismatch')}
+const scannedContinentTotal=Object.values(stats.scanned_sources_by_continent||{}).reduce((n,v)=>n+Number(v||0),0);
+if(scannedContinentTotal!==Number(stats.sources_scanned||registry.length))throw new Error('Corpus A scanned-by-continent accounting mismatch');
+for(const [continent,row] of Object.entries(stats.source_yield_by_continent||{})){if(Number(row?.scanned)!==Number(stats.scanned_sources_by_continent?.[continent]||0)||Number(row?.represented)!==Number(stats.represented_sources_by_continent?.[continent]||0)||!Number.isFinite(Number(row?.yield))||Number(row.yield)<0||Number(row.yield)>1)throw new Error('Invalid Corpus A continent yield accounting: '+continent)}
 
 const targetDocs=Number(stats.target||1000),targetSources=Number(stats.target_sources||1000);
 if(corpus.length<targetDocs)throw new Error(`Corpus A below documentary target: ${corpus.length}/${targetDocs}`);
