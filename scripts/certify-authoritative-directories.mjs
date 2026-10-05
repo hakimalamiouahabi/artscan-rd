@@ -176,13 +176,18 @@ for(const d of DIRECTORIES){
   }
   if(!page)console.error('DIRECTORY_UNREACHABLE',d.id,d.url);
   const seen=new Set();
-  const discovered=page?[...anchors(page.text,d.url),...embeddedUrls(page.text,d.url)]:[];
-  for(const a of discovered){
-    if(d.reject?.(a.u))continue;
-    if(!d.accept?.call(d,a.u))continue;
-    const canonical=a.url.replace(/\/$/,'/');
-    if(seen.has(canonical))continue;seen.add(canonical);
-    candidates.push({d,a,canonical,certificationDate:today,certificationMethod:'authoritative_official_directory_link_plus_anonymous_http_access'});
+  const addDiscovered=(rows)=>{
+    for(const a of rows){
+      if(d.reject?.(a.u))continue;
+      if(!d.accept?.call(d,a.u))continue;
+      const canonical=a.url.replace(/\/$/,'/');
+      if(seen.has(canonical))continue;seen.add(canonical);
+      candidates.push({d,a,canonical,certificationDate:today,certificationMethod:'authoritative_official_directory_link_plus_anonymous_http_access'});
+    }
+  };
+  if(page){
+    addDiscovered(anchors(page.text,d.url));
+    if(seen.size===0)addDiscovered(embeddedUrls(page.text,d.url));
   }
   if(!page){
     for(const prev of previousAuthoritative.filter(x=>x.certification_url===d.url&&snapshotFresh(x.certification_date))){
