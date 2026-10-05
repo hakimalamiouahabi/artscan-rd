@@ -20,7 +20,8 @@
     "certify:full": "npm run certify:registry && npm run harvest:corpus-a && npm run validate:corpus-a && npm test",
     "discover:sources": "node scripts/discover-sources.mjs",
     "dev": "npx wrangler dev",
-    "deploy": "npx wrangler deploy"
+    "deploy": "npx wrangler deploy",
+    "build:corpus-sql": "node scripts/build-corpus-sql.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.39.0"
