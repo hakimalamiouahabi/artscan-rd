@@ -134,6 +134,8 @@ ON CONFLICT(root_url) DO UPDATE SET
 const sql=`UPDATE sources SET active=0, updated_at=CURRENT_TIMESTAMP WHERE active=1;\n\n`+sourceStatements.join('\n\n')+`\n\nINSERT INTO registry_meta(key,value,updated_at) VALUES
 ('certified_sources',${q(String(stats.certifiedSources))},CURRENT_TIMESTAMP),
 ('certified_unique_hosts',${q(String(stats.certifiedUniqueHosts))},CURRENT_TIMESTAMP),
+('shared_host_count',${q(String(stats.sharedHostCount))},CURRENT_TIMESTAMP),
+('max_sources_per_host',${q(String(stats.maxSourcesPerHost))},CURRENT_TIMESTAMP),
 ('institutional_registry_ready','1',CURRENT_TIMESTAMP)
 ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP;
 `;
