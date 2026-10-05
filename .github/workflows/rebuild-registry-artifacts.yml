@@ -25,20 +25,10 @@ jobs:
       - name: Rebuild merged registry and D1 seed
         run: |
           node --check scripts/build-registry.mjs
-          node scripts/build-registry.mjs
+          npm run build:registry
 
       - name: Validate rebuilt registry
-        run: |
-          node <<'NODE'
-          const fs=require('fs');
-          const a=JSON.parse(fs.readFileSync('data/source-registry.generated.json','utf8'));
-          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
-          if(a.length<1) throw new Error('Empty registry');
-          if(a.some(x=>!(x.official&&x.public_access&&x.free_access&&x.active))) throw new Error('Invalid active 3/3 source');
-          if(Number(s.certifiedSources)!==a.length) throw new Error('Stats mismatch');
-          if(!fs.readFileSync('seed.generated.sql','utf8').includes('ON CONFLICT(root_url) DO UPDATE')) throw new Error('FK-safe upsert missing');
-          console.log(JSON.stringify(s,null,2));
-          NODE
+        run: npm run validate:registry
 
       - name: Commit rebuilt artifacts
         shell: bash
