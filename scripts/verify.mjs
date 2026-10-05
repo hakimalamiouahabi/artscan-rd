@@ -26,6 +26,7 @@ if(!app.includes('expert.disabled=!ready'))fail('Expert UI readiness gate missin
 if(/sources effectivement validées/i.test(app))fail('Per-research documents are mislabeled as sources');
 if(!qualityWorkflow.includes('workflow_dispatch:'))fail('Manual quality verification missing');
 if(!registryWorkflow.includes('cron: "0 0,1 1,15 * *"')||!registryWorkflow.includes('TZ=Europe/Paris'))fail('Fortnightly 02:00 Europe/Paris registry schedule missing');
+if(/^\s*push:/m.test(registryWorkflow))fail('Registry certification must not run on ordinary pushes');
 if(!registryWorkflow.includes("github.event_name == 'schedule'")||!registryWorkflow.includes('d1 execute artscan-rd --remote')||!registryWorkflow.includes('Production Corpus A mismatch'))fail('Validated scheduled production data promotion missing');
 if(!harvestScript.includes("UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1"))fail('Corpus A stale-document deactivation missing from generator');
 if(!harvestScript.includes('MAX_DOCS_PER_SOURCE=1')||!harvestScript.includes('TARGET_DOCS=1000')||!harvestScript.includes('TARGET_SOURCES=1000')||!harvestScript.includes('sources_represented:sourcesRepresented')||!harvestScript.includes('sourcesRepresented>=TARGET_SOURCES'))fail('Broad institutional Corpus A coverage logic missing');
