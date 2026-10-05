@@ -35,7 +35,9 @@ jobs:
       - name: Quality gate — staging
         run: |
           node --check src/worker.js
-          node scripts/verify.mjs
+          npm test
+          npm run build:corpus-sql
+          npm run validate:corpus-a
 
       - name: Install Wrangler
         run: npm install --no-save wrangler@4
@@ -80,14 +82,12 @@ jobs:
           fs.writeFileSync('wrangler.staging.jsonc',s);
           NODE
 
-      - name: Apply D1 schema and seed
+      - name: Apply D1 schema and certified artifacts
         run: |
+          set -euo pipefail
           npx wrangler d1 execute "$D1_NAME" --remote --file=schema.sql
           npx wrangler d1 execute "$D1_NAME" --remote --file=seed.generated.sql
-          if [ -f corpus-a.generated.sql ]; then
-            npx wrangler d1 execute "$D1_NAME" --remote --command "UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1;"
-            npx wrangler d1 execute "$D1_NAME" --remote --file=corpus-a.generated.sql
-          fi
+          npx wrangler d1 execute "$D1_NAME" --remote --file=corpus-a.generated.sql
 
       - name: Deploy staging Worker
         shell: bash
@@ -106,12 +106,23 @@ jobs:
           node <<'NODE'
           const fs=require('fs');
           const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          const c=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+          const eq=(a,b,label)=>{if(Number(a)!==Number(b))throw new Error(label+': '+a+' != '+b)};
           if(!j.ok) throw new Error('health not ok');
+          if(j.version!==pkg.version) throw new Error('staging Worker/package version mismatch');
           if(j.runtime?.llm!==false) throw new Error('LLM runtime unexpectedly enabled');
           if(j.runtime?.externalSearchApi!==false) throw new Error('External search API unexpectedly enabled');
           if(j.runtime?.httpDirect!==true) throw new Error('Direct HTTP not enabled');
-          if(typeof j.corpusAVerified!=='number') throw new Error('Documentary corpus metric missing');
-          if(typeof j.corpusASources!=='number') throw new Error('Institutional corpus coverage metric missing');
+          eq(j.invalidActive,0,'invalid active sources');
+          eq(j.certifiedInstitutions,r.certifiedSources,'registry sources');
+          eq(j.certifiedUniqueHosts,r.certifiedUniqueHosts,'registry unique hosts');
+          eq(j.certifiedDistinctOrganisms,r.certifiedDistinctOrganisms,'registry distinct organisms');
+          eq(j.corpusAVerified,c.verified_unique_documents,'Corpus A documents');
+          eq(j.corpusASources,c.sources_represented,'Corpus A represented sources');
+          eq(j.corpusARepresentedHosts,c.represented_source_hosts,'Corpus A represented hosts');
+          if(j.productionReady!==true) throw new Error('staging productionReady=false');
           console.log(j);
           NODE
 
