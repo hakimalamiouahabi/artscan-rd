@@ -108,6 +108,15 @@ jobs:
           node --check scripts/harvest-corpus-a.mjs
           node scripts/harvest-corpus-a.mjs
 
+      - name: Upload Corpus A coverage diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: corpus-a-coverage-diagnostics-${{ github.run_id }}
+          path: |
+            data/corpus-a-stats.json
+            data/corpus-a-misses.json
+          retention-days: 30
+
       - name: Validate Corpus A
         if: steps.paris_gate.outputs.run == 'true'
         run: |
