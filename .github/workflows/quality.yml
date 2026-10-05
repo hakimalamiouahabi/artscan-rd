@@ -28,6 +28,5 @@ jobs:
           node --check scripts/certify-france-esr.mjs
           node --check scripts/certify-australia-rbg.mjs
           node --check scripts/certify-japan-public-universities.mjs
-          node --check scripts/certify-spain-public-universities.mjs
           node --check scripts/build-registry.mjs
       - run: node scripts/verify.mjs
