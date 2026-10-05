@@ -43,13 +43,17 @@ async function registryNumbers(env){
   const total = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources`).first();
   const certified = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1`).first();
   const invalid = await env.DB.prepare(`SELECT COUNT(*) AS n FROM sources WHERE active=1 AND NOT (official=1 AND public_access=1 AND free_access=1)`).first();
-  let corpusAVerified=0, corpusASources=0, verificationLevels={};
+  let corpusAVerified=0, corpusASources=0, corpusARepresentedHosts=0, certifiedUniqueHosts=0, verificationLevels={};
   try{
     const a=await env.DB.prepare(`SELECT COUNT(*) AS n, COUNT(DISTINCT source_id) AS source_n FROM corpus_a_verified`).first();
     corpusAVerified=Number(a?.n||0);
     corpusASources=Number(a?.source_n||0);
     const lv=await env.DB.prepare(`SELECT verification_level, COUNT(*) AS n FROM corpus_a_verified GROUP BY verification_level`).all();
     verificationLevels=Object.fromEntries((lv.results||[]).map(r=>[r.verification_level,Number(r.n||0)]));
+    const meta=await env.DB.prepare(`SELECT key,value FROM registry_meta WHERE key IN ('certified_unique_hosts','corpus_a_represented_hosts')`).all();
+    const mm=Object.fromEntries((meta.results||[]).map(r=>[r.key,r.value]));
+    certifiedUniqueHosts=Number(mm.certified_unique_hosts||0);
+    corpusARepresentedHosts=Number(mm.corpus_a_represented_hosts||0);
   }catch{}
   return {
     total:Number(total?.n||0),
@@ -58,6 +62,8 @@ async function registryNumbers(env){
     certifiedInstitutions:Number(certified?.n||0),
     corpusAVerified,
     corpusASources,
+    corpusARepresentedHosts,
+    certifiedUniqueHosts,
     verificationLevels,
     expertMinimumDocuments:MIN_EXPERT_DOCUMENTS,
     expertMinimumSources:MIN_EXPERT_SOURCES,
