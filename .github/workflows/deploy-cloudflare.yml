@@ -56,7 +56,11 @@ jobs:
 
       - name: Quality gate
         if: steps.auth.outputs.ready == 'true'
-        run: node --check src/worker.js && node scripts/verify.mjs
+        run: |
+          node --check src/worker.js
+          npm test
+          npm run build:corpus-sql
+          npm run validate:corpus-a
 
       - name: Install Wrangler
         if: steps.auth.outputs.ready == 'true'
@@ -104,15 +108,13 @@ jobs:
           fs.writeFileSync('wrangler.deploy.jsonc',s);
           NODE
 
-      - name: Apply D1 schema and certified seed
+      - name: Apply D1 schema and certified artifacts
         if: steps.auth.outputs.ready == 'true'
         run: |
+          set -euo pipefail
           npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=schema.sql
           npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=seed.generated.sql
-          if [ -f corpus-a.generated.sql ]; then
-            npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --command "UPDATE documents SET active=0, updated_at=CURRENT_TIMESTAMP WHERE corpus='A' AND active=1;"
-            npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=corpus-a.generated.sql
-          fi
+          npx wrangler d1 execute "$D1_NAME" --remote --config wrangler.deploy.jsonc --file=corpus-a.generated.sql
 
       - name: Deploy Worker
         if: steps.auth.outputs.ready == 'true'
@@ -136,13 +138,20 @@ jobs:
           node <<'NODE'
           const fs=require('fs');
           const j=JSON.parse(fs.readFileSync('/tmp/health.json','utf8'));
-          const s=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          const r=JSON.parse(fs.readFileSync('data/registry-stats.json','utf8'));
+          const c=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
+          const pkg=JSON.parse(fs.readFileSync('package.json','utf8'));
+          const eq=(a,b,label)=>{if(Number(a)!==Number(b))throw new Error(label+': '+a+' != '+b)};
           if(!j.ok) throw new Error('production health not ok');
+          if(j.version!==pkg.version) throw new Error('production Worker/package version mismatch');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('runtime invariant failed');
-          if(Number(j.invalidActive||0)!==0) throw new Error('invalid active source');
-          if(Number(j.certifiedInstitutions||0)!==Number(s.certifiedSources||0)) throw new Error('production registry mismatch');
-          if(Number(j.corpusAVerified||0)<1000) throw new Error('production Corpus A below 1000 documents');
-          if(Number(j.corpusASources||0)<1000) throw new Error('production Corpus A below 1000 represented sources');
+          eq(j.invalidActive,0,'invalid active sources');
+          eq(j.certifiedInstitutions,r.certifiedSources,'registry sources');
+          eq(j.certifiedUniqueHosts,r.certifiedUniqueHosts,'registry unique hosts');
+          eq(j.certifiedDistinctOrganisms,r.certifiedDistinctOrganisms,'registry distinct organisms');
+          eq(j.corpusAVerified,c.verified_unique_documents,'Corpus A documents');
+          eq(j.corpusASources,c.sources_represented,'Corpus A represented sources');
+          eq(j.corpusARepresentedHosts,c.represented_source_hosts,'Corpus A represented hosts');
           if(j.productionReady!==true) throw new Error('productionReady is false');
           console.log(j);
           NODE
