@@ -14,6 +14,7 @@ if(!worker.includes('const BATCH_SOURCE_IDS = 1'))fail('Free-tier source isolati
 if(!worker.includes('QUEUE_BATCH_MESSAGES = 100'))fail('Queue producer batching missing');
 if(!worker.includes('sendBatch'))fail('Large-scan queue batching missing');
 if(!worker.includes('local_corpus_lexical_match'))fail('Local corpus retrieval missing');
+if(!worker.includes("replace(/[^\\p{L}\\p{N}%+.-]+/gu,\" \")"))fail('Unicode-safe runtime corpus normalization missing');
 if(!worker.includes('const MIN_EXPERT_DOCUMENTS = 1000'))fail('Expert documentary corpus floor missing');
 if(!worker.includes('const MIN_EXPERT_SOURCES = 1000'))fail('Expert institutional-source floor missing');
 if(!worker.includes('corpusASources'))fail('Corpus A represented-source metric missing');
