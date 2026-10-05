@@ -26,4 +26,6 @@ jobs:
           node --check scripts/certify-australia-rbg.mjs
           node --check scripts/certify-japan-public-universities.mjs
           node --check scripts/build-registry.mjs
-      - run: node scripts/verify.mjs
+          node --check scripts/validate-registry.mjs
+          node --check scripts/validate-corpus-a.mjs
+      - run: npm test
