@@ -1,0 +1,42 @@
+name: staging-diagnostic-now-once
+
+on:
+  push:
+    paths:
+      - '.github/manual/staging-diagnostic-now'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Read staging API health
+        run: |
+          set -euo pipefail
+          curl -fsS "https://artscan-rd-staging.mnin-nbda-beta.workers.dev/api/health" | tee /tmp/health.json
+
+      - name: Read staging D1 counters
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          npm install --no-save wrangler@4 >/dev/null 2>&1
+          echo "=== active certified sources ==="
+          npx wrangler d1 execute artscan-rd-staging --remote --command "SELECT COUNT(*) AS n FROM sources WHERE active=1 AND official=1 AND public_access=1 AND free_access=1;"
+          echo "=== corpus A active verified ==="
+          npx wrangler d1 execute artscan-rd-staging --remote --command "SELECT COUNT(*) AS n, COUNT(DISTINCT source_id) AS source_n FROM corpus_a_verified;"
+          echo "=== raw active documents ==="
+          npx wrangler d1 execute artscan-rd-staging --remote --command "SELECT COUNT(*) AS n, COUNT(DISTINCT source_id) AS source_n FROM documents WHERE active=1 AND corpus='A' AND official=1 AND public_access=1 AND free_access=1 AND primary_secondary='primary' AND access_status='free' AND verification_level IN ('V2','V3');"
+          echo "=== registry meta ==="
+          npx wrangler d1 execute artscan-rd-staging --remote --command "SELECT key,value FROM registry_meta ORDER BY key;"
