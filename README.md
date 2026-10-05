@@ -54,3 +54,22 @@ Une recherche individuelle distingue désormais explicitement :
 ## Actualisation
 
 Le registre institutionnel et le Corpus A sont réévalués deux fois par mois, les 1er et 15. Les collectes restent HTTP/HTTPS directes, sans LLM ni API de moteur de recherche au runtime.
+
+## Exécution reproductible hors GitHub Actions
+
+GitHub Actions n'est qu'un orchestrateur. La certification métier reste exécutable sur tout environnement disposant de **Node.js 22** et **Python 3.12** :
+
+- `npm test` : garde-fous statiques d'architecture et d'intégrité ;
+- `npm run certify:registry` : recertification des sources puis reconstruction/validation du registre ;
+- `npm run harvest:corpus-a` : collecte documentaire sur l'intégralité du registre certifié ;
+- `npm run validate:corpus-a` : gate strict **>= 1 000 documents V2/V3 et >= 1 000 sources représentées** ;
+- `npm run certify:full` : chaîne complète registre -> Corpus A -> validation -> tests.
+
+Les workflows GitHub de déploiement, smoke, rebuild, harvest manuel et qualité restent **manuels uniquement**. Le seul cycle automatique de données est `registry-certification`, les **1er et 15** avec gate à 02:00 Europe/Paris.
+
+## Diagnostic de couverture Corpus A
+
+Chaque harvest produit `data/corpus-a-misses.json` et enrichit `data/corpus-a-stats.json` avec les causes d'absence de document par source : robots, homepage inaccessible, absence de candidat R&D, échec de validation du candidat, redirection hors domaine, canonical externe, contenu insuffisant ou déduplication.
+
+Le workflow conserve ces diagnostics comme artefact **avant le gate bloquant**. Un cycle incomplet reste donc analysable sans être promu en staging ou production.
+
