@@ -91,6 +91,7 @@ jobs:
         run: npm run harvest:corpus-a
 
       - name: Upload Corpus A coverage diagnostics
+        if: steps.paris_gate.outputs.run == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: corpus-a-coverage-diagnostics-${{ github.run_id }}
