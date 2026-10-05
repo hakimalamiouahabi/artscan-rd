@@ -1,0 +1,16 @@
+name: runner-probe-once
+
+on:
+  push:
+    paths:
+      - '.github/manual/runner-probe-once'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: echo "runner-ok"
