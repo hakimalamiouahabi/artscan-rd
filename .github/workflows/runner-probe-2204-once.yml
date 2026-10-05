@@ -1,0 +1,16 @@
+name: runner-probe-2204-once
+
+on:
+  push:
+    paths:
+      - '.github/manual/runner-probe-2204-once'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - run: echo "runner-2204-ok"
