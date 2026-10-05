@@ -72,9 +72,13 @@ const merged=[...byUrl.values()].sort((a,b)=>
   String(a.organism).localeCompare(String(b.organism))
 );
 
-const hosts=new Set(merged.map(x=>hostOf(x.root_url)).filter(Boolean));
+const hostCounts=new Map();
+for(const x of merged){const h=hostOf(x.root_url);if(h)hostCounts.set(h,(hostCounts.get(h)||0)+1)}
+const hosts=new Set(hostCounts.keys());
+const sharedHosts=[...hostCounts.entries()].filter(([,n])=>n>1).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
 const byContinent={};
-for(const x of merged)byContinent[x.continent]=(byContinent[x.continent]||0)+1;
+const byCountry={};
+for(const x of merged){byContinent[x.continent]=(byContinent[x.continent]||0)+1;byCountry[x.country]=(byCountry[x.country]||0)+1}
 
 const byOrigin={};
 for(const x of merged)byOrigin[x.registry_origin]=(byOrigin[x.registry_origin]||0)+1;
@@ -85,10 +89,15 @@ const documentaryAccessEvidenceOnly=merged.filter(x=>{
 const stats={
   certifiedSources:merged.length,
   certifiedUniqueHosts:hosts.size,
+  sharedHostCount:sharedHosts.length,
+  sourceRecordsOnSharedHosts:sharedHosts.reduce((n,[,count])=>n+count,0),
+  maxSourcesPerHost:sharedHosts[0]?.[1]||1,
+  largestSharedHosts:sharedHosts.slice(0,20).map(([host,count])=>({host,count})),
   institutionalRegistryReady:hosts.size>0,
   excludedWithoutAccessEvidence:excludedWithoutAccessEvidence.length,
   documentaryAccessEvidenceOnly,
   byContinent,
+  byCountry,
   byOrigin
 };
 
