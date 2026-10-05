@@ -74,6 +74,12 @@ jobs:
           node --check scripts/certify-france-esr.mjs
           node scripts/certify-france-esr.mjs
 
+      - name: Certify Australian research-grant higher-education providers
+        if: steps.paris_gate.outputs.run == 'true'
+        run: |
+          node --check scripts/certify-australia-rbg.mjs
+          node scripts/certify-australia-rbg.mjs
+
       - name: Build merged registry and D1 seed
         if: steps.paris_gate.outputs.run == 'true'
         run: node scripts/build-registry.mjs
@@ -120,6 +126,7 @@ jobs:
           node --check scripts/certify-authoritative-directories.mjs
           node --check scripts/certify-global-directories.mjs
           node --check scripts/certify-france-esr.mjs
+          node --check scripts/certify-australia-rbg.mjs
           node --check scripts/build-registry.mjs
           node scripts/verify.mjs
 
@@ -141,6 +148,8 @@ jobs:
           cp data/registry-global-diversity-stats.json "$OUT/data/"
           cp data/registry-france-esr.json "$OUT/data/"
           cp data/registry-france-esr-stats.json "$OUT/data/"
+          cp data/registry-australia-rbg.json "$OUT/data/"
+          cp data/registry-australia-rbg-stats.json "$OUT/data/"
           cp data/source-registry.generated.json "$OUT/data/"
           cp data/registry-stats.json "$OUT/data/"
           cp seed.generated.sql "$OUT/"
@@ -161,7 +170,7 @@ jobs:
 
           git config user.name "artscan-registry-bot"
           git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
-          git add data/registry-seed-certified.json data/registry-seed-certified-stats.json data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/registry-global-diversity.json data/registry-global-diversity-stats.json data/registry-france-esr.json data/registry-france-esr-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
+          git add data/registry-seed-certified.json data/registry-seed-certified-stats.json data/registry-authoritative.json data/registry-authoritative-stats.json data/registry-ipeds.json data/registry-ipeds-stats.json data/registry-global-diversity.json data/registry-global-diversity-stats.json data/registry-france-esr.json data/registry-france-esr-stats.json data/registry-australia-rbg.json data/registry-australia-rbg-stats.json data/source-registry.generated.json data/registry-stats.json seed.generated.sql data/corpus-a.generated.json data/corpus-a.generated.csv data/corpus-a-stats.json corpus-a.generated.sql
           if git diff --cached --quiet; then
             echo "No registry changes"
             exit 0
