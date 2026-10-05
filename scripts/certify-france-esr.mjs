@@ -19,12 +19,19 @@ function cleanUrl(raw){
   }catch{return null}
 }
 async function fetchJson(url){
-  const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
-  try{
-    const r=await fetch(url,{redirect:'follow',headers:{'user-agent':UA,'accept':'application/json'},signal:c.signal});
-    if(!r.ok)throw new Error('MESR dataset HTTP '+r.status);
-    return await r.json();
-  }finally{clearTimeout(t)}
+  let lastError=null;
+  for(let attempt=0;attempt<2;attempt++){
+    const c=new AbortController(),t=setTimeout(()=>c.abort(),20000);
+    try{
+      const r=await fetch(url,{redirect:'follow',headers:{'user-agent':UA,'accept':'application/json'},signal:c.signal});
+      if(!r.ok)throw new Error('MESR dataset HTTP '+r.status);
+      return await r.json();
+    }catch(error){
+      lastError=error;
+      if(attempt===0)await new Promise(resolve=>setTimeout(resolve,1000));
+    }finally{clearTimeout(t)}
+  }
+  throw lastError||new Error('MESR dataset unavailable');
 }
 async function checkAnonymous(url){
   const tries=[url];
