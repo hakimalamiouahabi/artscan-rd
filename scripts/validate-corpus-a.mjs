@@ -17,6 +17,14 @@ if(corpus.some(x=>!registryRoots.has(x.source_root_url)))throw new Error('Corpus
 const represented=new Set(corpus.map(x=>x.source_root_url)).size;
 if(Number(stats.sources_represented||0)!==represented)throw new Error('Corpus A represented-source stats mismatch');
 if(Number(stats.sources_scanned||registry.length)<represented)throw new Error('Corpus A represented sources exceed scanned sources');
+const registryHosts=Number(stats.registry_unique_hosts||0),representedHosts=Number(stats.represented_source_hosts||0);
+if(!Number.isInteger(registryHosts)||registryHosts<1)throw new Error('Invalid Corpus A registry host count');
+if(!Number.isInteger(representedHosts)||representedHosts<1)throw new Error('Invalid Corpus A represented host count');
+if(representedHosts>represented)throw new Error('Represented host count exceeds represented source count');
+if(registryHosts>Number(stats.sources_scanned||registry.length))throw new Error('Registry host count exceeds scanned source count');
+if(representedHosts>registryHosts)throw new Error('Represented host count exceeds registry host count');
+const hostRatio=Number(stats.source_host_coverage_ratio);
+if(!Number.isFinite(hostRatio)||hostRatio<0||hostRatio>1)throw new Error('Invalid Corpus A host-coverage ratio');
 
 const expectedMisses=Math.max(0,Number(stats.sources_scanned||registry.length)-represented);
 if(misses.length!==expectedMisses)throw new Error('Corpus A miss diagnostics count mismatch');
