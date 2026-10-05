@@ -9,5 +9,6 @@ if(new Set(registry.map(x=>x.root_url)).size!==registry.length)throw new Error('
 if(Number(stats.certifiedSources||0)!==registry.length)throw new Error('Registry stats/source count mismatch');
 if(!Number.isInteger(stats.certifiedUniqueHosts)||stats.certifiedUniqueHosts<1)throw new Error('Invalid unique-host accounting');
 if(Number(stats.certifiedUniqueHosts)>registry.length)throw new Error('Unique-host count exceeds source count');
+if(!fs.readFileSync('seed.generated.sql','utf8').includes('ON CONFLICT(root_url) DO UPDATE'))throw new Error('FK-safe registry upsert missing');
 
 console.log(JSON.stringify({ok:true,...stats},null,2));
