@@ -5,7 +5,8 @@ const inputs=[
   ['seed',seedInput],
   ['authoritative','data/registry-authoritative.json'],
   ['ipeds','data/registry-ipeds.json'],
-  ['global_diversity','data/registry-global-diversity.json']
+  ['global_diversity','data/registry-global-diversity.json'],
+  ['france_esr','data/registry-france-esr.json']
 ];
 
 function readArray(path){
