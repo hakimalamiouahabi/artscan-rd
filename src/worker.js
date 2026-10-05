@@ -362,7 +362,7 @@ function canonicalizeDocumentUrl(u){
 }
 
 function makeTerms(topic,context){const txt=normalize(topic+" "+context).split(/\s+/).filter(x=>x.length>2&&!STOPWORDS.has(x));const freq=new Map();for(const x of txt)freq.set(x,(freq.get(x)||0)+1);return [...freq.entries()].sort((a,b)=>b[1]-a[1]||b[0].length-a[0].length).slice(0,16).map(x=>x[0])}
-function normalize(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9%+.-]+/g," ")}
+function normalize(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^\p{L}\p{N}%+.-]+/gu," ")}
 function lexicalScore(text,terms){const n=normalize(text);let s=0;for(const t of terms){let i=0;while((i=n.indexOf(t,i))!==-1){s++;i+=t.length}}return s}
 function classify(t){const n=normalize(t);if(/verrou|bottleneck|unresolved|research gap|barrier/.test(n))return"scientific_lock";if(/limit|limitation|limite|drawback|constraint|contraint|insufficient|challenge/.test(n))return"limitation";if(/reglement|directive|norme|standard|regulation|compliance|cyber|safety|securite/.test(n))return"regulation";if(/performance|rendement|efficien|accuracy|precision|sensibilit|specificit|taux|%|kw|mw|wh|kg/.test(n))return"performance";if(/solution|method|approach|architecture|process|procede|technolog|prototype|demonstrator|system/.test(n))return"solution";return"fact"}
 function extractTitle(html){const m=String(html).match(/<title[^>]*>([\s\S]*?)<\/title>/i);return m?stripHtml(m[1]).slice(0,300):""}
