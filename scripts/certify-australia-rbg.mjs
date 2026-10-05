@@ -129,7 +129,7 @@ for(let i=0;i<candidates.length;i+=CONCURRENCY){
       access_checked_at:new Date().toISOString(),
       access_http_status:access.status,
       language:'en',
-      category:'public_higher_education_research',
+      category:'higher_education_research',
       active:true
     };
   }));
