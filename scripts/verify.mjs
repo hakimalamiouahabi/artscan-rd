@@ -96,4 +96,6 @@ if(!css.includes('overflow-x:hidden'))fail('Horizontal overflow guard missing');
 if(/fonts\.googleapis\.com|@import\s+url\(/i.test(css))fail('External font dependency detected');
 if(!css.trimStart().startsWith(':root{'))fail('Malformed CSS prefix residue detected');
 if(pkg.name!=='artscan-rd')fail('Package identity invalid');
+if(!worker.includes(`const SERVICE_VERSION = "${pkg.version}"`))fail('Package/Worker service version mismatch');
+if(!worker.includes('version:SERVICE_VERSION'))fail('Health endpoint must expose canonical service version');
 console.log(JSON.stringify({ok:true,llmRuntime:false,externalSearchApiRuntime:false,robotsPathRules:true,ssrf:true,sourceGate:'3/3',batchSourceIds:1,registrySeedCount:seed.length,certifiedSources:Number(stats.certifiedSources||seed.length),certifiedUniqueHosts:Number(stats.certifiedUniqueHosts||seed.length),institutionalRegistryHosts:Number(stats.certifiedUniqueHosts||seed.length),desktopTarget:'1366x768'},null,2));
