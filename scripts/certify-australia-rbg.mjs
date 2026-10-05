@@ -52,19 +52,12 @@ const OFFICIAL_RBG_FALLBACKS=[
 function snapshotFresh(date,maxAgeDays=45){const t=Date.parse(date+'T00:00:00Z');return Number.isFinite(t)&&Date.now()-t<=maxAgeDays*86400000}
 
 async function fetchText(url){
-  let lastError=null;
-  for(let attempt=0;attempt<3;attempt++){
-    const c=new AbortController(),t=setTimeout(()=>c.abort(),30000);
-    try{
-      const r=await fetch(url,{redirect:'follow',headers:{'user-agent':UA,'accept':'text/html,application/xhtml+xml,text/plain;q=0.8,*/*;q=0.2'},signal:c.signal});
-      if(!r.ok)throw new Error('Australian Education directory HTTP '+r.status);
-      return {url:r.url,text:await r.text()};
-    }catch(error){
-      lastError=error;
-      if(attempt<2)await new Promise(resolve=>setTimeout(resolve,1000*(attempt+1)));
-    }finally{clearTimeout(t)}
-  }
-  throw lastError||new Error('Australian Education directory unavailable');
+  const c=new AbortController(),t=setTimeout(()=>c.abort(),15000);
+  try{
+    const r=await fetch(url,{redirect:'follow',headers:{'user-agent':UA,'accept':'text/html,application/xhtml+xml,text/plain;q=0.8,*/*;q=0.2'},signal:c.signal});
+    if(!r.ok)throw new Error('Australian Education directory HTTP '+r.status);
+    return {url:r.url,text:await r.text()};
+  }finally{clearTimeout(t)}
 }
 function strip(s){return String(s||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;|&#160;/gi,' ').replace(/&amp;/gi,'&').replace(/&#39;|&apos;/gi,"'").replace(/\s+/g,' ').trim()}
 function anchors(html,base){
