@@ -2,9 +2,6 @@ name: registry-certification
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/manual/registry-certify-now'
   schedule:
     - cron: "0 0,1 1,15 * *"
 
