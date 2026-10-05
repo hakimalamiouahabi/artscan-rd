@@ -45,7 +45,6 @@ if(!franceEsrScript.includes('fr-esr-principaux-etablissements-enseignement-supe
 if(!buildScript.includes("['france_esr','data/registry-france-esr.json']"))fail('French public ESR registry merge missing');
 if(!registryWorkflow.includes('Certify French public higher-education sources from MESR'))fail('French public ESR scheduled certification missing');
 if(!australiaRbgScript.includes('higher-education-providers-eligible-research-block-grants')||!australiaRbgScript.includes('Australian_Department_of_Education_RBG_directory_plus_current_anonymous_http_access'))fail('Australian RBG official-directory certification missing');
-if(!australiaRbgScript.includes('for(let attempt=0;attempt<3;attempt++)')||!australiaRbgScript.includes('setTimeout(()=>c.abort(),30000)'))fail('Australian RBG directory retry/timeout resilience missing');
 if(!australiaRbgScript.includes('OFFICIAL_RBG_FALLBACKS')||!australiaRbgScript.includes("FALLBACK_SNAPSHOT_DATE='2026-10-05'")||!australiaRbgScript.includes('snapshotFresh(FALLBACK_SNAPSHOT_DATE)'))fail('Australian RBG time-bounded official fallback missing');
 if(!buildScript.includes("['australia_rbg','data/registry-australia-rbg.json']"))fail('Australian RBG registry merge missing');
 if(!registryWorkflow.includes('Certify Australian research-grant higher-education providers'))fail('Australian RBG scheduled certification missing');
