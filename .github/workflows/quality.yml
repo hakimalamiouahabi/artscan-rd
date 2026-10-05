@@ -26,5 +26,6 @@ jobs:
           node --check scripts/certify-authoritative-directories.mjs
           node --check scripts/certify-global-directories.mjs
           node --check scripts/certify-france-esr.mjs
+          node --check scripts/certify-australia-rbg.mjs
           node --check scripts/build-registry.mjs
       - run: node scripts/verify.mjs
