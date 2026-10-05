@@ -26,7 +26,7 @@ jobs:
         run: node --check scripts/harvest-corpus-a.mjs
 
       - name: Harvest verified Corpus A
-        run: node scripts/harvest-corpus-a.mjs
+        run: npm run harvest:corpus-a
 
       - name: Upload Corpus A coverage diagnostics
         uses: actions/upload-artifact@v4
@@ -38,18 +38,7 @@ jobs:
           retention-days: 30
 
       - name: Validate Corpus A
-        run: |
-          node <<'NODE'
-          const fs=require('fs');
-          const a=JSON.parse(fs.readFileSync('data/corpus-a.generated.json','utf8'));
-          const s=JSON.parse(fs.readFileSync('data/corpus-a-stats.json','utf8'));
-          if(a.some(x=>x.corpus!=='A'||x.official!==true||x.public_access!==true||x.free_access!==true||x.primary_secondary!=='primary'||x.access_status!=='free'||!['V2','V3'].includes(x.verification_level))) process.exit(1);
-          if(new Set(a.map(x=>x.canonical_hash)).size!==a.length) process.exit(1);
-          if(Number(s.verified_unique_documents)!==a.length) process.exit(1);
-          if(Number(s.sources_represented||0)<Number(s.target_sources||1000)) process.exit(1);
-          if(s.complete!==true) process.exit(1);
-          console.log(JSON.stringify(s,null,2));
-          NODE
+        run: npm run validate:corpus-a
 
       - name: Commit documentary corpus
         shell: bash
