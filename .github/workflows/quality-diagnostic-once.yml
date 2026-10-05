@@ -1,0 +1,56 @@
+name: quality-diagnostic-once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/quality-diagnostic-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run diagnostic checks
+        shell: bash
+        run: |
+          set +e
+          OUT=data/quality-diagnostic.txt
+          : > "$OUT"
+          runcheck() {
+            name="$1"; shift
+            echo "=== $name ===" >> "$OUT"
+            "$@" >> "$OUT" 2>&1
+            code=$?
+            echo "EXIT=$code" >> "$OUT"
+            echo >> "$OUT"
+          }
+          runcheck "worker syntax" node --check src/worker.js
+          runcheck "harvest syntax" node --check scripts/harvest-corpus-a.mjs
+          runcheck "seed cert syntax" node --check scripts/certify-seed-sources.mjs
+          runcheck "authoritative cert syntax" node --check scripts/certify-authoritative-directories.mjs
+          runcheck "global cert syntax" node --check scripts/certify-global-directories.mjs
+          runcheck "France ESR syntax" node --check scripts/certify-france-esr.mjs
+          runcheck "Australia RBG syntax" node --check scripts/certify-australia-rbg.mjs
+          runcheck "Japan public universities syntax" node --check scripts/certify-japan-public-universities.mjs
+          runcheck "build registry syntax" node --check scripts/build-registry.mjs
+          runcheck "verify" node scripts/verify.mjs
+          cat "$OUT"
+      - name: Commit diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "artscan-quality-diagnostic"
+          git config user.email "132111667+hakimalamiouahabi@users.noreply.github.com"
+          git add data/quality-diagnostic.txt
+          git commit -m "diagnostic: capture quality failure" || exit 0
+          git push origin HEAD:main
