@@ -8,8 +8,7 @@ const inputs=[
   ['global_diversity','data/registry-global-diversity.json'],
   ['france_esr','data/registry-france-esr.json'],
   ['australia_rbg','data/registry-australia-rbg.json'],
-  ['japan_public_universities','data/registry-japan-public-universities.json'],
-  ['spain_public_universities','data/registry-spain-public-universities.json']
+  ['japan_public_universities','data/registry-japan-public-universities.json']
 ];
 
 function readArray(path){
