@@ -107,6 +107,7 @@ jobs:
       - name: Full quality gate
         if: steps.paris_gate.outputs.run == 'true'
         run: |
+          grep -q 'source_id=excluded.source_id' corpus-a.generated.sql
           node --check src/worker.js
           node --check scripts/harvest-corpus-a.mjs
           node --check scripts/certify-seed-sources.mjs
@@ -201,6 +202,8 @@ jobs:
           if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Staging registry mismatch');
           if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Staging Corpus A mismatch');
           if(Number(j.corpusASources||0)!==Number(c.sources_represented||0)) throw new Error('Staging Corpus A source coverage mismatch');
+          if(Number(j.corpusARepresentedHosts||0)!==Number(c.represented_source_hosts||0)) throw new Error('Staging Corpus A host coverage mismatch');
+          if(Number(j.certifiedUniqueHosts||0)!==Number(r.certifiedUniqueHosts||0)) throw new Error('Staging registry host mismatch');
           if(Number(j.corpusASources||0)<Number(c.target_sources||1000)) throw new Error('Staging Corpus A below 1000 represented sources');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Staging Corpus A below 1000');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Runtime invariant failed');
@@ -237,6 +240,8 @@ jobs:
           if(Number(j.certifiedInstitutions||0)!==Number(r.certifiedSources||0)) throw new Error('Production registry mismatch');
           if(Number(j.corpusAVerified||0)!==Number(c.verified_unique_documents||0)) throw new Error('Production Corpus A mismatch');
           if(Number(j.corpusASources||0)!==Number(c.sources_represented||0)) throw new Error('Production Corpus A source coverage mismatch');
+          if(Number(j.corpusARepresentedHosts||0)!==Number(c.represented_source_hosts||0)) throw new Error('Production Corpus A host coverage mismatch');
+          if(Number(j.certifiedUniqueHosts||0)!==Number(r.certifiedUniqueHosts||0)) throw new Error('Production registry host mismatch');
           if(Number(j.corpusASources||0)<Number(c.target_sources||1000)) throw new Error('Production Corpus A below 1000 represented sources');
           if(Number(j.corpusAVerified||0)<1000) throw new Error('Production Corpus A below 1000');
           if(j.runtime?.llm!==false||j.runtime?.externalSearchApi!==false||j.runtime?.httpDirect!==true) throw new Error('Production runtime invariant failed');
