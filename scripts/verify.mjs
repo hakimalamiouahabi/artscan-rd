@@ -24,7 +24,7 @@ if(!worker.includes('corpus_relevance'))fail('Corpus-ranked source selection mis
 if(!worker.includes('depth==="expert"&&!n.productionReady'))fail('Expert mode production-readiness gate missing');
 if(!app.includes('expert.disabled=!ready'))fail('Expert UI readiness gate missing');
 if(/sources effectivement validées/i.test(app))fail('Per-research documents are mislabeled as sources');
-if(!qualityWorkflow.includes('workflow_dispatch:'))fail('Manual quality verification missing');
+if(!qualityWorkflow.includes('workflow_dispatch:')||/^\s*push:/m.test(qualityWorkflow)||/^\s*pull_request:/m.test(qualityWorkflow)||/^\s*schedule:/m.test(qualityWorkflow))fail('Quality workflow must remain manual-only to conserve private-repository Actions minutes');
 if(!registryWorkflow.includes('cron: "0 0,1 1,15 * *"')||!registryWorkflow.includes('TZ=Europe/Paris'))fail('Fortnightly 02:00 Europe/Paris registry schedule missing');
 if(/^\s*push:/m.test(registryWorkflow))fail('Registry certification must not run on ordinary pushes');
 if(!registryWorkflow.includes("github.event_name == 'schedule'")||!registryWorkflow.includes('d1 execute artscan-rd --remote')||!registryWorkflow.includes('Production Corpus A mismatch'))fail('Validated scheduled production data promotion missing');
