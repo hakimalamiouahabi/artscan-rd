@@ -9,6 +9,7 @@ if(new Set(registry.map(x=>x.root_url)).size!==registry.length)throw new Error('
 if(Number(stats.certifiedSources||0)!==registry.length)throw new Error('Registry stats/source count mismatch');
 if(!Number.isInteger(stats.certifiedUniqueHosts)||stats.certifiedUniqueHosts<1)throw new Error('Invalid unique-host accounting');
 if(Number(stats.certifiedUniqueHosts)>registry.length)throw new Error('Unique-host count exceeds source count');
+if(!Number.isInteger(Number(stats.certifiedDistinctOrganisms))||Number(stats.certifiedDistinctOrganisms)<1||Number(stats.certifiedDistinctOrganisms)>registry.length)throw new Error('Invalid distinct-organism accounting');
 const sharedHostCount=Number(stats.sharedHostCount||0),sharedSourceRecords=Number(stats.sourceRecordsOnSharedHosts||0),maxSourcesPerHost=Number(stats.maxSourcesPerHost||0);
 if(!Number.isInteger(sharedHostCount)||sharedHostCount<0||sharedHostCount>Number(stats.certifiedUniqueHosts))throw new Error('Invalid shared-host accounting');
 if(!Number.isInteger(sharedSourceRecords)||sharedSourceRecords<0||sharedSourceRecords>registry.length)throw new Error('Invalid shared-host source-record accounting');
