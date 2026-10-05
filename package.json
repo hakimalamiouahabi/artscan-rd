@@ -9,7 +9,7 @@
     "validate:corpus-a": "node scripts/validate-corpus-a.mjs",
     "certify:seed": "node scripts/certify-seed-sources.mjs",
     "certify:authoritative": "node scripts/certify-authoritative-directories.mjs",
-    "certify:ipeds": "python scripts/import_ipeds_public_research.py",
+    "certify:ipeds": "node scripts/run-ipeds.mjs",
     "certify:global": "node scripts/certify-global-directories.mjs",
     "certify:france": "node scripts/certify-france-esr.mjs",
     "certify:australia": "node scripts/certify-australia-rbg.mjs",
