@@ -68,6 +68,7 @@ if(!buildScript.includes("['japan_public_universities','data/registry-japan-publ
 if(!registryWorkflow.includes('Certify Japanese national and public universities from MEXT'))fail('Japanese public university scheduled certification missing');
 if(!buildScript.includes('excludedWithoutAccessEvidence')||buildScript.includes('access_checked_at||new Date'))fail('Registry access-evidence gate or truthful timestamp handling missing');
 if(!buildScript.includes('sharedHostCount')||!buildScript.includes('sourceRecordsOnSharedHosts')||!buildScript.includes('maxSourcesPerHost')||!buildScript.includes('largestSharedHosts')||!buildScript.includes("'shared_host_count'"))fail('Registry shared-host concentration metrics missing');
+if(!buildScript.includes('certifiedDistinctOrganisms')||!buildScript.includes('sharedOrganismCount')||!buildScript.includes('maxSourcesPerOrganism')||!worker.includes('corpusAInstitutions')||!worker.includes('certifiedDistinctOrganisms'))fail('Distinct institution/source observability missing');
 if(!worker.includes('sharedHostCount')||!worker.includes('maxSourcesPerHost'))fail('Runtime shared-host concentration metrics missing');
 if(generatedRegistry.some(x=>!(x?.official===true&&x?.public_access===true&&x?.free_access===true&&x?.active===true)))fail('Invalid generated 3/3 source');
 if(new Set(generatedRegistry.map(x=>x.root_url)).size!==generatedRegistry.length)fail('Duplicate generated registry root URL');
