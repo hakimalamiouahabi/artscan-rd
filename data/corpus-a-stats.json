@@ -1,27 +1,121 @@
 {
-  "generated_at": "2026-10-04T10:39:10.785Z",
+  "generated_at": "2026-10-05T19:49:05.546Z",
   "corpus": "A",
   "target": 1000,
-  "verified_unique_documents": 1281,
-  "sources_represented": 117,
-  "complete": false,
+  "target_sources": 1000,
+  "sources_scanned": 1546,
+  "registry_unique_hosts": 1232,
+  "verified_unique_documents": 1309,
+  "sources_represented": 1309,
+  "represented_source_hosts": 1034,
+  "sources_without_verified_document": 237,
+  "source_coverage_ratio": 0.8467,
+  "source_host_coverage_ratio": 0.8393,
+  "miss_reasons": {
+    "candidate_verification_failed": 144,
+    "robots_disallowed": 10,
+    "homepage_unavailable": 25,
+    "robots_unavailable": 30,
+    "deduplicated_document": 28
+  },
+  "misses_by_country": {
+    "South Africa": 6,
+    "China": 29,
+    "India": 7,
+    "Japan": 66,
+    "South Korea": 9,
+    "European Union": 1,
+    "France": 13,
+    "Germany": 1,
+    "Canada": 20,
+    "United States": 75,
+    "Brazil": 10
+  },
+  "misses_by_continent": {
+    "Africa": 6,
+    "Asia": 111,
+    "Europe": 15,
+    "North America": 95,
+    "South America": 10
+  },
+  "misses_by_category": {
+    "public_higher_education_research": 148,
+    "research": 76,
+    "regulation": 1,
+    "applied_research": 1,
+    "earth_science": 7,
+    "biomedical_research": 4
+  },
+  "scanned_sources_by_continent": {
+    "Africa": 23,
+    "Asia": 338,
+    "Europe": 377,
+    "International": 2,
+    "North America": 752,
+    "Oceania": 29,
+    "South America": 25
+  },
+  "complete": true,
   "verification_levels": {
-    "V2": 1281,
+    "V2": 1309,
     "V3": 0
   },
-  "institutions_represented": 114,
-  "unique_hosts": 112,
+  "institutions_represented": 1286,
+  "unique_hosts": 1034,
   "by_continent": {
-    "Africa": 222,
-    "Asia": 294,
+    "Africa": 17,
+    "Asia": 227,
     "Europe": 362,
-    "International": 19,
-    "North America": 361,
-    "Oceania": 12,
-    "South America": 11
+    "International": 2,
+    "North America": 657,
+    "Oceania": 29,
+    "South America": 15
   },
-  "duplicates_removed": 281,
-  "target_sources": 1000,
-  "coverage_recertification_required": true,
-  "coverage_note": "Corpus historique: seuil documentaire atteint, mais couverture institutionnelle insuffisante. Recertification requise avec >=1000 sources institutionnelles distinctes."
+  "represented_sources_by_continent": {
+    "Africa": 17,
+    "Asia": 227,
+    "Europe": 362,
+    "International": 2,
+    "North America": 657,
+    "Oceania": 29,
+    "South America": 15
+  },
+  "source_yield_by_continent": {
+    "Africa": {
+      "scanned": 23,
+      "represented": 17,
+      "yield": 0.7391
+    },
+    "Asia": {
+      "scanned": 338,
+      "represented": 227,
+      "yield": 0.6716
+    },
+    "Europe": {
+      "scanned": 377,
+      "represented": 362,
+      "yield": 0.9602
+    },
+    "International": {
+      "scanned": 2,
+      "represented": 2,
+      "yield": 1
+    },
+    "North America": {
+      "scanned": 752,
+      "represented": 657,
+      "yield": 0.8737
+    },
+    "Oceania": {
+      "scanned": 29,
+      "represented": 29,
+      "yield": 1
+    },
+    "South America": {
+      "scanned": 25,
+      "represented": 15,
+      "yield": 0.6
+    }
+  },
+  "duplicates_removed": 28
 }

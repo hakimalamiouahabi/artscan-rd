@@ -1,22 +1,108 @@
 {
-  "certifiedSources": 1082,
-  "certifiedUniqueHosts": 830,
+  "certifiedSources": 1546,
+  "certifiedUniqueHosts": 1232,
+  "certifiedDistinctOrganisms": 1518,
+  "sharedHostCount": 14,
+  "sourceRecordsOnSharedHosts": 328,
+  "maxSourcesPerHost": 88,
+  "largestSharedHosts": [
+    {
+      "host": "usgs.gov",
+      "count": 88
+    },
+    {
+      "host": "cnr.it",
+      "count": 83
+    },
+    {
+      "host": "roadmap2021.esfri.eu",
+      "count": 62
+    },
+    {
+      "host": "canada.ca",
+      "count": 31
+    },
+    {
+      "host": "gov.br",
+      "count": 25
+    },
+    {
+      "host": "nasa.gov",
+      "count": 21
+    },
+    {
+      "host": "dfo-mpo.gc.ca",
+      "count": 3
+    },
+    {
+      "host": "ised-isde.canada.ca",
+      "count": 3
+    },
+    {
+      "host": "agriculture.canada.ca",
+      "count": 2
+    },
+    {
+      "host": "iosb.fraunhofer.de",
+      "count": 2
+    },
+    {
+      "host": "kean.edu",
+      "count": 2
+    },
+    {
+      "host": "montclair.edu",
+      "count": 2
+    },
+    {
+      "host": "natural-resources.canada.ca",
+      "count": 2
+    },
+    {
+      "host": "nrc.canada.ca",
+      "count": 2
+    }
+  ],
+  "sharedOrganismCount": 6,
+  "sourceRecordsOnSharedOrganisms": 34,
+  "maxSourcesPerOrganism": 12,
   "institutionalRegistryReady": true,
-  "excludedWithoutAccessEvidence": 16,
-  "documentaryAccessEvidenceOnly": 8,
+  "excludedWithoutAccessEvidence": 0,
+  "documentaryAccessEvidenceOnly": 0,
   "byContinent": {
     "Africa": 23,
-    "Asia": 143,
-    "Europe": 223,
+    "Asia": 338,
+    "Europe": 377,
     "International": 2,
-    "North America": 667,
-    "Oceania": 1,
-    "South America": 23
+    "North America": 752,
+    "Oceania": 29,
+    "South America": 25
+  },
+  "byCountry": {
+    "African Union": 1,
+    "South Africa": 22,
+    "China": 112,
+    "India": 26,
+    "Japan": 183,
+    "South Korea": 17,
+    "European Research Area": 62,
+    "European Union": 4,
+    "France": 153,
+    "Germany": 75,
+    "Italy": 83,
+    "International": 2,
+    "Canada": 49,
+    "United States": 703,
+    "Australia": 29,
+    "Brazil": 25
   },
   "byOrigin": {
-    "seed": 8,
-    "global_diversity": 143,
-    "authoritative": 374,
-    "ipeds": 557
+    "seed": 20,
+    "global_diversity": 156,
+    "authoritative": 456,
+    "japan_public_universities": 181,
+    "france_esr": 150,
+    "ipeds": 555,
+    "australia_rbg": 28
   }
 }

@@ -1,9 +1,9 @@
 {
-  "certified": 374,
+  "certified": 456,
   "byContinent": {
     "Asia": 127,
     "Europe": 137,
-    "North America": 110
+    "North America": 192
   },
   "byDirectory": {
     "cas": 111,
@@ -11,10 +11,10 @@
     "doe": 12,
     "canada": 48,
     "esfri": 62,
-    "nih": 0,
-    "nasa": 3,
-    "usgs-centers": 0,
-    "usgs-labs": 47,
+    "nih": 24,
+    "nasa": 20,
+    "usgs-centers": 51,
+    "usgs-labs": 37,
     "fraunhofer": 75
   }
 }

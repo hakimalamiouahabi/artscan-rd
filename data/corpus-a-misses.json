@@ -1,0 +1,3198 @@
+[
+  {
+    "source_root_url": "https://www.cut.ac.za/",
+    "source_id": null,
+    "organism": "Central University of Technology",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.spu.ac.za/",
+    "source_id": null,
+    "organism": "Sol Plaatje University",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.ufh.ac.za/",
+    "source_id": null,
+    "organism": "University of Fort Hare",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://ukzn.ac.za/",
+    "source_id": null,
+    "organism": "University of KwaZulu-Natal",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.unisa.ac.za/sites/corporate/default",
+    "source_id": null,
+    "organism": "University of South Africa",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://www.unizulu.ac.za/",
+    "source_id": null,
+    "organism": "University of Zululand",
+    "country": "South Africa",
+    "continent": "Africa",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.xao.ac.cn/",
+    "source_id": null,
+    "organism": "*Xinjiang Astronomical Observatory",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://english.aircas.ac.cn/",
+    "source_id": null,
+    "organism": "Aerospace Information Research Institute",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ciac.cas.cn/",
+    "source_id": null,
+    "organism": "Changchun Institute of Applied Chemistry",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://english.cas.cn/research/institutes/",
+    "source_id": "seed-0020",
+    "organism": "Chinese Academy of Sciences",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.giec.cas.cn/",
+    "source_id": null,
+    "organism": "Guangzhou Institute of Energy Conversion",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.microsate.cas.cn/",
+    "source_id": null,
+    "organism": "Innovation Academy for Microsatellites",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 5,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://www.apm.cas.cn/english/",
+    "source_id": null,
+    "organism": "Innovation Academy for Precision Measurement Science and Technology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "http://english.ioa.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Acoustics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.iae.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Applied Ecology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.iap.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Atmospheric Physics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 5,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.sxicc.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Coal Chemistry",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ihep.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of High Energy Physics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ihb.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Hydrobiology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://english.im.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Microbiology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 3,
+      "candidate_missing_title_or_short_content": 5
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ipe.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Process Engineering",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.isa.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Subtropical Agriculture",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_missing_title_or_short_content": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.itp.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Theoretical Physics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ioz.cas.cn/",
+    "source_id": null,
+    "organism": "Institute of Zoology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.sciengine.com/publications/pnav",
+    "source_id": null,
+    "organism": "Journals",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_missing_title_or_short_content": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.kiz.cas.cn/",
+    "source_id": null,
+    "organism": "Kunming Institute of Zoology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.sari.cas.cn/",
+    "source_id": null,
+    "organism": "Shanghai Advanced Research Institute",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.sia.cas.cn/",
+    "source_id": null,
+    "organism": "Shenyang Institute of Automation",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.scib.cas.cn/",
+    "source_id": null,
+    "organism": "South China Botanical Garden",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.sinano.cas.cn/",
+    "source_id": null,
+    "organism": "Suzhou Institute of Nano-Tech and Nano-Bionics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.ipc.cas.cn/",
+    "source_id": null,
+    "organism": "Technical Institute of Physics and Chemistry",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://english.tib.cas.cn/",
+    "source_id": null,
+    "organism": "Tianjin Institute of Industrial Biotechnology",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://english.ucas.ac.cn/",
+    "source_id": null,
+    "organism": "University of Chinese Academy of Sciences",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "http://en.ustc.edu.cn/",
+    "source_id": null,
+    "organism": "University of Science and Technology of China",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "http://english.opt.cas.cn/",
+    "source_id": null,
+    "organism": "Xi'an Institute of Optics and Precision Mechanics",
+    "country": "China",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_missing_title_or_short_content": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://cecri.res.in/",
+    "source_id": null,
+    "organism": "CSIR-Ce",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://cimfr.res.in/",
+    "source_id": null,
+    "organism": "CSIR-Ce",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://crridom.gov.in/hi",
+    "source_id": null,
+    "organism": "CSIR-Ce",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.csmcri.res.in/",
+    "source_id": null,
+    "organism": "CSIR-Ce",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.csircmc.res.in/",
+    "source_id": null,
+    "organism": "CSIR-CS",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 5,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 5
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "http://ihbt.res.in/hi/",
+    "source_id": null,
+    "organism": "CSIR-In",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://serc.res.in/",
+    "source_id": null,
+    "organism": "CSIR-St",
+    "country": "India",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.mie-u.ac.jp/",
+    "source_id": null,
+    "organism": "三重大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.juen.ac.jp/",
+    "source_id": null,
+    "organism": "上越教育大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_short_summary": 1,
+      "candidate_missing_title_or_short_content": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kit.ac.jp/",
+    "source_id": null,
+    "organism": "京都工芸繊維大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kpu.ac.jp/",
+    "source_id": null,
+    "organism": "京都府立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 5,
+      "candidate_unavailable_or_nontext": 3
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://u-aizu.ac.jp/",
+    "source_id": null,
+    "organism": "会津大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_short_summary": 7
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.saga-u.ac.jp/",
+    "source_id": null,
+    "organism": "佐賀大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.chitose.ac.jp/",
+    "source_id": null,
+    "organism": "公立千歳科学技術大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 6,
+      "candidate_short_summary": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.komatsu-u.ac.jp/",
+    "source_id": null,
+    "organism": "公立小松大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 2,
+      "candidate_unavailable_or_nontext": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.hyogo-u.ac.jp/",
+    "source_id": null,
+    "organism": "兵庫教育大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_short_summary": 7
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u-hyogo.ac.jp/",
+    "source_id": null,
+    "organism": "兵庫県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kitakyu-u.ac.jp/",
+    "source_id": null,
+    "organism": "北九州市立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_missing_title_or_short_content": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.nitech.ac.jp/",
+    "source_id": null,
+    "organism": "名古屋工業大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.meio-u.ac.jp/",
+    "source_id": null,
+    "organism": "名桜大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.shunan-u.ac.jp/",
+    "source_id": null,
+    "organism": "周南公立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.aiu.ac.jp/",
+    "source_id": null,
+    "organism": "国際教養大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.saitama-u.ac.jp/",
+    "source_id": null,
+    "organism": "埼玉大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.spu.ac.jp/",
+    "source_id": null,
+    "organism": "埼玉県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.oita-u.ac.jp/",
+    "source_id": null,
+    "organism": "大分大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://osaka-kyoiku.ac.jp/",
+    "source_id": null,
+    "organism": "大阪教育大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.narapu.ac.jp/",
+    "source_id": null,
+    "organism": "奈良県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_robots_disallowed": 2,
+      "candidate_short_summary": 5,
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.utsunomiya-u.ac.jp/",
+    "source_id": null,
+    "organism": "宇都宮大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://muroran-it.ac.jp/",
+    "source_id": null,
+    "organism": "室蘭工業大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.yamaguchi-u.ac.jp/",
+    "source_id": null,
+    "organism": "山口大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.yamagata-u.ac.jp/jp/",
+    "source_id": null,
+    "organism": "山形大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 2,
+      "candidate_unavailable_or_nontext": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u.yone.ac.jp/",
+    "source_id": null,
+    "organism": "山形県立米沢栄養大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.gifu-u.ac.jp/index.html",
+    "source_id": null,
+    "organism": "岐阜大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.gifu-pu.ac.jp/",
+    "source_id": null,
+    "organism": "岐阜薬科大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.okayama-u.ac.jp/",
+    "source_id": null,
+    "organism": "岡山大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.oka-pu.ac.jp/",
+    "source_id": null,
+    "organism": "岡山県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 3,
+      "candidate_short_summary": 5
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u-shimane.ac.jp/",
+    "source_id": null,
+    "organism": "島根県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_external_canonical": 7
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.hiroshima-cu.ac.jp/",
+    "source_id": null,
+    "organism": "広島市立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 3,
+      "candidate_short_summary": 5
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.iamas.ac.jp/",
+    "source_id": null,
+    "organism": "情報科学芸術大学院大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.aichi-edu.ac.jp/",
+    "source_id": null,
+    "organism": "愛知教育大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 3,
+      "candidate_unavailable_or_nontext": 5
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.aichi-pu.ac.jp/",
+    "source_id": null,
+    "organism": "愛知県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://tsuruga-nu.ac.jp/",
+    "source_id": null,
+    "organism": "敦賀市立看護大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.niigata-cn.ac.jp/",
+    "source_id": null,
+    "organism": "新潟県立看護大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.niimi-u.ac.jp/",
+    "source_id": null,
+    "organism": "新見公立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_short_summary": 7
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.asahikawa-med.ac.jp/",
+    "source_id": null,
+    "organism": "旭川医科大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u-tokyo.ac.jp/ja/index.html",
+    "source_id": null,
+    "organism": "東京大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.u-gakugei.ac.jp/",
+    "source_id": null,
+    "organism": "東京学芸大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_cross_host_redirect": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kaiyodai.ac.jp/",
+    "source_id": null,
+    "organism": "東京海洋大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.geidai.ac.jp/",
+    "source_id": null,
+    "organism": "東京芸術大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://tpuaf.ac.jp/university/",
+    "source_id": null,
+    "organism": "東北農林専門職大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 3,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 3
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ynu.ac.jp/",
+    "source_id": null,
+    "organism": "横浜国立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.yokohama-cu.ac.jp/",
+    "source_id": null,
+    "organism": "横浜市立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.hama-med.ac.jp/",
+    "source_id": null,
+    "organism": "浜松医科大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ishikawa-pu.ac.jp/",
+    "source_id": null,
+    "organism": "石川県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.fcu.ac.jp/",
+    "source_id": null,
+    "organism": "福山市立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.fukuoka-pu.ac.jp/",
+    "source_id": null,
+    "organism": "福岡県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.fukushima-u.ac.jp/",
+    "source_id": null,
+    "organism": "福島大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.fukuchiyama.ac.jp/",
+    "source_id": null,
+    "organism": "福知山公立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.akita-u.ac.jp/",
+    "source_id": null,
+    "organism": "秋田大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.gpwu.ac.jp/",
+    "source_id": null,
+    "organism": "群馬県立女子大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.at-hyogo.jp/",
+    "source_id": null,
+    "organism": "芸術文化観光専門職大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ibaraki.ac.jp/",
+    "source_id": null,
+    "organism": "茨城大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ipu.ac.jp/",
+    "source_id": null,
+    "organism": "茨城県立医療大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 6,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_missing_title_or_short_content": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kanazawa-bidai.ac.jp/",
+    "source_id": null,
+    "organism": "金沢美術工芸大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.nagasaki-u.ac.jp/",
+    "source_id": null,
+    "organism": "長崎大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4,
+      "candidate_short_summary": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u-nagano.ac.jp/",
+    "source_id": null,
+    "organism": "長野県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.u-shizuoka-ken.ac.jp/",
+    "source_id": null,
+    "organism": "静岡県立大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 5,
+      "candidate_unavailable_or_nontext": 3
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://shizuoka-norin-u.ac.jp/",
+    "source_id": null,
+    "organism": "静岡県立農林環境専門職大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kagawa-u.ac.jp/",
+    "source_id": null,
+    "organism": "香川大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kagawa-puhs.ac.jp/",
+    "source_id": null,
+    "organism": "香川県立保健医療大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kochi-u.ac.jp/",
+    "source_id": null,
+    "organism": "高知大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.kochi-tech.ac.jp/",
+    "source_id": null,
+    "organism": "高知工科大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.nifs-k.ac.jp/",
+    "source_id": null,
+    "organism": "鹿屋体育大学",
+    "country": "Japan",
+    "continent": "Asia",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://eng.kitech.re.kr/main/",
+    "source_id": null,
+    "organism": "eng.kitech.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.krict.re.kr/eng/",
+    "source_id": null,
+    "organism": "english.krict.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.kier.re.kr/eng/",
+    "source_id": null,
+    "organism": "www.kier.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.kimm.re.kr/eng",
+    "source_id": null,
+    "organism": "www.kimm.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 7,
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.kims.re.kr/?lang=en",
+    "source_id": null,
+    "organism": "www.kims.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://kist.re.kr/eng/index.do",
+    "source_id": null,
+    "organism": "www.kist.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.kitox.re.kr/english",
+    "source_id": null,
+    "organism": "www.kitox.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.kribb.re.kr/eng/main/main.jsp",
+    "source_id": null,
+    "organism": "www.kribb.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.kriss.re.kr/eng/",
+    "source_id": null,
+    "organism": "www.kriss.re.kr",
+    "country": "South Korea",
+    "continent": "Asia",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://eur-lex.europa.eu/",
+    "source_id": "seed-0008",
+    "organism": "EUR-Lex",
+    "country": "European Union",
+    "continent": "Europe",
+    "category": "regulation",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.cea.fr/",
+    "source_id": "seed-0002",
+    "organism": "CEA",
+    "country": "France",
+    "continent": "Europe",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_external_canonical": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ecole-air-espace.fr/",
+    "source_id": null,
+    "organism": "Ecole de l'air et de l'espace",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://paris-lavillette.archi.fr/",
+    "source_id": null,
+    "organism": "École nationale supérieure d'architecture de Paris-La Villette",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.ensapc.fr/fr/",
+    "source_id": null,
+    "organism": "École nationale supérieure d'arts de Paris-Cergy",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.agro-bordeaux.fr/",
+    "source_id": null,
+    "organism": "École nationale supérieure des sciences agronomiques de Bordeaux Aquitaine",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.vet-alfort.fr/",
+    "source_id": null,
+    "organism": "École nationale vétérinaire d'Alfort",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_external_canonical": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.esad-amiens.fr/",
+    "source_id": null,
+    "organism": "École supérieure d'art et de design d'Amiens",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.insa-strasbourg.fr/fr/",
+    "source_id": null,
+    "organism": "Institut national des sciences appliquées de Strasbourg",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.ube.fr/",
+    "source_id": null,
+    "organism": "Université Bourgogne Europe",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.univ-poitiers.fr/",
+    "source_id": null,
+    "organism": "Université de Poitiers",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.univ-rouen.fr/",
+    "source_id": null,
+    "organism": "Université de Rouen Normandie",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.univ-paris8.fr/",
+    "source_id": null,
+    "organism": "Université Paris 8",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.univ-smb.fr/",
+    "source_id": null,
+    "organism": "Université Savoie Mont Blanc",
+    "country": "France",
+    "continent": "Europe",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.hhi.fraunhofer.de/en/index.html",
+    "source_id": null,
+    "organism": "Telecommunications, Heinrich-Hertz-Institut",
+    "country": "Germany",
+    "continent": "Europe",
+    "category": "applied_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/benefits.html",
+    "source_id": null,
+    "organism": "Benefits",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/culture.html",
+    "source_id": null,
+    "organism": "Culture, history and sport",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/environment.html",
+    "source_id": null,
+    "organism": "Environment and natural resources",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.dfo-mpo.gc.ca/science/regions/index-eng.htm",
+    "source_id": null,
+    "organism": "Fisheries research facilities",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 4,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/immigration-citizenship.html",
+    "source_id": null,
+    "organism": "Immigration and citizenship",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/indigenous-peoples.html",
+    "source_id": null,
+    "organism": "Indigenous Peoples",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/jobs.html",
+    "source_id": null,
+    "organism": "Jobs and the workplace",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/life-events.html",
+    "source_id": null,
+    "organism": "Manage life events",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/mobile.html",
+    "source_id": null,
+    "organism": "Mobile applications",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/finance.html",
+    "source_id": null,
+    "organism": "Money and finances",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/defence.html",
+    "source_id": null,
+    "organism": "National security and defence",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://natural-resources.canada.ca/",
+    "source_id": null,
+    "organism": "Natural Resources Canada",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/policing.html",
+    "source_id": null,
+    "organism": "Policing, justice and emergencies",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/transparency/privacy.html",
+    "source_id": null,
+    "organism": "Privacy",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 2,
+    "candidate_failures": {
+      "candidate_short_summary": 1
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/social.html",
+    "source_id": null,
+    "organism": "Social media",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/taxes.html",
+    "source_id": null,
+    "organism": "Taxes",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/transparency/terms.html",
+    "source_id": null,
+    "organism": "Terms and conditions",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/transport.html",
+    "source_id": null,
+    "organism": "Transport and infrastructure",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/veterans-military.html",
+    "source_id": null,
+    "organism": "Veterans and military",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.canada.ca/en/services/youth.html",
+    "source_id": null,
+    "organism": "Youth",
+    "country": "Canada",
+    "continent": "North America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.asurams.edu/",
+    "source_id": null,
+    "organism": "Albany State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.aum.edu/",
+    "source_id": null,
+    "organism": "Auburn University at Montgomery",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/labs/brine-research-instrumentation-and-experimental-laboratory",
+    "source_id": null,
+    "organism": "Brine Research Instrumentation and Experimental",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.calstate.edu/",
+    "source_id": null,
+    "organism": "California State University-Chancellors Office",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.csuci.edu/",
+    "source_id": null,
+    "organism": "California State University-Channel Islands",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.csuchico.edu/",
+    "source_id": null,
+    "organism": "California State University-Chico",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.csudh.edu/",
+    "source_id": null,
+    "organism": "California State University-Dominguez Hills",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.csusm.edu/",
+    "source_id": null,
+    "organism": "California State University-San Marcos",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.csr.nih.gov/",
+    "source_id": null,
+    "organism": "Center for Scientific Review (CSR)",
+    "country": "United States",
+    "continent": "North America",
+    "category": "biomedical_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.coastal.edu/index.php",
+    "source_id": null,
+    "organism": "Coastal Carolina University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.charleston.edu/",
+    "source_id": null,
+    "organism": "College of Charleston",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://csusystem.edu/",
+    "source_id": null,
+    "organism": "Colorado State University-System Office",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 2,
+      "candidate_cross_host_redirect": 6
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.concord.edu/",
+    "source_id": null,
+    "organism": "Concord University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.lehman.edu/",
+    "source_id": null,
+    "organism": "CUNY Lehman College",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.cuny.edu/",
+    "source_id": null,
+    "organism": "CUNY System Office",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.easternct.edu/",
+    "source_id": null,
+    "organism": "Eastern Connecticut State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.eiu.edu/",
+    "source_id": null,
+    "organism": "Eastern Illinois University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.ewu.edu/",
+    "source_id": null,
+    "organism": "Eastern Washington University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_missing_title_or_short_content": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/florence-bascom-geoscience-center",
+    "source_id": null,
+    "organism": "Florence Bascom Geoscience Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gmu.edu/",
+    "source_id": null,
+    "organism": "George Mason University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.jmu.edu/index.shtml",
+    "source_id": null,
+    "organism": "James Madison University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.k-state.edu/",
+    "source_id": null,
+    "organism": "Kansas State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 7,
+      "candidate_short_summary": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.lander.edu/",
+    "source_id": null,
+    "organism": "Lander University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://musc.edu/",
+    "source_id": null,
+    "organism": "Medical University of South Carolina",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.mssu.edu/",
+    "source_id": null,
+    "organism": "Missouri Southern State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.montclair.edu/",
+    "source_id": null,
+    "organism": "Montclair State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.cancer.gov/",
+    "source_id": null,
+    "organism": "National Cancer Institute (NCI)",
+    "country": "United States",
+    "continent": "North America",
+    "category": "biomedical_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.nibib.nih.gov/",
+    "source_id": null,
+    "organism": "National Institute of Biomedical Imaging and Bioengineering (NIBIB)",
+    "country": "United States",
+    "continent": "North America",
+    "category": "biomedical_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://nida.nih.gov/",
+    "source_id": null,
+    "organism": "National Institute on Drug Abuse (NIDA)",
+    "country": "United States",
+    "continent": "North America",
+    "category": "biomedical_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_missing_title_or_short_content": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/nwhc",
+    "source_id": null,
+    "organism": "National Wildlife Health Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.kean.edu/jersey-city",
+    "source_id": null,
+    "organism": "New Jersey City University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 3,
+    "candidate_failures": {},
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/new-mexico-water-science-center",
+    "source_id": null,
+    "organism": "New Mexico Water Science Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.ncsu.edu/",
+    "source_id": null,
+    "organism": "North Carolina State University at Raleigh",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_missing_title_or_short_content": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.osu.edu/",
+    "source_id": null,
+    "organism": "Ohio State University-Main Campus",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://behrend.psu.edu/",
+    "source_id": null,
+    "organism": "Pennsylvania State University-Penn State Erie-Behrend College",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://greatvalley.psu.edu/",
+    "source_id": null,
+    "organism": "Pennsylvania State University-Penn State Great Valley",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://harrisburg.psu.edu/",
+    "source_id": null,
+    "organism": "Pennsylvania State University-Penn State Harrisburg",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.peru.edu/",
+    "source_id": null,
+    "organism": "Peru State College",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.pittstate.edu/",
+    "source_id": null,
+    "organism": "Pittsburg State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.salisbury.edu/",
+    "source_id": null,
+    "organism": "Salisbury University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.sintegleska.edu/",
+    "source_id": null,
+    "organism": "Sinte Gleska University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://sittingbull.edu/",
+    "source_id": null,
+    "organism": "Sitting Bull College",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/sawsc",
+    "source_id": null,
+    "organism": "South Atlantic Water Science Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.plattsburgh.edu/",
+    "source_id": null,
+    "organism": "State University of New York at Plattsburgh",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.brockport.edu/",
+    "source_id": null,
+    "organism": "SUNY Brockport",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.tntech.edu/",
+    "source_id": null,
+    "organism": "Tennessee Technological University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.tamuct.edu/",
+    "source_id": null,
+    "organism": "Texas A&M University-Central Texas",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://ttuhscep.edu/",
+    "source_id": null,
+    "organism": "Texas Tech University Health Scienes Center El Paso",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://tcnj.edu/",
+    "source_id": null,
+    "organism": "The College of New Jersey",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.ua.edu/",
+    "source_id": null,
+    "organism": "The University of Alabama",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_cross_host_redirect": 2,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uthsc.edu/",
+    "source_id": null,
+    "organism": "The University of Tennessee Health Science Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.towson.edu/",
+    "source_id": null,
+    "organism": "Towson University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uamont.edu/",
+    "source_id": null,
+    "organism": "University of Arkansas at Monticello",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 6,
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uams.edu/",
+    "source_id": null,
+    "organism": "University of Arkansas for Medical Sciences",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 2,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 2
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uci.edu/",
+    "source_id": null,
+    "organism": "University of California-Irvine",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://uca.edu/",
+    "source_id": null,
+    "organism": "University of Central Arkansas",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1,
+      "candidate_short_summary": 7
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.colorado.edu/",
+    "source_id": null,
+    "organism": "University of Colorado Boulder",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uga.edu/",
+    "source_id": null,
+    "organism": "University of Georgia",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 5,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_cross_host_redirect": 2,
+      "candidate_missing_title_or_short_content": 3
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uky.edu/",
+    "source_id": null,
+    "organism": "University of Kentucky",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 5,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4,
+      "candidate_cross_host_redirect": 1
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://umaine.edu//",
+    "source_id": null,
+    "organism": "University of Maine",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://farmington.edu/",
+    "source_id": null,
+    "organism": "University of Maine at Farmington",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.umgc.edu/",
+    "source_id": null,
+    "organism": "University of Maryland Global Campus",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.massachusetts.edu/",
+    "source_id": null,
+    "organism": "University of Massachusetts-Central Office",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_disallowed"
+  },
+  {
+    "source_root_url": "https://www.una.edu/",
+    "source_id": null,
+    "organism": "University of North Alabama",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_short_summary": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://und.edu/",
+    "source_id": null,
+    "organism": "University of North Dakota",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://rcm1.rcm.upr.edu/",
+    "source_id": null,
+    "organism": "University of Puerto Rico-Medical Sciences",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.southalabama.edu/",
+    "source_id": null,
+    "organism": "University of South Alabama",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.uscb.edu/",
+    "source_id": null,
+    "organism": "University of South Carolina Beaufort",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.sc.edu/",
+    "source_id": null,
+    "organism": "University of South Carolina-Columbia",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.utah.edu/",
+    "source_id": null,
+    "organism": "University of Utah",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 4,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 4
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.usu.edu/",
+    "source_id": null,
+    "organism": "Utah State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/utah-water-science-center",
+    "source_id": null,
+    "organism": "Utah Water Science Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.vt.edu/",
+    "source_id": null,
+    "organism": "Virginia Polytechnic Institute and State University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "robots_unavailable"
+  },
+  {
+    "source_root_url": "https://www.washburn.edu/index.html",
+    "source_id": null,
+    "organism": "Washburn University",
+    "country": "United States",
+    "continent": "North America",
+    "category": "public_higher_education_research",
+    "candidates": 8,
+    "raw_documents": 0,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 8
+    },
+    "reason": "candidate_verification_failed"
+  },
+  {
+    "source_root_url": "https://www.usgs.gov/centers/wetland-and-aquatic-research-center",
+    "source_id": null,
+    "organism": "Wetland and Aquatic Research Center",
+    "country": "United States",
+    "continent": "North America",
+    "category": "earth_science",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/centro-de-tecnologia-mineral",
+    "source_id": null,
+    "organism": "CETEM - Centro de Tecnologia Mineral",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/centro-de-tecnologias-estrategicas-do-nordeste",
+    "source_id": null,
+    "organism": "CETENE - Centro de Tecnologias Estratégicas do Nordeste",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 1,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/conselho-nacional-de-desenvolvimento-cientifico-e-tecnologico",
+    "source_id": null,
+    "organism": "CNPq - Conselho Nacional de Desenvolvimento Científico e Tecnológico",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/centro-de-tecnologia-da-informacao-renato-archer",
+    "source_id": null,
+    "organism": "CTI - Centro de Tecnologia da Informação Renato Archer",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 2,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/capa-vinculadas",
+    "source_id": null,
+    "organism": "GOV.BR",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 2,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/instituto-nacional-de-matematica-pura-e-aplicada",
+    "source_id": null,
+    "organism": "IMPA - Instituto Nacional de Matemática Pura e Aplicada",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 2,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 1
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/instituto-nacional-de-pesquisas-da-amazonia",
+    "source_id": null,
+    "organism": "INPA - Instituto Nacional de Pesquisas da Amazônia",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/instituto-nacional-de-pesquisas-espaciais",
+    "source_id": null,
+    "organism": "INPE - Instituto Nacional de Pesquisas Espaciais",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 1,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "deduplicated_document"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/laboratorio-nacional-de-astrofisica",
+    "source_id": null,
+    "organism": "LNA - Laboratório Nacional de Astrofísica",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 0,
+    "raw_documents": 0,
+    "candidate_failures": {},
+    "reason": "homepage_unavailable"
+  },
+  {
+    "source_root_url": "https://www.gov.br/mcti/pt-br/composicao/rede-mcti/museu-paraense-emilio-goeldi",
+    "source_id": null,
+    "organism": "Museu Paraense Emílio Goeldi",
+    "country": "Brazil",
+    "continent": "South America",
+    "category": "research",
+    "candidates": 8,
+    "raw_documents": 1,
+    "candidate_failures": {
+      "candidate_unavailable_or_nontext": 2
+    },
+    "reason": "deduplicated_document"
+  }
+]

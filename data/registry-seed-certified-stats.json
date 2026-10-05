@@ -1,0 +1,34 @@
+{
+  "checked": 24,
+  "certified": 20,
+  "directHttp2xx": 20,
+  "documentaryFallback": 0,
+  "excluded": 4,
+  "generatedAt": "2026-10-05T19:13:49.501Z",
+  "failures": [
+    {
+      "organism": "Bpifrance",
+      "root_url": "https://www.bpifrance.fr/",
+      "reason": "http_403",
+      "status": 403
+    },
+    {
+      "organism": "ADEME",
+      "root_url": "https://www.ademe.fr/",
+      "reason": "http_403",
+      "status": 403
+    },
+    {
+      "organism": "OECD",
+      "root_url": "https://www.oecd.org/",
+      "reason": "http_403",
+      "status": 403
+    },
+    {
+      "organism": "NIH",
+      "root_url": "https://www.nih.gov/",
+      "reason": "http_403",
+      "status": 403
+    }
+  ]
+}
