@@ -1,4 +1,5 @@
-const UA = "ARTSCAN-RD/3.1 (+public-research-crawler; official-public-free-only)";
+const SERVICE_VERSION = "4.0.1";
+const UA = `ARTSCAN-RD/${SERVICE_VERSION} (+public-research-crawler; official-public-free-only)`;
 const ROBOTS_UA = "artscan-rd";
 const MAX_BODY = 800_000;
 const MAX_ROBOTS_BODY = 200_000;
@@ -82,7 +83,7 @@ async function registryNumbers(env){
 
 async function health(env){
   const n=await registryNumbers(env);
-  return json({ok:true,service:"ARTSCAN R&D",version:"4.0.1",runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n});
+  return json({ok:true,service:"ARTSCAN R&D",version:SERVICE_VERSION,runtime:{llm:false,externalSearchApi:false,httpDirect:true},...n});
 }
 
 async function registryStats(env){
